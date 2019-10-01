@@ -4,6 +4,11 @@ project(qSlicerBaseQTGUI)
 # See CMake/SlicerMacroBuildBaseQtLibrary.cmake for details
 #
 
+#
+# ITK
+#
+find_package(ITK COMPONENTS ITKCommon REQUIRED)
+
 set(KIT_export_directive "Q_SLICER_BASE_QTGUI_EXPORT")
 
 # Additional directories to include
@@ -315,6 +320,7 @@ endif()
 set(KIT_target_libraries
   qSlicerBaseQTCore
   qMRMLWidgets
+  -lCTKImageProcessingITKCore
   )
 
 # Python wrap

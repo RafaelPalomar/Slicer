@@ -5,6 +5,7 @@ set(KIT ${PROJECT_NAME})
 set(${KIT}_EXPORT_DIRECTIVE "VTK_SLICER_${MODULE_NAME_UPPER}_MODULE_LOGIC_EXPORT")
 
 set(${KIT}_INCLUDE_DIRECTORIES
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerAnnotationsModuleMRML
   ${vtkSlicer${MODULE_NAME}ModuleMRML_SOURCE_DIR}
   ${vtkSlicer${MODULE_NAME}ModuleMRML_BINARY_DIR}
   )
@@ -17,6 +18,7 @@ set(${KIT}_SRCS
 set(${KIT}_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleMRML
   vtkSlicerAnnotationsModuleMRML
+  SlicerBaseLogic
   )
 
 if(Slicer_VTK_RENDERING_USE_OpenGL_BACKEND)
@@ -25,6 +27,11 @@ if(Slicer_VTK_RENDERING_USE_OpenGL_BACKEND)
     ${OPENGL_LIBRARIES}
     )
 endif()
+
+link_directories(
+  ${Slicer_HOME}/${Slicer_INSTALL_LIB_DIR}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR}
+  )
 
 #-----------------------------------------------------------------------------
 SlicerMacroBuildModuleLogic(

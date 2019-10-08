@@ -7,8 +7,11 @@ set(${KIT}_EXPORT_DIRECTIVE "Q_SLICER_${MODULE_NAME_UPPER}_SUBJECT_HIERARCHY_PLU
 set(${KIT}_INCLUDE_DIRECTORIES
   ${vtkSlicerVolumeRenderingModuleMRML_INCLUDE_DIRS}
   ${vtkSlicerVolumeRenderingModuleLogic_INCLUDE_DIRS}
-  ${qSlicerSubjectHierarchyModuleWidgets_INCLUDE_DIRS}
-  ${vtkSlicerSubjectHierarchyModuleLogic_INCLUDE_DIRS}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/qSlicerSubjectHierarchyModuleWidgets
+  ${Slicer_Libs_INCLUDE_DIRS}
+  ${Qt5Core_INCLUDE_DIRS}
+  ${Qt5Widgets_INCLUDE_DIRS}
+  ${Slicer_Base_INCLUDE_DIRS}
   ${qMRMLWidgets_INCLUDE_DIRS}
   ${MRMLLogic_INCLUDE_DIRS}
   ${MRMLCore_INCLUDE_DIRS}
@@ -37,6 +40,13 @@ set(${KIT}_TARGET_LIBRARIES
   qMRMLWidgets
   MRMLLogic
   MRMLCore
+  Qt5::Core
+  ${CTK_LIBRARIES}
+  )
+
+link_directories(
+  ${Slicer_HOME}/${Slicer_INSTALL_LIB_DIR}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR}
   )
 
 #-----------------------------------------------------------------------------

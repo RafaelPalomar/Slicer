@@ -5,6 +5,7 @@ set(KIT ${PROJECT_NAME})
 set(${KIT}_EXPORT_DIRECTIVE "VTK_SLICER_${MODULE_NAME_UPPER}_MODULE_MRMLDISPLAYABLEMANAGER_EXPORT")
 
 set(${KIT}_INCLUDE_DIRECTORIES
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerAnnotationsModuleMRML
   ${vtkSlicer${MODULE_NAME}ModuleLogic_SOURCE_DIR}
   ${vtkSlicer${MODULE_NAME}ModuleLogic_BINARY_DIR}
   ${vtkSlicer${MODULE_NAME}ModuleMRML_SOURCE_DIR}
@@ -40,6 +41,11 @@ set(${KIT}_TARGET_LIBRARIES
   ${MRML_LIBRARIES}
   ${ITK_LIBRARIES}
   ${${KIT}_VTK_LIBRARIES}
+  )
+
+link_directories(
+  ${Slicer_HOME}/${Slicer_INSTALL_LIB_DIR}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR}
   )
 
 #-----------------------------------------------------------------------------

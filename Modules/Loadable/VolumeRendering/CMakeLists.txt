@@ -15,6 +15,9 @@ include(${CTK_USE_FILE})
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
+include(FindPkgConfig)
+pkg_check_modules (jsoncpp REQUIRED jsoncpp)
+
 #-----------------------------------------------------------------------------
 set(MODULE_NAME VolumeRendering)
 set(MODULE_TITLE "Volume Rendering")

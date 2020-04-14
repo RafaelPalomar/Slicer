@@ -4,12 +4,8 @@ set(KIT ${PROJECT_NAME})
 
 set(${KIT}_EXPORT_DIRECTIVE "VTK_SLICER_${MODULE_NAME_UPPER}_MODULE_MRML_EXPORT")
 
-find_package(jsoncpp REQUIRED)
-
-get_target_property(jsoncpp_INCLUDE_DIR jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
-
 set(${KIT}_INCLUDE_DIRECTORIES
-  ${jsoncpp_INCLUDE_DIR}
+  ${jsoncpp_INCLUDE_DIRS}
   ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerAnnotationsModuleMRML
   )
 

@@ -37,6 +37,7 @@ set(${KIT}_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleLogic
   qSlicerSubjectHierarchyModuleWidgets
   vtkSlicerSubjectHierarchyModuleLogic
+  qSlicerBaseQTGUI
   qMRMLWidgets
   MRMLLogic
   MRMLCore

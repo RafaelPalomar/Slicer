@@ -28,6 +28,7 @@ set(${KIT}_TARGET_LIBRARIES
   MRMLLogic
   ${VTK_LIBRARIES}
   vtkAddon
+  vtkITK
   )
 
 link_directories(

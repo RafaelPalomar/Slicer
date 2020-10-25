@@ -703,14 +703,6 @@ foreach(dep QT ${Slicer_DEPENDENCIES})
 endforeach()
 
 #-----------------------------------------------------------------------------
-# Update CMake module path
-#------------------------------------------------------------------------------
-set(CMAKE_MODULE_PATH
-  ${vtkAddon_CMAKE_DIR}
-  ${CMAKE_MODULE_PATH}
-  )
-
-#-----------------------------------------------------------------------------
 # Folders
 #-----------------------------------------------------------------------------
 set_property(GLOBAL PROPERTY USE_FOLDERS ${Slicer_USE_FOLDERS})
@@ -823,6 +815,16 @@ if(NOT TARGET ${VTK_GUI_SUPPORT_QT_TARGET_NAME})
 endif()
 set(VTK_RENDERING_BACKEND "${Slicer_VTK_RENDERING_BACKEND}")
 
+
+#-----------------------------------------------------------------------------
+# vktAddon
+#-----------------------------------------------------------------------------
+find_package(vtkAddon REQUIRED)
+
+set(CMAKE_MODULE_PATH
+  ${vtkAddon_CMAKE_DIR}
+  ${CMAKE_MODULE_PATH}
+  )
 #-----------------------------------------------------------------------------
 # CTK
 #-----------------------------------------------------------------------------

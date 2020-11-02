@@ -41,4 +41,4 @@ include(${Slicer_SOURCE_DIR}/CMake/SlicerGenerateSlicerConfig.cmake)
 include(SlicerPackageAndUploadTarget)
 
 #-----------------------------------------------------------------------------
-include(${Slicer_SOURCE_DIR}/CMake/SlicerCPack.cmake)
+#include(${Slicer_SOURCE_DIR}/CMake/SlicerCPack.cmake)

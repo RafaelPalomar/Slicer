@@ -16,7 +16,9 @@
   This file was originally developed by Jean-Christophe Fillion-Robin, Kitware Inc.
   and was partially funded by NIH grant 3P41RR013218-12S1
 
-==============================================================================*/
+  ==============================================================================*/
+
+#define Py_LIMITED_API
 
 #include "qSlicerApplicationHelper.h"
 

@@ -32,6 +32,8 @@
   #include <QtPlatformHeaders\QWindowsWindowFunctions> // for setHasBorderInFullScreen
 #endif
 
+#define Py_LIMITED_API
+
 #include "vtkSlicerConfigure.h" // For Slicer_USE_*, Slicer_BUILD_*_SUPPORT
 
 // CTK includes

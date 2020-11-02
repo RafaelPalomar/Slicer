@@ -85,6 +85,7 @@ setIfNotDefined(Slicer_INSTALL_LIBEXEC_DIR "${Slicer_INSTALL_ROOT}${Slicer_LIBEX
 setIfNotDefined(Slicer_INSTALL_ITKFACTORIES_DIR "${Slicer_INSTALL_LIB_DIR}/ITKFactories")
 setIfNotDefined(Slicer_INSTALL_ITKFACTORYREGISTRATION_INCLUDE_DIR "${Slicer_INSTALL_ROOT}/include/ITKFactoryRegistration")
 setIfNotDefined(Slicer_INSTALL_QM_DIR "${Slicer_INSTALL_ROOT}${Slicer_QM_DIR}")
+setIfNotDefined(Slicer_INSTALL_CMAKE_DIR "${Slicer_INSTALL_LIB_DIR}/CMake")
 
 
 #-----------------------------------------------------------------------------

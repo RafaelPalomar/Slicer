@@ -41,7 +41,7 @@
 
 set(CMAKE_MODULE_PATH
   "@CTK_CMAKE_DIR@"
-  "@Slicer_INSTALL_CMAKE_DIR@")
+  "${Slicer_INSTALL_CMAKE_DIR}")
 
 # --------------------------------------------------------------------------
 # Helper function(s) and macro(s)

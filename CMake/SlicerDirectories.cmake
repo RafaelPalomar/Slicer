@@ -54,38 +54,87 @@ foreach(var IN LISTS expected_defined_vars)
   endif()
 endforeach()
 
-if(NOT DEFINED Slicer_MAIN_PROJECT_APPLICATION_NAME)
-  set(Slicer_MAIN_PROJECT_APPLICATION_NAME ${${Slicer_MAIN_PROJECT}_APPLICATION_NAME})
-endif()
+#-----------------------------------------------------------------------------
+# Slicer application naming variables
+#-----------------------------------------------------------------------------
+setIfNotDefined(Slicer_MAIN_PROJECT_APPLICATION_NAME ${${Slicer_MAIN_PROJECT}_APPLICATION_NAME})
+set(Slicer_APPLICATION_NAME_WITH_VERSION "${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
 
 #-----------------------------------------------------------------------------
-# Slicer relative directories
+# Slicer variables controlling directories
 #-----------------------------------------------------------------------------
-# for build tree
-setIfNotDefined(Slicer_BIN_DIR "bin")
-setIfNotDefined(Slicer_ETC_DIR "etc/Slicer")
-setIfNotDefined(Slicer_LIB_DIR "lib/${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
-setIfNotDefined(Slicer_INCLUDE_DIR "include/${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
-setIfNotDefined(Slicer_SHARE_DIR "share/${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
-setIfNotDefined(Slicer_LIBEXEC_DIR "libexec/${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
+
+# ######## build tree -- bin
+#
+setIfNotDefined(Slicer_OS_BIN_DIR "bin")
+setIfNotDefined(Slicer_BIN_DIR "")
+set(Slicer_FULL_BIN_DIR "${Slicer_OS_BIN_DIR}/${Slicer_BIN_DIR}")
+
+# ######## build tree -- etc
+#
+setIfNotDefined(Slicer_OS_ETC_DIR "etc")
+setIfNotDefined(Slicer_ETC_DIR "${Slicer_MAIN_PROJECT_APPLICATION_NAME}")
+set(Slicer_FULL_ETC_DIR "${Slicer_OS_ETC_DIR}/${Slicer_ETC_DIR}")
+
+# ######## build tree -- lib
+#
+setIfNotDefined(Slicer_OS_LIB_DIR "lib")
+setIfNotDefined(Slicer_LIB_DIR "${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
+setIfNotDefined(Slicer_FULL_LIB_DIR "${Slicer_OS_LIB_DIR}/${Slicer_LIB_DIR}")
+
+# ######## build tree -- include
+#
+setIfNotDefined(Slicer_OS_INCLUDE_DIR "include")
+setIfNotDefined(Slicer_INCLUDE_DIR "${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
+set(Slicer_FULL_INCLUDE_DIR "${Slicer_OS_INCLUDE_DIR}/${Slicer_INCLUDE_DIR}")
+
+
+# ######## build tree -- share
+#
+setIfNotDefined(Slicer_OS_SHARE_DIR "share")
+setIfNotDefined(Slicer_SHARE_DIR "${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
+set(Slicer_FULL_SHARE_DIR "${Slicer_OS_SHARE_DIR}/${Slicer_SHARE_DIR}")
+
+# ######## build tree -- libexec
+#
+setIfNotDefined(Slicer_OS_LIBEXEC_DIR "libexec")
+setIfNotDefined(Slicer_LIBEXEC_DIR "${Slicer_MAIN_PROJECT_APPLICATION_NAME}-${Slicer_VERSION_MAJOR}.${Slicer_VERSION_MINOR}")
+set(Slicer_FULL_LIBEXEC_DIR "${Slicer_OS_LIBEXEC_DIR}/${Slicer_LIBEXEC_DIR}")
+
 setIfNotDefined(Slicer_ITKFACTORIES_DIR "${Slicer_LIB_DIR}/ITKFactories")
 setIfNotDefined(Slicer_QM_DIR "${Slicer_BIN_DIR}/Translations")
+set(Slicer_CMAKE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_OS_LIB_DIR}/cmake/Slicer")
 
 # for install tree
-setIfNotDefined(Slicer_INSTALL_ROOT "./")
 setIfNotDefined(Slicer_BUNDLE_LOCATION "${Slicer_MAIN_PROJECT_APPLICATION_NAME}.app/Contents")
 if(APPLE)
-  setIfNotDefined(Slicer_INSTALL_ROOT "${Slicer_BUNDLE_LOCATION}/") # Set to create Bundle
+  setIfNotDefined(CMAKE_INSTALL_PREFIX "${Slicer_BUNDLE_LOCATION}/") # Set to create Bundle
 endif()
-setIfNotDefined(Slicer_INSTALL_BIN_DIR "${Slicer_INSTALL_ROOT}${Slicer_BIN_DIR}")
-setIfNotDefined(Slicer_INSTALL_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_INCLUDE_DIR "${Slicer_INSTALL_ROOT}${Slicer_INCLUDE_DIR}")
-setIfNotDefined(Slicer_INSTALL_SHARE_DIR "${Slicer_INSTALL_ROOT}${Slicer_SHARE_DIR}")
-setIfNotDefined(Slicer_INSTALL_LIBEXEC_DIR "${Slicer_INSTALL_ROOT}${Slicer_LIBEXEC_DIR}")
-setIfNotDefined(Slicer_INSTALL_ITKFACTORIES_DIR "${Slicer_INSTALL_LIB_DIR}/ITKFactories")
-setIfNotDefined(Slicer_INSTALL_ITKFACTORYREGISTRATION_INCLUDE_DIR "${Slicer_INSTALL_ROOT}/include/ITKFactoryRegistration")
-setIfNotDefined(Slicer_INSTALL_QM_DIR "${Slicer_INSTALL_ROOT}${Slicer_QM_DIR}")
-setIfNotDefined(Slicer_INSTALL_CMAKE_DIR "${Slicer_INSTALL_LIB_DIR}/CMake")
+
+# ######## install tree -- bin
+#
+set(Slicer_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_FULL_BIN_DIR}")
+
+# ######## install tree -- bin
+#
+set(Slicer_INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_FULL_LIB_DIR}")
+
+# ######## install tree -- bin
+#
+set(Slicer_INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_FULL_INCLUDE_DIR}")
+
+# ######## install tree -- bin
+#
+set(Slicer_INSTALL_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_FULL_SHARE_DIR}")
+
+# ######## install tree -- bin
+#
+set(Slicer_INSTALL_LIBEXEC_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_FULL_LIBEXEC_DIR}")
+
+set(Slicer_INSTALL_ITKFACTORIES_DIR "${Slicer_INSTALL_LIB_DIR}/ITKFactories")
+set(Slicer_INSTALL_ITKFACTORYREGISTRATION_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include/ITKFactoryRegistration")
+set(Slicer_INSTALL_QM_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QM_DIR}")
+set(Slicer_INSTALL_CMAKE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_OS_LIB_DIR}/cmake/Slicer")
 
 
 #-----------------------------------------------------------------------------
@@ -103,9 +152,9 @@ setIfNotDefined(Slicer_CLIMODULES_LIB_DIR "${Slicer_LIB_DIR}/${Slicer_CLIMODULES
 setIfNotDefined(Slicer_CLIMODULES_SHARE_DIR "${Slicer_SHARE_DIR}/${Slicer_CLIMODULES_SUBDIR}")
 
 # for install tree
-setIfNotDefined(Slicer_INSTALL_CLIMODULES_BIN_DIR "${Slicer_INSTALL_ROOT}${Slicer_CLIMODULES_BIN_DIR}")
-setIfNotDefined(Slicer_INSTALL_CLIMODULES_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_CLIMODULES_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_CLIMODULES_SHARE_DIR "${Slicer_INSTALL_ROOT}${Slicer_CLIMODULES_SHARE_DIR}")
+setIfNotDefined(Slicer_INSTALL_CLIMODULES_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_CLIMODULES_BIN_DIR}")
+setIfNotDefined(Slicer_INSTALL_CLIMODULES_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_CLIMODULES_LIB_DIR}")
+setIfNotDefined(Slicer_INSTALL_CLIMODULES_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_CLIMODULES_SHARE_DIR}")
 
 
 #-----------------------------------------------------------------------------
@@ -125,11 +174,11 @@ setIfNotDefined(Slicer_QTLOADABLEMODULES_INCLUDE_DIR "${Slicer_INCLUDE_DIR}/${Sl
 setIfNotDefined(Slicer_QTLOADABLEMODULES_SHARE_DIR "${Slicer_SHARE_DIR}/${Slicer_QTLOADABLEMODULES_SUBDIR}")
 
 # for install tree
-setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_BIN_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTLOADABLEMODULES_BIN_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTLOADABLEMODULES_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_PYTHON_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTLOADABLEMODULES_PYTHON_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTLOADABLEMODULES_INCLUDE_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_SHARE_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTLOADABLEMODULES_SHARE_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTLOADABLEMODULES_BIN_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTLOADABLEMODULES_LIB_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_PYTHON_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTLOADABLEMODULES_PYTHON_LIB_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTLOADABLEMODULES_INCLUDE_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTLOADABLEMODULES_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTLOADABLEMODULES_SHARE_DIR}")
 
 
 #-----------------------------------------------------------------------------
@@ -148,10 +197,10 @@ setIfNotDefined(Slicer_QTSCRIPTEDMODULES_INCLUDE_DIR "${Slicer_INCLUDE_DIR}/${Sl
 setIfNotDefined(Slicer_QTSCRIPTEDMODULES_SHARE_DIR "${Slicer_SHARE_DIR}/${Slicer_QTSCRIPTEDMODULES_SUBDIR}")
 
 # for install tree
-setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_BIN_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTSCRIPTEDMODULES_BIN_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTSCRIPTEDMODULES_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_INCLUDE_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTSCRIPTEDMODULES_INCLUDE_DIR}")
-setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_SHARE_DIR "${Slicer_INSTALL_ROOT}${Slicer_QTSCRIPTEDMODULES_SHARE_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTSCRIPTEDMODULES_BIN_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTSCRIPTEDMODULES_LIB_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTSCRIPTEDMODULES_INCLUDE_DIR}")
+setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QTSCRIPTEDMODULES_SHARE_DIR}")
 
 
 # --------------------------------------------------------------------------
@@ -159,9 +208,9 @@ setIfNotDefined(Slicer_INSTALL_QTSCRIPTEDMODULES_SHARE_DIR "${Slicer_INSTALL_ROO
 # --------------------------------------------------------------------------
 
 # for build tree
-setIfNotDefined(Slicer_THIRDPARTY_BIN_DIR ${Slicer_BIN_DIR})
-setIfNotDefined(Slicer_THIRDPARTY_LIB_DIR ${Slicer_LIB_DIR})
-setIfNotDefined(Slicer_THIRDPARTY_SHARE_DIR ${Slicer_SHARE_DIR})
+setIfNotDefined(Slicer_THIRDPARTY_BIN_DIR "${Slicer_BIN_DIR}")
+setIfNotDefined(Slicer_THIRDPARTY_LIB_DIR "${Slicer_LIB_DIR}")
+setIfNotDefined(Slicer_THIRDPARTY_SHARE_DIR "${Slicer_SHARE_DIR}")
 
 # for install tree:
 #
@@ -170,6 +219,6 @@ setIfNotDefined(Slicer_THIRDPARTY_SHARE_DIR ${Slicer_SHARE_DIR})
 #
 # The values set below corresponds to scenario (1). Value for scenario (2) are set
 # in UseSlicer.cmake.
-setIfNotDefined(Slicer_INSTALL_THIRDPARTY_BIN_DIR "${Slicer_INSTALL_ROOT}${Slicer_THIRDPARTY_BIN_DIR}")
-setIfNotDefined(Slicer_INSTALL_THIRDPARTY_LIB_DIR "${Slicer_INSTALL_ROOT}${Slicer_THIRDPARTY_LIB_DIR}")
-setIfNotDefined(Slicer_INSTALL_THIRDPARTY_SHARE_DIR "${Slicer_INSTALL_ROOT}${Slicer_THIRDPARTY_SHARE_DIR}")
+setIfNotDefined(Slicer_INSTALL_THIRDPARTY_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_THIRDPARTY_BIN_DIR}")
+setIfNotDefined(Slicer_INSTALL_THIRDPARTY_LIB_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_THIRDPARTY_LIB_DIR}")
+setIfNotDefined(Slicer_INSTALL_THIRDPARTY_SHARE_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_THIRDPARTY_SHARE_DIR}")

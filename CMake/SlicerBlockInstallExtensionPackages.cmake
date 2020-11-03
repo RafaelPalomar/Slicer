@@ -10,7 +10,7 @@ foreach(dir IN LISTS Slicer_EXTENSION_INSTALL_DIRS)
   endif()
   install(
     DIRECTORY "${dir}/"
-    DESTINATION ${Slicer_INSTALL_ROOT}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
     USE_SOURCE_PERMISSIONS
     COMPONENT Runtime
     )

@@ -35,7 +35,7 @@ To create a Slicer package including python libraries, you can *NOT* provide you
 
   install(
     DIRECTORY "${PYTHON_DIR}/${PYTHON_STDLIB_SUBDIR}/"
-    DESTINATION "${Slicer_INSTALL_ROOT}lib/Python/${PYTHON_STDLIB_SUBDIR}/"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}lib/Python/${PYTHON_STDLIB_SUBDIR}/"
     COMPONENT Runtime
     USE_SOURCE_PERMISSIONS
     REGEX "lib2to3/tests/" EXCLUDE
@@ -45,7 +45,7 @@ To create a Slicer package including python libraries, you can *NOT* provide you
     ${extra_exclude_pattern}
     )
   slicerStripInstalledLibrary(
-    PATTERN "${Slicer_INSTALL_ROOT}lib/Python/${PYTHON_STDLIB_SUBDIR}/*.so"
+    PATTERN "${CMAKE_INSTALL_PREFIX}lib/Python/${PYTHON_STDLIB_SUBDIR}/*.so"
     COMPONENT Runtime
     )
 
@@ -54,7 +54,7 @@ To create a Slicer package including python libraries, you can *NOT* provide you
     if(NOT APPLE)
       slicerInstallLibrary(
         FILE ${PYTHON_LIBRARY}
-        DESTINATION ${Slicer_INSTALL_ROOT}lib/Python/lib
+        DESTINATION ${CMAKE_INSTALL_PREFIX}lib/Python/lib
         COMPONENT Runtime
         PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ)
       # Explicitly call "slicerStripInstalledLibrary" because directly
@@ -65,7 +65,7 @@ To create a Slicer package including python libraries, you can *NOT* provide you
       # "get_filename_component" with the NAME_WE option.
       get_filename_component(libname ${PYTHON_LIBRARY} NAME)
       slicerStripInstalledLibrary(
-        FILES "${Slicer_INSTALL_ROOT}lib/Python/lib/${libname}"
+        FILES "${CMAKE_INSTALL_PREFIX}lib/Python/lib/${libname}"
         COMPONENT Runtime)
     endif()
   elseif(WIN32)
@@ -130,7 +130,7 @@ To create a Slicer package including python libraries, you can *NOT* provide you
   endif()
 
   install(FILES "${PYTHON_DIR}${python_include_subdir}/pyconfig.h"
-    DESTINATION ${Slicer_INSTALL_ROOT}lib/Python${python_include_subdir}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}lib/Python${python_include_subdir}
     COMPONENT Runtime
     )
 

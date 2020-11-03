@@ -58,7 +58,6 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH}
   )
 
-set(Slicer_CMAKE_DIR ${Slicer_SOURCE_DIR}/CMake)
 set(Slicer_EXTENSIONS_CMAKE_DIR ${Slicer_SOURCE_DIR}/Extensions/CMake)
 
 #-----------------------------------------------------------------------------
@@ -125,8 +124,13 @@ include(SlicerInitializeReleaseType)
 # Set the header template which defines custom export/import macros
 # for shared libraries
 #-----------------------------------------------------------------------------
-set(Slicer_EXPORT_HEADER_TEMPLATE "${Slicer_SOURCE_DIR}/CMake/qSlicerExport.h.in")
-set(Slicer_LOGOS_RESOURCE "${Slicer_SOURCE_DIR}/Resources/qSlicer.qrc")
+if(NOT DEFINED Slicer_EXPORT_HEADER_TEMPLATE)
+  set(Slicer_EXPORT_HEADER_TEMPLATE "${Slicer_SOURCE_DIR}/CMake/qSlicerExport.h.in")
+endif()
+
+if(NOT DEFINED Slicer_LOGOS_RESOURCES)
+  set(Slicer_LOGOS_RESOURCE "${Slicer_SOURCE_DIR}/Resources/qSlicer.qrc")
+endif()
 
 #-----------------------------------------------------------------------------
 # Platform checks
@@ -175,6 +179,11 @@ mark_as_superbuild(BUILD_SHARED_LIBS:BOOL)
 # Slicer application options
 #-----------------------------------------------------------------------------
 include(SlicerApplicationOptions)
+
+#-----------------------------------------------------------------------------
+# Slicer directories
+#-----------------------------------------------------------------------------
+include(SlicerDirectories)
 
 #-----------------------------------------------------------------------------
 # Slicer version number
@@ -433,11 +442,6 @@ endif()
 #-----------------------------------------------------------------------------
 include(SlicerBlockCXXRequiredFlags)
 
-#-----------------------------------------------------------------------------
-# Slicer directories
-#-----------------------------------------------------------------------------
-include(SlicerDirectories)
-
 # SlicerExecutionModel output directories
 if(Slicer_SUPERBUILD)
   set(_sem_output_dir ${CMAKE_BINARY_DIR}/${Slicer_BINARY_INNER_SUBDIR})
@@ -611,7 +615,7 @@ mark_as_superbuild(Slicer_USE_SYSTEM_QT:BOOL)
 # Qt plugins (designer, imageformats, ...) relative directories
 #-----------------------------------------------------------------------------
 set(Slicer_QtPlugins_DIR "lib/QtPlugins")
-set(Slicer_INSTALL_QtPlugins_DIR "${Slicer_INSTALL_ROOT}${Slicer_QtPlugins_DIR}")
+set(Slicer_INSTALL_QtPlugins_DIR "${CMAKE_INSTALL_PREFIX}/${Slicer_QtPlugins_DIR}")
 
 #-----------------------------------------------------------------------------
 # Qt
@@ -1163,20 +1167,37 @@ if(Slicer_BUILD_DOCUMENTATION)
 endif()
 
 #-----------------------------------------------------------------------------
-# Install CMake modules
+# Configure and Install CMake modules
 #-----------------------------------------------------------------------------
+
 if(NOT Slicer_INSTALL_NO_DEVELOPMENT)
+
+  configure_file(
+    ${Slicer_SOURCE_DIR}/CMake/SlicerInstallConfig.cmake.in
+    ${Slicer_BINARY_DIR}/CMake/install/SlicerConfig.cmake @ONLY
+    )
+
+  configure_file(
+    ${Slicer_SOURCE_DIR}/CMake/UseSlicer.cmake.in
+    ${Slicer_BINARY_DIR}/CMake/UseSlicer.cmake @ONLY
+    )
+
+  configure_file(
+    ${Slicer_SOURCE_DIR}/CMake/UseSlicerInstall.cmake.in
+    ${Slicer_BINARY_DIR}/CMake/install/UseSlicer.cmake @ONLY
+    )
+
   file(GLOB cmake_files "${CMAKE_CURRENT_SOURCE_DIR}/CMake/*.cmake")
   install(
     FILES ${cmake_files}
-    DESTINATION ${Slicer_INSTALL_LIB_DIR}/CMake COMPONENT Development
+    DESTINATION ${Slicer_INSTALL_CMAKE_DIR} COMPONENT Development
     )
 
   install(FILES
-    ${Slicer_BINARY_DIR}/UseSlicer.cmake
-    ${Slicer_BINARY_DIR}/install/SlicerConfig.cmake
+    ${Slicer_BINARY_DIR}/CMake/install/UseSlicer.cmake
+    ${Slicer_BINARY_DIR}/CMake/install/SlicerConfig.cmake
     ${Slicer_BINARY_DIR}/SlicerConfigVersion.cmake
-    DESTINATION ${Slicer_INSTALL_LIB_DIR}
+    DESTINATION ${Slicer_INSTALL_CMAKE_DIR}
     COMPONENT Development
     )
 

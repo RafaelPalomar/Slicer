@@ -87,10 +87,10 @@ set(QT_INSTALL_LIB_DIR ${Slicer_INSTALL_LIB_DIR})
     # WebEngine Dependencies
     if("Qt5::WebEngine" IN_LIST QT_LIBRARIES)
       install(PROGRAMS ${qt_root_dir}/libexec/QtWebEngineProcess
-        DESTINATION ${Slicer_INSTALL_ROOT}/libexec COMPONENT Runtime
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/libexec COMPONENT Runtime
         )
       slicerStripInstalledLibrary(
-        FILES "${Slicer_INSTALL_ROOT}/libexec/QtWebEngineProcess"
+        FILES "${CMAKE_INSTALL_PREFIX}/libexec/QtWebEngineProcess"
         COMPONENT Runtime)
       # XXX Workaround for QTBUG-66346 fixed in Qt >= 5.11 (See https://github.com/Slicer/Slicer/pull/944)
       set(qt_conf_contents "[Paths]\nPrefix = ..\nTranslations = share/QtTranslations")
@@ -125,14 +125,14 @@ set(QT_INSTALL_LIB_DIR ${Slicer_INSTALL_LIB_DIR})
     # Install resources directory
     set(resources_dir "${qt_root_dir}/resources")
     install(DIRECTORY ${resources_dir}
-      DESTINATION ${Slicer_INSTALL_ROOT} COMPONENT Runtime
+      DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT Runtime
       )
 
     # Install webengine translations
     if("Qt5::WebEngine" IN_LIST QT_LIBRARIES)
       set(translations_dir "${qt_root_dir}/translations/qtwebengine_locales")
       install(DIRECTORY ${translations_dir}
-        DESTINATION ${Slicer_INSTALL_ROOT}/share/QtTranslations/ COMPONENT Runtime
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/QtTranslations/ COMPONENT Runtime
         )
     endif()
 
@@ -184,10 +184,10 @@ set(QT_INSTALL_LIB_DIR ${Slicer_INSTALL_LIB_DIR})
   # Qt designer
   if(Slicer_BUILD_QT_DESIGNER_PLUGINS)
     install(PROGRAMS ${qt_root_dir}/bin/designer${CMAKE_EXECUTABLE_SUFFIX}
-      DESTINATION ${Slicer_INSTALL_ROOT}/bin COMPONENT Runtime
+      DESTINATION ${CMAKE_INSTALL_PREFIX}/bin COMPONENT Runtime
       RENAME designer-real${CMAKE_EXECUTABLE_SUFFIX}
       )
     slicerStripInstalledLibrary(
-      FILES "${Slicer_INSTALL_ROOT}/bin/designer-real"
+      FILES "${CMAKE_INSTALL_PREFIX}/bin/designer-real"
       COMPONENT Runtime)
   endif()

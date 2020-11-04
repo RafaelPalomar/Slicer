@@ -39,9 +39,24 @@
 # This is can avoided by setting the variable Slicer_VERBOSE_SKIP to TRUE
 #
 
+find_package(vtkAddon REQUIRED)
+
+find_package(Qt5 COMPONENTS OpenGL Network PrintSupport Widgets Xml REQUIRED)
+
+find_package(VTK REQUIRED)
+
+find_package(CTK REQUIRED)
+include(${CTK_USE_FILE})
+
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
 set(CMAKE_MODULE_PATH
   "@CTK_CMAKE_DIR@"
-  "${Slicer_INSTALL_CMAKE_DIR}")
+  "${Slicer_INSTALL_CMAKE_DIR}"
+  "${vtkAddon_CMAKE_DIR}"
+  )
+
 
 # --------------------------------------------------------------------------
 # Helper function(s) and macro(s)
@@ -460,5 +475,24 @@ if(NOT Slicer_DONT_USE_EXTENSION)
 endif()
 
 #-----------------------------------------------------------------------------
-find_package(vtkAddon REQUIRED)
 list(APPEND Slicer_Libs_INCLUDE_DIRS "${vtkAddon_INCLUDE_DIRS}")
+
+link_directories(${Slicer_INSTALL_LIB_DIR})
+
+include_directories(
+  "${Slicer_INSTALL_INCLUDE_DIR}"
+  "${Slicer_INSTALL_INCLUDE_DIR}/MRMLCLI"
+  "${Slicer_INSTALL_INCLUDE_DIR}/SlicerBaseCLI"
+  "${Slicer_INSTALL_INCLUDE_DIR}/SlicerBaseLogic"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerBaseQTGUI"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerBaseQTCore"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerBaseQTApp"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerBaseQTCLI"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerApp"
+  "${Slicer_INSTALL_INCLUDE_DIR}/qSlicerModulesCore"
+  )
+
+list(APPEND Slicer_GUI_LIBRARY
+    "qSlicerBaseQTCore"
+    "qSlicerBaseQTGUI"
+    )

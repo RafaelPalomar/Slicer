@@ -123,4 +123,6 @@
 #define Slicer_QM_OUTPUT_DIRS "@Slicer_QM_OUTPUT_DIRS@"
 #define Slicer_LANGUAGES "@Slicer_LANGUAGES@"
 
+#define Slicer_INSTALL_PYTHON_LIB_DIR "@Slicer_INSTALL_PYTHON_LIB_DIR@"
+
 #endif //__vtkSlicerConfigure_h

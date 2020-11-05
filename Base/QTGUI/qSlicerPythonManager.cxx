@@ -42,7 +42,7 @@ void qSlicerPythonManager::executeInitializationScripts()
     }
 
   // Evaluate application script
-  this->executeFile(app->slicerHome() + "/bin/Python/slicer/slicerqt.py");
+  this->executeFile(QString(Slicer_INSTALL_PYTHON_LIB_DIR) + "/slicer/slicerqt.py");
 }
 
 //-----------------------------------------------------------------------------

@@ -2,7 +2,7 @@ stages:
 - name: Build Environment
   steps:
   - publishImageConfig:
-      dockerfilePath: Docker/Dockerfile.ubuntu.hirstue
+      dockerfilePath: Docker/Dockerfile.ubuntu.hirsute
       buildContext: .
       tag: slicer-ubuntu-hirstue
 timeout: 60

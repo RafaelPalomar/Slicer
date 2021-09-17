@@ -1,6 +1,6 @@
 FROM ubuntu:hirsute
 
-RUN apt update && apt dist-upgrade -y
-RUN apt install git subversion build-essential cmake cmake-curses-gui cmake-qt-gui \
+RUN apt-get update && apt-get dist-upgrade -y
+RUN apt-get install git subversion build-essential cmake cmake-curses-gui cmake-qt-gui \
 qt5-default qtmultimedia5-dev qttools5-dev libqt5xmlpatterns5-dev libqt5svg5-dev qtwebengine5-dev qtscript5-dev \
 qtbase5-private-dev libqt5x11extras5-dev libxt-dev -y

@@ -1,0 +1,12 @@
+stages:
+- name: Build Environment
+  steps:
+  - publishImageConfig:
+      dockerfilePath: Docker/Dockerfile.ubuntu.hirstue
+      buildContext: .
+      tag: slicer-ubuntu-hirstue
+timeout: 60
+branch:
+  include:
+  - rancher-master
+notification: {}

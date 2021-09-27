@@ -60,7 +60,7 @@
 #include "vtkSlicerROIWidget.h"
 
 // Markups widgets
-#include "qSlicerMarkupsROIWidget.h"
+#include "qMRMLMarkupsROIWidget.h"
 #include "qSlicerMarkupsAngleMeasurementsWidget.h"
 #include "qSlicerMarkupsCurveSettingsWidget.h"
 #include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
@@ -205,9 +205,9 @@ qSlicerAbstractModuleRepresentation* qSlicerMarkupsModule::createWidgetRepresent
 {
   // Create and configure the additional widgets
   auto optionsWidgetFactory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
-  optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsAngleMeasurementsWidget());
-  optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget());
-  optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsROIWidget());
+  // optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsAngleMeasurementsWidget());
+  // optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget());
+  optionsWidgetFactory->registerAdditionalOptionsWidget(new qMRMLMarkupsROIWidget());
 
   // Create and configure module widget.
   auto moduleWidget = new qSlicerMarkupsModuleWidget();

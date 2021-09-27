@@ -19,8 +19,8 @@
 
 ==============================================================================*/
 
-#ifndef __qSlicerMarkupsROIWidget_h
-#define __qSlicerMarkupsROIWidget_h
+#ifndef __qMRMLMarkupsROIWidget_h
+#define __qMRMLMarkupsROIWidget_h
 
 // Qt includes
 #include <QWidget>
@@ -36,17 +36,17 @@
 class vtkMRMLAnnotationROINode;
 class vtkMRMLNode;
 class vtkMRMLMarkupsROINode;
-class qSlicerMarkupsROIWidgetPrivate;
+class qMRMLMarkupsROIWidgetPrivate;
 
-class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qSlicerMarkupsROIWidget : public qSlicerMarkupsAdditionalOptionsWidget
+class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsROIWidget : public qSlicerMarkupsAdditionalOptionsWidget
 {
   Q_OBJECT
   QVTK_OBJECT
 
 public:
   typedef qSlicerMarkupsAdditionalOptionsWidget Superclass;
-  qSlicerMarkupsROIWidget(QWidget* parent=nullptr);
-  ~qSlicerMarkupsROIWidget() override;
+  qMRMLMarkupsROIWidget(QWidget* parent=nullptr);
+  ~qMRMLMarkupsROIWidget() override;
 
   /// Returns the current MRML ROI node
   vtkMRMLMarkupsROINode* mrmlROINode()const;
@@ -93,12 +93,12 @@ protected slots:
   void onROITypeParameterChanged();
 
 protected:
-  qSlicerMarkupsROIWidget(qSlicerMarkupsROIWidgetPrivate &d, QWidget* parent=nullptr);
+  qMRMLMarkupsROIWidget(qMRMLMarkupsROIWidgetPrivate &d, QWidget* parent=nullptr);
   void setup();
 
 private:
-  Q_DECLARE_PRIVATE(qSlicerMarkupsROIWidget);
-  Q_DISABLE_COPY(qSlicerMarkupsROIWidget);
+  Q_DECLARE_PRIVATE(qMRMLMarkupsROIWidget);
+  Q_DISABLE_COPY(qMRMLMarkupsROIWidget);
 
 };
 

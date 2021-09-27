@@ -131,7 +131,7 @@ class PluggableMarkupsSelfTestLogic(ScriptedLoadableModuleLogic):
     return [
       slicer.qSlicerMarkupsCurveSettingsWidget(),
       slicer.qSlicerMarkupsAngleMeasurementsWidget(),
-      slicer.qSlicerMarkupsROIWidget(),
+      slicer.qMRMLMarkupsROIWidget(),
       slicer.qSlicerMarkupsTestLineWidget()
     ]
 

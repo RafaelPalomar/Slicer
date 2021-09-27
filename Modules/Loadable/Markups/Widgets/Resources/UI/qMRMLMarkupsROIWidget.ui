@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qSlicerMarkupsROIWidget</class>
- <widget class="QWidget" name="qSlicerMarkupsROIWidget">
+ <class>qMRMLMarkupsROIWidget</class>
+ <widget class="QWidget" name="qMRMLMarkupsROIWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

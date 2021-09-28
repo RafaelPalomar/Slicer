@@ -30,7 +30,7 @@ class QModelIndex;
 class QStringList;
 class QTableWidgetItem;
 class QShortcut;
-class qSlicerMarkupsAdditionalOptionsWidget;
+class qMRMLMarkupsAdditionalOptionsWidget;
 class qSlicerMarkupsModuleWidgetPrivate;
 class vtkMRMLMarkupsNode;
 class vtkMRMLNode;
@@ -96,7 +96,7 @@ public:
   QStringList& associatedMarkups();
 
   // Add additional widget
-  QList<qSlicerMarkupsAdditionalOptionsWidget*>& additionalWidgets();
+  QList<qMRMLMarkupsAdditionalOptionsWidget*>& additionalWidgets();
 
 public slots:
 

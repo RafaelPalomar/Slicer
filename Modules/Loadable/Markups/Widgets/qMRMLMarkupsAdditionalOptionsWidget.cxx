@@ -18,8 +18,8 @@
 
   ==============================================================================*/
 
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
-#include "qSlicerMarkupsAdditionalOptionsWidget_p.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget_p.h"
 
 // Qt includes
 #include <QDebug>
@@ -28,52 +28,53 @@
 #include "vtkMRMLMarkupsNode.h"
 
 //-----------------------------------------------------------------------------
-// qSlicerMarkupsAdditionalOptionsWidgetmethods
+// qMRMLMarkupsAdditionalOptionsWidgetmethods
 
-qSlicerMarkupsAdditionalOptionsWidgetPrivate:: qSlicerMarkupsAdditionalOptionsWidgetPrivate()
-{
-  this->MarkupsNode = nullptr;
-}
-
-//-----------------------------------------------------------------------------
-// qSlicerMarkupsAdditionalOptionsWidgetmethods
-
-//-----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidget::
-qSlicerMarkupsAdditionalOptionsWidget(QWidget* parent)
-  : Superclass(parent), d_ptr(new qSlicerMarkupsAdditionalOptionsWidgetPrivate)
+qMRMLMarkupsAdditionalOptionsWidgetPrivate:: qMRMLMarkupsAdditionalOptionsWidgetPrivate()
+  : MarkupsNode(nullptr)
 {
 
 }
 
 //-----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidget::
-qSlicerMarkupsAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidgetPrivate &d, QWidget* parent)
+// qMRMLMarkupsAdditionalOptionsWidgetmethods
+
+//-----------------------------------------------------------------------------
+qMRMLMarkupsAdditionalOptionsWidget::
+qMRMLMarkupsAdditionalOptionsWidget(QWidget* parent)
+  : Superclass(parent), d_ptr(new qMRMLMarkupsAdditionalOptionsWidgetPrivate)
+{
+
+}
+
+//-----------------------------------------------------------------------------
+qMRMLMarkupsAdditionalOptionsWidget::
+qMRMLMarkupsAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidgetPrivate &d, QWidget* parent)
   : Superclass(parent), d_ptr(&d)
 {
 
 }
 
 // --------------------------------------------------------------------------
-vtkMRMLMarkupsNode* qSlicerMarkupsAdditionalOptionsWidget::mrmlMarkupsNode()
+vtkMRMLMarkupsNode* qMRMLMarkupsAdditionalOptionsWidget::mrmlMarkupsNode()
 {
-  Q_D(qSlicerMarkupsAdditionalOptionsWidget);
+  Q_D(qMRMLMarkupsAdditionalOptionsWidget);
 
   return d->MarkupsNode;
 }
 
 // --------------------------------------------------------------------------
-void qSlicerMarkupsAdditionalOptionsWidget::setMRMLMarkupsNode(vtkMRMLMarkupsNode* markupsNode)
+void qMRMLMarkupsAdditionalOptionsWidget::setMRMLMarkupsNode(vtkMRMLMarkupsNode* markupsNode)
 {
-  Q_D(qSlicerMarkupsAdditionalOptionsWidget);
+  Q_D(qMRMLMarkupsAdditionalOptionsWidget);
 
   d->MarkupsNode = markupsNode;
 }
 
 // --------------------------------------------------------------------------
-void qSlicerMarkupsAdditionalOptionsWidget::setMRMLMarkupsNode(vtkMRMLNode* node)
+void qMRMLMarkupsAdditionalOptionsWidget::setMRMLMarkupsNode(vtkMRMLNode* node)
 {
-  Q_D(qSlicerMarkupsAdditionalOptionsWidget);
+  Q_D(qMRMLMarkupsAdditionalOptionsWidget);
 
   this->setMRMLMarkupsNode(vtkMRMLMarkupsNode::SafeDownCast(node));
 }

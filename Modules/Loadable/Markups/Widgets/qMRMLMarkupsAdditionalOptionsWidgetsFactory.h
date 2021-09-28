@@ -13,7 +13,7 @@
   limitations under the License.
 
   This file was originally developed by Rafael Palomar (The Intervention Centre,
-  Oslo University Hospital), based on qSlicerMarkupsAdditionalOptionsWidgetsFactory.h by
+  Oslo University Hospital), based on qMRMLMarkupsAdditionalOptionsWidgetsFactory.h by
   Csaba Pinter (Perklab, Queen's University), and was supported by The Research
   Council of Norway through the ALive project (grant nr. 311393).
 
@@ -23,7 +23,7 @@
 #define __qslicermarkupsfactory_h_
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
 #include "qSlicerMarkupsModuleWidgetsExport.h"
 
 // Qt includes
@@ -31,30 +31,30 @@
 #include <QList>
 #include <QPointer>
 
-class qSlicerMarkupsAdditionalOptionsWidget;
-class qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanup;
+class qMRMLMarkupsAdditionalOptionsWidget;
+class qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanup;
 
 /// \ingroup SlicerRt_QtModules_Segmentations
-/// \class qSlicerMarkupsAdditionalOptionsWidgetsFactory
+/// \class qMRMLMarkupsAdditionalOptionsWidgetsFactory
 /// \brief Singleton class managing segment editor effect plugins
-class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qSlicerMarkupsAdditionalOptionsWidgetsFactory : public QObject
+class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsAdditionalOptionsWidgetsFactory : public QObject
 {
   Q_OBJECT
 
 public:
   /// Instance getter for the singleton class
   /// \return Instance object
-  Q_INVOKABLE static qSlicerMarkupsAdditionalOptionsWidgetsFactory* instance();
+  Q_INVOKABLE static qMRMLMarkupsAdditionalOptionsWidgetsFactory* instance();
 
 public:
   /// Registers an additional options widget.
-  Q_INVOKABLE bool registerAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidget* widget);
+  Q_INVOKABLE bool registerAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidget* widget);
 
   /// Unregisters an additional options widget.
-  Q_INVOKABLE bool unregisterAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidget* widget);
+  Q_INVOKABLE bool unregisterAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidget* widget);
 
   /// Returns the list of additional options widgets registered
-  Q_INVOKABLE const QList<QPointer<qSlicerMarkupsAdditionalOptionsWidget>>& additionalOptionsWidgets()
+  Q_INVOKABLE const QList<QPointer<qMRMLMarkupsAdditionalOptionsWidget>>& additionalOptionsWidgets()
   { return this->AdditionalOptionsWidgets; }
 
 signals:
@@ -62,23 +62,23 @@ signals:
   void additionalOptionsWidgetUnregistered();
 
 protected:
-  QList<QPointer<qSlicerMarkupsAdditionalOptionsWidget>> AdditionalOptionsWidgets;
+  QList<QPointer<qMRMLMarkupsAdditionalOptionsWidget>> AdditionalOptionsWidgets;
 
 private:
   /// Allows cleanup of the singleton at application exit
   static void cleanup();
 
 private:
-  qSlicerMarkupsAdditionalOptionsWidgetsFactory(QObject* parent=nullptr);
-  ~qSlicerMarkupsAdditionalOptionsWidgetsFactory() override;
+  qMRMLMarkupsAdditionalOptionsWidgetsFactory(QObject* parent=nullptr);
+  ~qMRMLMarkupsAdditionalOptionsWidgetsFactory() override;
 
-  Q_DISABLE_COPY(qSlicerMarkupsAdditionalOptionsWidgetsFactory);
-  friend class qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanup;
-  friend class PythonQtWrapper_qSlicerMarkupsAdditionalOptionsWidgetsFactory; // Allow Python wrapping without enabling direct instantiation
+  Q_DISABLE_COPY(qMRMLMarkupsAdditionalOptionsWidgetsFactory);
+  friend class qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanup;
+  friend class PythonQtWrapper_qMRMLMarkupsAdditionalOptionsWidgetsFactory; // Allow Python wrapping without enabling direct instantiation
 
 private:
   /// Instance of the singleton
-  static qSlicerMarkupsAdditionalOptionsWidgetsFactory* Instance;
+  static qMRMLMarkupsAdditionalOptionsWidgetsFactory* Instance;
 };
 
 #endif // __qslicermarkupsfactory_h_

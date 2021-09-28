@@ -57,8 +57,8 @@
 #include "vtkMRMLMarkupsDisplayableManager.h"
 
 // Markups includes
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
-#include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidgetsFactory.h"
 #include "qSlicerMarkupsModule.h"
 #include "qSlicerMarkupsModuleWidget.h"
 #include "ui_qSlicerMarkupsModule.h"
@@ -78,7 +78,7 @@ static const int JUMP_MODE_COMBOBOX_INDEX_OFFSET = 0;
 static const int JUMP_MODE_COMBOBOX_INDEX_CENTERED = 1;
 static const char* NAME_PROPERTY = "name";
 
-//extern qSlicerMarkupsAdditionalOptionsWidgetsFactory* qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
+//extern qMRMLMarkupsAdditionalOptionsWidgetsFactory* qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
 //-----------------------------------------------------------------------------
 /// \ingroup Slicer_QtModules_Markups
 class qSlicerMarkupsModuleWidgetPrivate: public Ui_qSlicerMarkupsModule
@@ -473,7 +473,7 @@ void qSlicerMarkupsModuleWidgetPrivate::setupUi(qSlicerWidget* widget)
 
   // Place the additional options widgets
   this->placeMarkupsAdditionalOptionsWidgets();
-  QObject::connect(qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance(), SIGNAL(additionalOptionsWidgetRegistered()),
+  QObject::connect(qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance(), SIGNAL(additionalOptionsWidgetRegistered()),
                    q, SLOT(onPlaceMarkupsAdditionalOptionsWidgets()));
 
   // hide measurement settings table until markups node containing measurement is set
@@ -640,7 +640,7 @@ void qSlicerMarkupsModuleWidgetPrivate::placeMarkupsAdditionalOptionsWidgets()
   Q_Q(qSlicerMarkupsModuleWidget);
 
   // Add the additional widgets
-  foreach(const auto& widget, qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
+  foreach(const auto& widget, qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
     {
     // If the parent is different from the qSlicerMarkupsModule widget, then add the widget.
     if (widget->parentWidget() != q)
@@ -962,7 +962,7 @@ void qSlicerMarkupsModuleWidget::updateWidgetFromMRML()
     }
 
   // Update additional widgets
-  foreach(const auto& widget, qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
+  foreach(const auto& widget, qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
     {
     widget->updateWidgetFromMRML();
     }
@@ -2255,7 +2255,7 @@ if (markupsNode)
 // Setting the internal Markups node
 d->MarkupsNode = markupsNode;
 
-foreach(const auto& widget, qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
+foreach(const auto& widget, qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance()->additionalOptionsWidgets())
   {
   widget->setMRMLMarkupsNode(markupsNode);
   }

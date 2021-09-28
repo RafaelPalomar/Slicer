@@ -19,64 +19,64 @@
 
   ==============================================================================*/
 
-#include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
+#include "qMRMLMarkupsAdditionalOptionsWidgetsFactory.h"
 
 // Qt includes
 #include <QDebug>
 
 //----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidgetsFactory *qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
+qMRMLMarkupsAdditionalOptionsWidgetsFactory *qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
 
 //----------------------------------------------------------------------------
 /// \ingroup SlicerRt_QtModules_Segmentations
-class qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanup
+class qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanup
 {
 public:
   inline void use()   {   }
 
-  ~qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanup()
+  ~qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanup()
   {
-    if (qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance)
+    if (qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance)
       {
-      qSlicerMarkupsAdditionalOptionsWidgetsFactory::cleanup();
+      qMRMLMarkupsAdditionalOptionsWidgetsFactory::cleanup();
       }
   }
 };
 
 //-----------------------------------------------------------------------------
-static qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanup qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanupGlobal;
+static qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanup qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanupGlobal;
 
 //-----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidgetsFactory* qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance()
+qMRMLMarkupsAdditionalOptionsWidgetsFactory* qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance()
 {
-  if(!qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance)
+  if(!qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance)
     {
-    qSlicerMarkupsAdditionalOptionsWidgetsFactoryCleanupGlobal.use();
-    qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance = new qSlicerMarkupsAdditionalOptionsWidgetsFactory();
+    qMRMLMarkupsAdditionalOptionsWidgetsFactoryCleanupGlobal.use();
+    qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance = new qMRMLMarkupsAdditionalOptionsWidgetsFactory();
     }
   // Return the instance
-  return qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance;
+  return qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance;
 }
 
 //-----------------------------------------------------------------------------
-void qSlicerMarkupsAdditionalOptionsWidgetsFactory::cleanup()
+void qMRMLMarkupsAdditionalOptionsWidgetsFactory::cleanup()
 {
-  if (qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance)
+  if (qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance)
     {
-    delete qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance;
-    qSlicerMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
+    delete qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance;
+    qMRMLMarkupsAdditionalOptionsWidgetsFactory::Instance = nullptr;
     }
 }
 
 //-----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidgetsFactory::qSlicerMarkupsAdditionalOptionsWidgetsFactory(QObject* parent)
+qMRMLMarkupsAdditionalOptionsWidgetsFactory::qMRMLMarkupsAdditionalOptionsWidgetsFactory(QObject* parent)
   : QObject(parent)
 {
   this->AdditionalOptionsWidgets.clear();
 }
 
 //-----------------------------------------------------------------------------
-qSlicerMarkupsAdditionalOptionsWidgetsFactory::~qSlicerMarkupsAdditionalOptionsWidgetsFactory()
+qMRMLMarkupsAdditionalOptionsWidgetsFactory::~qMRMLMarkupsAdditionalOptionsWidgetsFactory()
 {
   // NOTE: The factory cannot claim a strong ownership over the additional
   // widgets. These widgets will normally be added as part of a GUI and will
@@ -95,7 +95,7 @@ qSlicerMarkupsAdditionalOptionsWidgetsFactory::~qSlicerMarkupsAdditionalOptionsW
 }
 
 //-----------------------------------------------------------------------------
-bool qSlicerMarkupsAdditionalOptionsWidgetsFactory::registerAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidget* widget)
+bool qMRMLMarkupsAdditionalOptionsWidgetsFactory::registerAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidget* widget)
 {
 
   // Check for nullptr
@@ -135,10 +135,10 @@ bool qSlicerMarkupsAdditionalOptionsWidgetsFactory::registerAdditionalOptionsWid
 }
 
 //-----------------------------------------------------------------------------
-bool qSlicerMarkupsAdditionalOptionsWidgetsFactory::unregisterAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidget* widget)
+bool qMRMLMarkupsAdditionalOptionsWidgetsFactory::unregisterAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidget* widget)
 {
   // Take ownership
-  QScopedPointer<qSlicerMarkupsAdditionalOptionsWidget> widgetPtr(widget);
+  QScopedPointer<qMRMLMarkupsAdditionalOptionsWidget> widgetPtr(widget);
 
   // Check for nullptr
   if (!widgetPtr.data())

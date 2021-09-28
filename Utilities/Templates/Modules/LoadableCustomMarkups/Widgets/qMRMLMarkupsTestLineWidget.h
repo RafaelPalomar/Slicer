@@ -18,44 +18,49 @@
 
 ==============================================================================*/
 
-#ifndef __qslicertestlinewidget_h_
-#define __qslicertestlinewidget_h_
+#ifndef __qSlicerTestLineWidget_h_
+#define __qSlicerTestLineWidget_h_
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
 #include "qSlicerTemplateKeyModuleWidgetsExport.h"
 
-class qSlicerMarkupsTestLineWidgetPrivate;
+class qMRMLMarkupsTestLineWidgetPrivate;
 class vtkMRMLMarkupsNode;
 
 class Q_SLICER_MODULE_TEMPLATEKEY_WIDGETS_EXPORT
-qSlicerMarkupsTestLineWidget : public qSlicerMarkupsAdditionalOptionsWidget
+qMRMLMarkupsTestLineWidget : public QWidget
 {
   Q_OBJECT
 
 public:
 
-  typedef qSlicerMarkupsAdditionalOptionsWidget Superclass;
-  qSlicerMarkupsTestLineWidget(QWidget* parent=nullptr);
-  ~qSlicerMarkupsTestLineWidget() override;
+  typedef QWidget Superclass;
+  qMRMLMarkupsTestLineWidget(QWidget* parent=nullptr);
+  ~qMRMLMarkupsTestLineWidget() override;
 
   /// Updates the widget based on information from MRML.
-  void updateWidgetFromMRML() override;
-
-  /// Gets the name of the additional options widget type
-  const QString getAdditionalOptionsWidgetTypeName() override { return "TestLine"; }
+  void updateWidgetFromMRML();
 
   /// Checks whether a given node can be handled by the widget
-  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const override;
+  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const;
+
+public slots:
+/// Set the MRML node of interest
+  void setMRMLMarkupsNode(vtkMRMLMarkupsNode* node);
+  /// Sets the vtkMRMLMarkupsNode to operate on.
+  void setMRMLMarkupsNode(vtkMRMLNode* node);
 
 
 protected:
-  qSlicerMarkupsTestLineWidget(qSlicerMarkupsTestLineWidgetPrivate &d, QWidget* parent=nullptr);
   void setup();
 
+protected:
+  QScopedPointer<qMRMLMarkupsTestLineWidgetPrivate> d_ptr;
+
 private:
-  Q_DECLARE_PRIVATE(qSlicerMarkupsTestLineWidget);
-  Q_DISABLE_COPY(qSlicerMarkupsTestLineWidget);
+  Q_DECLARE_PRIVATE(qMRMLMarkupsTestLineWidget);
+  Q_DISABLE_COPY(qMRMLMarkupsTestLineWidget);
 };
 
-#endif // __qslicertestlinewidget_h_
+#endif // __qSlicerTestLineWidget_h_

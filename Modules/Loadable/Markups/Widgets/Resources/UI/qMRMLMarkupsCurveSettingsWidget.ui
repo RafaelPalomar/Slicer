@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>qSlicerMarkupsCurveSettingsWidget</class>
- <widget class="QWidget" name="qSlicerMarkupsCurveSettingsWidget">
+ <class>qMRMLMarkupsCurveSettingsWidget</class>
+ <widget class="QWidget" name="qMRMLMarkupsCurveSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -403,7 +403,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>qSlicerMarkupsCurveSettingsWidget</sender>
+   <sender>qMRMLMarkupsCurveSettingsWidget</sender>
    <signal>mrmlSceneChanged(vtkMRMLScene*)</signal>
    <receiver>resampleCurveOutputNodeSelector</receiver>
    <slot>setMRMLScene(vtkMRMLScene*)</slot>
@@ -419,7 +419,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>qSlicerMarkupsCurveSettingsWidget</sender>
+   <sender>qMRMLMarkupsCurveSettingsWidget</sender>
    <signal>mrmlSceneChanged(vtkMRMLScene*)</signal>
    <receiver>resampleCurveConstraintNodeSelector</receiver>
    <slot>setMRMLScene(vtkMRMLScene*)</slot>
@@ -435,7 +435,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>qSlicerMarkupsCurveSettingsWidget</sender>
+   <sender>qMRMLMarkupsCurveSettingsWidget</sender>
    <signal>mrmlSceneChanged(vtkMRMLScene*)</signal>
    <receiver>modelNodeSelector</receiver>
    <slot>setMRMLScene(vtkMRMLScene*)</slot>

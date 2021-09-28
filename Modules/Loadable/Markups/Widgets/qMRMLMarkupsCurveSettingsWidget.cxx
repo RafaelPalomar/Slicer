@@ -18,9 +18,9 @@
 
   ==============================================================================*/
 
-#include "qSlicerMarkupsCurveSettingsWidget.h"
-#include "qSlicerMarkupsAdditionalOptionsWidget_p.h"
-#include "ui_qSlicerMarkupsCurveSettingsWidget.h"
+#include "qMRMLMarkupsCurveSettingsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget_p.h"
+#include "ui_qMRMLMarkupsCurveSettingsWidget.h"
 
 #include "vtkSlicerDijkstraGraphGeodesicPath.h"
 
@@ -29,64 +29,64 @@
 #include <vtkMRMLMarkupsCurveNode.h>
 #include <vtkMRMLMarkupsClosedCurveNode.h>
 
+// VTK includes
+#include <vtkWeakPointer.h>
+
 // Qt includes
 #include <QTimer>
 
 // --------------------------------------------------------------------------
-class qSlicerMarkupsCurveSettingsWidgetPrivate
-  : public qSlicerMarkupsAdditionalOptionsWidgetPrivate,
-    public Ui_qSlicerMarkupsCurveSettingsWidget
+class qMRMLMarkupsCurveSettingsWidgetPrivate
+   : public Ui_qMRMLMarkupsCurveSettingsWidget
 {
-  Q_DECLARE_PUBLIC(qSlicerMarkupsCurveSettingsWidget);
+  Q_DECLARE_PUBLIC(qMRMLMarkupsCurveSettingsWidget);
 
 protected:
-  qSlicerMarkupsCurveSettingsWidget* const q_ptr;
+  qMRMLMarkupsCurveSettingsWidget* const q_ptr;
 
 public:
-  qSlicerMarkupsCurveSettingsWidgetPrivate(qSlicerMarkupsCurveSettingsWidget* object);
-  ~qSlicerMarkupsCurveSettingsWidgetPrivate();
+  qMRMLMarkupsCurveSettingsWidgetPrivate(qMRMLMarkupsCurveSettingsWidget* object);
+  ~qMRMLMarkupsCurveSettingsWidgetPrivate();
 
   static const char* getCurveTypeAsHumanReadableString(int curveType);
   static const char* getCostFunctionAsHumanReadableString(int costFunction);
 
   void setupUi(qSlicerWidget* widget);
 
-  virtual void setupUi(qSlicerMarkupsCurveSettingsWidget*);
+  virtual void setupUi(qMRMLMarkupsCurveSettingsWidget*);
 
+  vtkWeakPointer<vtkMRMLMarkupsCurveNode> MarkupsCurveNode;
   QTimer*     editScalarFunctionDelay;
 };
 
 // --------------------------------------------------------------------------
-qSlicerMarkupsCurveSettingsWidgetPrivate::
-qSlicerMarkupsCurveSettingsWidgetPrivate(qSlicerMarkupsCurveSettingsWidget* object)
-  : q_ptr(object)
+qMRMLMarkupsCurveSettingsWidgetPrivate::
+qMRMLMarkupsCurveSettingsWidgetPrivate(qMRMLMarkupsCurveSettingsWidget* object)
+  : q_ptr(object), MarkupsCurveNode(nullptr)
 {
   this->editScalarFunctionDelay = nullptr;
 }
 
 // --------------------------------------------------------------------------
-qSlicerMarkupsCurveSettingsWidgetPrivate::~qSlicerMarkupsCurveSettingsWidgetPrivate() = default;
+qMRMLMarkupsCurveSettingsWidgetPrivate::~qMRMLMarkupsCurveSettingsWidgetPrivate() = default;
 
 // --------------------------------------------------------------------------
-void qSlicerMarkupsCurveSettingsWidgetPrivate::setupUi(qSlicerMarkupsCurveSettingsWidget* widget)
+void qMRMLMarkupsCurveSettingsWidgetPrivate::setupUi(qMRMLMarkupsCurveSettingsWidget* widget)
 {
-  Q_Q(qSlicerMarkupsCurveSettingsWidget);
+  Q_Q(qMRMLMarkupsCurveSettingsWidget);
 
-  this->Ui_qSlicerMarkupsCurveSettingsWidget::setupUi(widget);
-
-  this->curveSettingsCollapseButton->setVisible(false);
-  this->resampleCurveCollapsibleButton->setVisible(false);
+  this->Ui_qMRMLMarkupsCurveSettingsWidget::setupUi(widget);
 
   this->curveTypeComboBox->clear();
   for (int curveType = 0; curveType < vtkCurveGenerator::CURVE_TYPE_LAST; ++curveType)
     {
-    this->curveTypeComboBox->addItem(qSlicerMarkupsCurveSettingsWidgetPrivate::getCurveTypeAsHumanReadableString(curveType), curveType);
+    this->curveTypeComboBox->addItem(qMRMLMarkupsCurveSettingsWidgetPrivate::getCurveTypeAsHumanReadableString(curveType), curveType);
     }
 
   this->costFunctionComboBox->clear();
   for (int costFunction = 0; costFunction < vtkSlicerDijkstraGraphGeodesicPath::COST_FUNCTION_TYPE_LAST; ++costFunction)
     {
-    this->costFunctionComboBox->addItem(qSlicerMarkupsCurveSettingsWidgetPrivate::getCostFunctionAsHumanReadableString(costFunction), costFunction);
+    this->costFunctionComboBox->addItem(qMRMLMarkupsCurveSettingsWidgetPrivate::getCostFunctionAsHumanReadableString(costFunction), costFunction);
     }
 
   this->editScalarFunctionDelay = new QTimer(q);
@@ -108,7 +108,7 @@ void qSlicerMarkupsCurveSettingsWidgetPrivate::setupUi(qSlicerMarkupsCurveSettin
 }
 
 //------------------------------------------------------------------------------
-const char* qSlicerMarkupsCurveSettingsWidgetPrivate::getCurveTypeAsHumanReadableString(int curveType)
+const char* qMRMLMarkupsCurveSettingsWidgetPrivate::getCurveTypeAsHumanReadableString(int curveType)
 {
   switch (curveType)
     {
@@ -141,7 +141,7 @@ const char* qSlicerMarkupsCurveSettingsWidgetPrivate::getCurveTypeAsHumanReadabl
 }
 
 //------------------------------------------------------------------------------
-const char* qSlicerMarkupsCurveSettingsWidgetPrivate::getCostFunctionAsHumanReadableString(int costFunction)
+const char* qMRMLMarkupsCurveSettingsWidgetPrivate::getCostFunctionAsHumanReadableString(int costFunction)
 {
   switch (costFunction)
     {
@@ -169,54 +169,37 @@ const char* qSlicerMarkupsCurveSettingsWidgetPrivate::getCostFunctionAsHumanRead
 }
 
 // --------------------------------------------------------------------------
-qSlicerMarkupsCurveSettingsWidget::
-qSlicerMarkupsCurveSettingsWidget(QWidget *parent)
-  : Superclass(*new qSlicerMarkupsCurveSettingsWidgetPrivate(this), parent)
+qMRMLMarkupsCurveSettingsWidget::
+qMRMLMarkupsCurveSettingsWidget(QWidget *parent)
+  : Superclass(parent),
+    d_ptr(new qMRMLMarkupsCurveSettingsWidgetPrivate(this))
 {
   this->setup();
 }
 
 // --------------------------------------------------------------------------
-qSlicerMarkupsCurveSettingsWidget::
-qSlicerMarkupsCurveSettingsWidget(qSlicerMarkupsCurveSettingsWidgetPrivate &d,QWidget *parent)
-  : Superclass(d, parent)
-{
-  this->setup();
-}
+qMRMLMarkupsCurveSettingsWidget::~qMRMLMarkupsCurveSettingsWidget() = default;
 
 // --------------------------------------------------------------------------
-qSlicerMarkupsCurveSettingsWidget::~qSlicerMarkupsCurveSettingsWidget() = default;
-
-// --------------------------------------------------------------------------
-void qSlicerMarkupsCurveSettingsWidget::setup()
+void qMRMLMarkupsCurveSettingsWidget::setup()
 {
-  Q_D(qSlicerMarkupsCurveSettingsWidget);
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
   d->setupUi(this);
 }
+
 // --------------------------------------------------------------------------
-void qSlicerMarkupsCurveSettingsWidget::updateWidgetFromMRML()
+void qMRMLMarkupsCurveSettingsWidget::updateWidgetFromMRML()
 {
-  Q_D(qSlicerMarkupsCurveSettingsWidget);
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
 
-  if (!this->canManageMRMLMarkupsNode(d->MarkupsNode))
-    {
-    d->curveSettingsCollapseButton->setVisible(false);
-    d->resampleCurveCollapsibleButton->setVisible(false);
-    return;
-    }
-
-  d->curveSettingsCollapseButton->setVisible(true);
-  d->resampleCurveCollapsibleButton->setVisible(true);
-
-  vtkMRMLMarkupsCurveNode* markupsCurveNode = vtkMRMLMarkupsCurveNode::SafeDownCast(d->MarkupsNode);
-  if (markupsCurveNode)
+  if (d->MarkupsCurveNode)
     {
     // Update displayed node types.
     // Since updating this list resets the previous node selection,
     // we save and restore previous selection.
     vtkMRMLNode* previousOutputNode = d->resampleCurveOutputNodeSelector->currentNode();
-    d->resampleCurveOutputNodeSelector->setNodeTypes(QStringList(QString(markupsCurveNode->GetClassName())));
-    if (previousOutputNode && previousOutputNode->IsA(markupsCurveNode->GetClassName()))
+    d->resampleCurveOutputNodeSelector->setNodeTypes(QStringList(QString(d->MarkupsCurveNode->GetClassName())));
+    if (previousOutputNode && previousOutputNode->IsA(d->MarkupsCurveNode->GetClassName()))
       {
       d->resampleCurveOutputNodeSelector->setCurrentNode(previousOutputNode);
       }
@@ -226,22 +209,22 @@ void qSlicerMarkupsCurveSettingsWidget::updateWidgetFromMRML()
       }
 
     bool wasBlocked = d->curveTypeComboBox->blockSignals(true);
-    d->curveTypeComboBox->setCurrentIndex(d->curveTypeComboBox->findData(markupsCurveNode->GetCurveType()));
+    d->curveTypeComboBox->setCurrentIndex(d->curveTypeComboBox->findData(d->MarkupsCurveNode->GetCurveType()));
     d->curveTypeComboBox->blockSignals(wasBlocked);
 
-    vtkMRMLModelNode* modelNode = markupsCurveNode->GetShortestDistanceSurfaceNode();
+    vtkMRMLModelNode* modelNode = d->MarkupsCurveNode->GetShortestDistanceSurfaceNode();
     wasBlocked = d->modelNodeSelector->blockSignals(true);
     d->modelNodeSelector->setCurrentNode(modelNode);
     d->modelNodeSelector->blockSignals(wasBlocked);
 
     wasBlocked = d->costFunctionComboBox->blockSignals(true);
-    int costFunction = markupsCurveNode->GetSurfaceCostFunctionType();
+    int costFunction = d->MarkupsCurveNode->GetSurfaceCostFunctionType();
     d->costFunctionComboBox->setCurrentIndex(d->costFunctionComboBox->findData(costFunction));
     d->costFunctionComboBox->blockSignals(wasBlocked);
 
     wasBlocked = d->scalarFunctionLineEdit->blockSignals(true);
     int currentCursorPosition = d->scalarFunctionLineEdit->cursorPosition();
-    d->scalarFunctionLineEdit->setText(markupsCurveNode->GetSurfaceDistanceWeightingFunction());
+    d->scalarFunctionLineEdit->setText(d->MarkupsCurveNode->GetSurfaceDistanceWeightingFunction());
     d->scalarFunctionLineEdit->setCursorPosition(currentCursorPosition);
     d->scalarFunctionLineEdit->blockSignals(wasBlocked);
 
@@ -277,7 +260,7 @@ void qSlicerMarkupsCurveSettingsWidget::updateWidgetFromMRML()
     d->scalarFunctionSuffixLabel->setText(suffixString);
     }
 
-  if (markupsCurveNode && markupsCurveNode->GetCurveType() == vtkCurveGenerator::CURVE_TYPE_SHORTEST_DISTANCE_ON_SURFACE)
+  if (d->MarkupsCurveNode && d->MarkupsCurveNode->GetCurveType() == vtkCurveGenerator::CURVE_TYPE_SHORTEST_DISTANCE_ON_SURFACE)
     {
     d->surfaceCurveCollapsibleButton->setEnabled(true);
     }
@@ -288,28 +271,27 @@ void qSlicerMarkupsCurveSettingsWidget::updateWidgetFromMRML()
 }
 
 //-----------------------------------------------------------------------------
-void qSlicerMarkupsCurveSettingsWidget::onCurveTypeParameterChanged()
+void qMRMLMarkupsCurveSettingsWidget::onCurveTypeParameterChanged()
 {
-  Q_D(qSlicerMarkupsCurveSettingsWidget);
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
 
-  vtkMRMLMarkupsCurveNode* curveNode = vtkMRMLMarkupsCurveNode::SafeDownCast(d->MarkupsNode);
-  if (!curveNode)
+  if (!d->MarkupsCurveNode)
     {
     return;
     }
 
-  MRMLNodeModifyBlocker blocker(curveNode);
-  curveNode->SetCurveType(d->curveTypeComboBox->currentData().toInt());
-  curveNode->SetAndObserveShortestDistanceSurfaceNode(vtkMRMLModelNode::SafeDownCast(d->modelNodeSelector->currentNode()));
+  MRMLNodeModifyBlocker blocker(d->MarkupsCurveNode);
+  d->MarkupsCurveNode->SetCurveType(d->curveTypeComboBox->currentData().toInt());
+  d->MarkupsCurveNode->SetAndObserveShortestDistanceSurfaceNode(vtkMRMLModelNode::SafeDownCast(d->modelNodeSelector->currentNode()));
   std::string functionString = d->scalarFunctionLineEdit->text().toStdString();
-  curveNode->SetSurfaceCostFunctionType(d->costFunctionComboBox->currentData().toInt());
-  curveNode->SetSurfaceDistanceWeightingFunction(functionString.c_str());
+  d->MarkupsCurveNode->SetSurfaceCostFunctionType(d->costFunctionComboBox->currentData().toInt());
+  d->MarkupsCurveNode->SetSurfaceDistanceWeightingFunction(functionString.c_str());
 }
 
 //-----------------------------------------------------------------------------
-void qSlicerMarkupsCurveSettingsWidget::onApplyCurveResamplingPushButtonClicked()
+void qMRMLMarkupsCurveSettingsWidget::onApplyCurveResamplingPushButtonClicked()
 {
-  Q_D(qSlicerMarkupsCurveSettingsWidget);
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
 
   double resampleNumberOfPoints = d->resampleCurveNumerOfOutputPointsSpinBox->value();
   if (resampleNumberOfPoints <= 1)
@@ -317,7 +299,7 @@ void qSlicerMarkupsCurveSettingsWidget::onApplyCurveResamplingPushButtonClicked(
     return;
     }
 
-  vtkMRMLMarkupsCurveNode* inputNode = vtkMRMLMarkupsCurveNode::SafeDownCast(d->MarkupsNode);
+  vtkMRMLMarkupsCurveNode* inputNode = vtkMRMLMarkupsCurveNode::SafeDownCast(d->MarkupsCurveNode);
   if (!inputNode)
     {
     return;
@@ -360,9 +342,9 @@ void qSlicerMarkupsCurveSettingsWidget::onApplyCurveResamplingPushButtonClicked(
 }
 
 //-----------------------------------------------------------------------------
-bool qSlicerMarkupsCurveSettingsWidget::canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const
+bool qMRMLMarkupsCurveSettingsWidget::canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const
 {
-  Q_D(const qSlicerMarkupsCurveSettingsWidget);
+  Q_D(const qMRMLMarkupsCurveSettingsWidget);
 
   vtkMRMLMarkupsCurveNode* curveNode = vtkMRMLMarkupsCurveNode::SafeDownCast(markupsNode);
   vtkMRMLMarkupsClosedCurveNode* closedCurveNode = vtkMRMLMarkupsClosedCurveNode::SafeDownCast(markupsNode);
@@ -372,4 +354,20 @@ bool qSlicerMarkupsCurveSettingsWidget::canManageMRMLMarkupsNode(vtkMRMLMarkupsN
     }
 
   return true;
+}
+
+// --------------------------------------------------------------------------
+void qMRMLMarkupsCurveSettingsWidget::setMRMLMarkupsNode(vtkMRMLMarkupsNode* markupsNode)
+{
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
+
+  d->MarkupsCurveNode = vtkMRMLMarkupsCurveNode::SafeDownCast(markupsNode);
+}
+
+// --------------------------------------------------------------------------
+void qMRMLMarkupsCurveSettingsWidget::setMRMLMarkupsNode(vtkMRMLNode* node)
+{
+  Q_D(qMRMLMarkupsCurveSettingsWidget);
+
+  this->setMRMLMarkupsNode(vtkMRMLMarkupsCurveNode::SafeDownCast(node));
 }

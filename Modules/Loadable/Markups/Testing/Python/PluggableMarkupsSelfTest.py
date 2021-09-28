@@ -93,7 +93,7 @@ class PluggableMarkupsSelfTestLogic(ScriptedLoadableModuleLogic):
     #
     # Step 2: Register all available additional options widgets
     #
-    additionalOptionsWidgetsFactory = slicer.qSlicerMarkupsAdditionalOptionsWidgetsFactory().instance()
+    additionalOptionsWidgetsFactory = slicer.qMRMLMarkupsAdditionalOptionsWidgetsFactory().instance()
     for additionalOptionsWidget in self.additionalOptionsWidgets():
       additionalOptionsWidgetsFactory.registerAdditionalOptionsWidget(additionalOptionsWidget)
 
@@ -130,7 +130,7 @@ class PluggableMarkupsSelfTestLogic(ScriptedLoadableModuleLogic):
   def additionalOptionsWidgets(self):
     return [
       slicer.qSlicerMarkupsCurveSettingsWidget(),
-      slicer.qSlicerMarkupsAngleMeasurementsWidget(),
+      slicer.qMRMLMarkupsAngleMeasurementsWidget(),
       slicer.qMRMLMarkupsROIWidget(),
       slicer.qSlicerMarkupsTestLineWidget()
     ]
@@ -189,7 +189,7 @@ class PluggableMarkupsSelfTestLogic(ScriptedLoadableModuleLogic):
     if markupsWidget is None:
       raise Exception("Couldn't get the Markups module widget")
 
-    additionalOptionsWidgetsFactory = slicer.qSlicerMarkupsAdditionalOptionsWidgetsFactory().instance()
+    additionalOptionsWidgetsFactory = slicer.qMRMLMarkupsAdditionalOptionsWidgetsFactory().instance()
     for additionalOptionsWidget in self.additionalOptionsWidgets():
 
       # Check the widget exists
@@ -211,7 +211,7 @@ class PluggableMarkupsSelfTestLogic(ScriptedLoadableModuleLogic):
     This reigisters additional options widgets
     """
 
-    additionalOptionsWidgetsFactory = slicer.qSlicerMarkupsAdditionalOptionsWidgetsFactory().instance()
+    additionalOptionsWidgetsFactory = slicer.qMRMLMarkupsAdditionalOptionsWidgetsFactory().instance()
 
     markupsWidget = slicer.modules.markups.widgetRepresentation()
     if markupsWidget is None:

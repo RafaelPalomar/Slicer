@@ -20,7 +20,7 @@
   ==============================================================================*/
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidget_p.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget_p.h"
 
 // qMRML includes
 #include "qMRMLMarkupsROIWidget.h"
@@ -30,6 +30,9 @@
 #include <vtkMRMLMarkupsROINode.h>
 #include <vtkMRMLDisplayNode.h>
 
+// VTK includes
+#include <vtkWeakPointer.h>
+
 // STD includes
 #include <vector>
 
@@ -38,26 +41,26 @@
 
 // --------------------------------------------------------------------------
 class qMRMLMarkupsROIWidgetPrivate:
-  public qSlicerMarkupsAdditionalOptionsWidgetPrivate,
   public Ui_qMRMLMarkupsROIWidget
 {
   Q_DECLARE_PUBLIC(qMRMLMarkupsROIWidget);
+
 protected:
   qMRMLMarkupsROIWidget* const q_ptr;
-public:
 
+public:
   qMRMLMarkupsROIWidgetPrivate(qMRMLMarkupsROIWidget* object);
   void setupUi(qMRMLMarkupsROIWidget* widget);
 
+  vtkWeakPointer<vtkMRMLMarkupsROINode> MarkupsROINode;
   bool IsProcessingOnMRMLNodeModified;
   bool AutoRange;
 };
 
 // --------------------------------------------------------------------------
 qMRMLMarkupsROIWidgetPrivate::qMRMLMarkupsROIWidgetPrivate(qMRMLMarkupsROIWidget* object)
-  : q_ptr(object)
+  : q_ptr(object), MarkupsROINode(nullptr)
 {
-  this->MarkupsNode = nullptr;
   this->IsProcessingOnMRMLNodeModified = false;
   this->AutoRange = true;
 }
@@ -69,7 +72,6 @@ void qMRMLMarkupsROIWidgetPrivate::setupUi(qMRMLMarkupsROIWidget* widget)
 
   this->Ui_qMRMLMarkupsROIWidget::setupUi(widget);
 
-  this->roiSettingsCollapseButton->setVisible(false);
   this->roiTypeComboBox->clear();
   for (int roiType = 0; roiType < vtkMRMLMarkupsROINode::ROIType_Last; ++roiType)
     {
@@ -88,24 +90,16 @@ void qMRMLMarkupsROIWidgetPrivate::setupUi(qMRMLMarkupsROIWidget* widget)
                    q, SLOT(updateROI()));
   QObject::connect(this->ISRangeWidget, SIGNAL(valuesChanged(double,double)),
                    q, SLOT(updateROI()));
-  q->setEnabled(this->MarkupsNode != nullptr);
+  q->setEnabled(this->MarkupsROINode != nullptr);
 }
 
 // --------------------------------------------------------------------------
 // qMRMLMarkupsROIWidget methods
 
 // --------------------------------------------------------------------------
-qMRMLMarkupsROIWidget::
-qMRMLMarkupsROIWidget(QWidget* parent)
-  : Superclass(*new qMRMLMarkupsROIWidgetPrivate(this), parent)
-{
-  this->setup();
-}
-
-// --------------------------------------------------------------------------
-qMRMLMarkupsROIWidget::
-qMRMLMarkupsROIWidget(qMRMLMarkupsROIWidgetPrivate &d, QWidget* parent)
-  : Superclass(d, parent)
+qMRMLMarkupsROIWidget:: qMRMLMarkupsROIWidget(QWidget* parent)
+  : Superclass(parent),
+    d_ptr(new qMRMLMarkupsROIWidgetPrivate(this))
 {
   this->setup();
 }
@@ -124,39 +118,16 @@ void qMRMLMarkupsROIWidget::setup()
 vtkMRMLMarkupsROINode* qMRMLMarkupsROIWidget::mrmlROINode()const
 {
   Q_D(const qMRMLMarkupsROIWidget);
-  return vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsNode);
+  return vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsROINode);
 }
 
-// --------------------------------------------------------------------------
-void qMRMLMarkupsROIWidget::setMRMLMarkupsNode(vtkMRMLMarkupsNode* markupsNode)
-{
-  Q_D(qMRMLMarkupsROIWidget);
-
-  Superclass::setMRMLMarkupsNode(markupsNode);
-
-  this->qvtkReconnect(d->MarkupsNode, markupsNode, vtkCommand::ModifiedEvent,
-                      this, SLOT(onMRMLNodeModified()));
-
-  this->qvtkReconnect(d->MarkupsNode, markupsNode, vtkMRMLDisplayableNode::DisplayModifiedEvent,
-                      this, SLOT(onMRMLDisplayNodeModified()));
-
-  this->onMRMLNodeModified();
-  this->onMRMLDisplayNodeModified();
-  this->setEnabled(markupsNode != nullptr);
-}
-
-// --------------------------------------------------------------------------
-void qMRMLMarkupsROIWidget::setMRMLMarkupsNode(vtkMRMLNode* node)
-{
-  this->setMRMLMarkupsNode(vtkMRMLMarkupsROINode::SafeDownCast(node));
-}
 
 // --------------------------------------------------------------------------
 void qMRMLMarkupsROIWidget::onMRMLNodeModified()
 {
   Q_D(qMRMLMarkupsROIWidget);
 
-  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsNode);
+  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsROINode);
   if (!roiNode)
     {
     return;
@@ -226,39 +197,18 @@ void qMRMLMarkupsROIWidget::setExtent(double minLR, double maxLR,
   d->ISRangeWidget->setRange(minIS, maxIS);
 }
 
-// --------------------------------------------------------------------------
-void qMRMLMarkupsROIWidget::updateWidgetFromMRML()
-{
-  Q_D(qMRMLMarkupsROIWidget);
-
-  if (!this->canManageMRMLMarkupsNode(d->MarkupsNode))
-    {
-    d->roiSettingsCollapseButton->setVisible(false);
-    return;
-    }
-
-  d->roiSettingsCollapseButton->setVisible(true);
-  vtkMRMLMarkupsROINode* markupsROINode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsNode);
-  if (markupsROINode)
-    {
-    bool wasBlocked = d->roiTypeComboBox->blockSignals(true);
-    d->roiTypeComboBox->setCurrentIndex(d->roiTypeComboBox->findData(markupsROINode->GetROIType()));
-    d->roiTypeComboBox->blockSignals(wasBlocked);
-    this->setMRMLMarkupsNode(markupsROINode);
-    }
-}
 
 // --------------------------------------------------------------------------
 void qMRMLMarkupsROIWidget::setDisplayClippingBox(bool visible)
 {
   Q_D(qMRMLMarkupsROIWidget);
 
-  int numberOfDisplayNodes = d->MarkupsNode->GetNumberOfDisplayNodes();
+  int numberOfDisplayNodes = d->MarkupsROINode->GetNumberOfDisplayNodes();
 
   std::vector<int> wasModifying(numberOfDisplayNodes);
   for(int index = 0; index < numberOfDisplayNodes; index++)
     {
-    vtkMRMLDisplayNode* displayNode = d->MarkupsNode->GetNthDisplayNode(index);
+    vtkMRMLDisplayNode* displayNode = d->MarkupsROINode->GetNthDisplayNode(index);
     if (!displayNode)
       {
       continue;
@@ -266,11 +216,11 @@ void qMRMLMarkupsROIWidget::setDisplayClippingBox(bool visible)
     wasModifying[index] = displayNode->StartModify();
     }
 
-  d->MarkupsNode->SetDisplayVisibility(visible);
+  d->MarkupsROINode->SetDisplayVisibility(visible);
 
   for(int index = 0; index < numberOfDisplayNodes; index++)
     {
-    vtkMRMLDisplayNode* displayNode = d->MarkupsNode->GetNthDisplayNode(index);
+    vtkMRMLDisplayNode* displayNode = d->MarkupsROINode->GetNthDisplayNode(index);
     if (!displayNode)
       {
       continue;
@@ -283,11 +233,11 @@ void qMRMLMarkupsROIWidget::setDisplayClippingBox(bool visible)
 void qMRMLMarkupsROIWidget::setInteractiveMode(bool interactive)
 {
   Q_D(qMRMLMarkupsROIWidget);
-  if (!d->MarkupsNode->GetDisplayNode())
+  if (!d->MarkupsROINode->GetDisplayNode())
     {
-    d->MarkupsNode->CreateDefaultDisplayNodes();
+    d->MarkupsROINode->CreateDefaultDisplayNodes();
     }
-  vtkMRMLMarkupsDisplayNode::SafeDownCast(d->MarkupsNode->GetDisplayNode())->SetHandlesInteractive(interactive);
+  vtkMRMLMarkupsDisplayNode::SafeDownCast(d->MarkupsROINode->GetDisplayNode())->SetHandlesInteractive(interactive);
 }
 
 // --------------------------------------------------------------------------
@@ -303,7 +253,7 @@ void qMRMLMarkupsROIWidget::updateROI()
     return;
     }
 
-  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsNode);
+  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsROINode);
   if (!roiNode)
     {
     return;
@@ -323,31 +273,71 @@ void qMRMLMarkupsROIWidget::updateROI()
                         0.5*(bounds[5]-bounds[4]));
 }
 
+
+// --------------------------------------------------------------------------
+void qMRMLMarkupsROIWidget::setMRMLMarkupsNode(vtkMRMLMarkupsNode* markupsNode)
+{
+  Q_D(qMRMLMarkupsROIWidget);
+
+
+  this->qvtkReconnect(d->MarkupsROINode, markupsNode, vtkCommand::ModifiedEvent,
+                      this, SLOT(onMRMLNodeModified()));
+
+  this->qvtkReconnect(d->MarkupsROINode, markupsNode, vtkMRMLDisplayableNode::DisplayModifiedEvent,
+                      this, SLOT(onMRMLDisplayNodeModified()));
+
+  d->MarkupsROINode = vtkMRMLMarkupsROINode::SafeDownCast(markupsNode);
+
+  this->onMRMLNodeModified();
+  this->onMRMLDisplayNodeModified();
+  this->setEnabled(markupsNode != nullptr);
+}
+
+// --------------------------------------------------------------------------
+void qMRMLMarkupsROIWidget::setMRMLMarkupsNode(vtkMRMLNode* node)
+{
+  this->setMRMLMarkupsNode(vtkMRMLMarkupsROINode::SafeDownCast(node));
+}
 // --------------------------------------------------------------------------
 void qMRMLMarkupsROIWidget::onMRMLDisplayNodeModified()
 {
   Q_D(qMRMLMarkupsROIWidget);
 
-  if (!d->MarkupsNode)
+  if (!d->MarkupsROINode)
     {
     return;
     }
 
   // Visibility
-  d->DisplayClippingBoxButton->setChecked(d->MarkupsNode->GetDisplayVisibility());
+  d->DisplayClippingBoxButton->setChecked(d->MarkupsROINode->GetDisplayVisibility());
 }
 
 //-----------------------------------------------------------------------------
 void qMRMLMarkupsROIWidget::onROITypeParameterChanged()
 {
   Q_D(qMRMLMarkupsROIWidget);
-  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsNode);
+  vtkMRMLMarkupsROINode* roiNode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsROINode);
   if (!roiNode)
     {
     return;
     }
   MRMLNodeModifyBlocker blocker(roiNode);
   roiNode->SetROIType(d->roiTypeComboBox->currentData().toInt());
+}
+
+//-----------------------------------------------------------------------------
+void qMRMLMarkupsROIWidget::updateWidgetFromMRML()
+{
+  Q_D(qMRMLMarkupsROIWidget);
+
+  vtkMRMLMarkupsROINode* markupsROINode = vtkMRMLMarkupsROINode::SafeDownCast(d->MarkupsROINode);
+  if (markupsROINode)
+    {
+    bool wasBlocked = d->roiTypeComboBox->blockSignals(true);
+    d->roiTypeComboBox->setCurrentIndex(d->roiTypeComboBox->findData(markupsROINode->GetROIType()));
+    d->roiTypeComboBox->blockSignals(wasBlocked);
+    this->setMRMLMarkupsNode(markupsROINode);
+    }
 }
 
 //-----------------------------------------------------------------------------

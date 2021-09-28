@@ -24,7 +24,7 @@
 // Qt Slicer includes
 #include "qSlicerWidget.h"
 
-#include "qSlicerMarkupsAdditionalOptionsWidget_p.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget_p.h"
 
 // Markups Widgets includes
 #include "qSlicerMarkupsModuleWidgetsExport.h"
@@ -35,27 +35,24 @@ class vtkMRMLNode;
 
 //-------------------------------------------------------------------------------
 /// \ingroup Slicer_QtModules_Markups
-/// \name qSlicerMarkupsAdditionalOptionsWidget
-/// \brief qSlicerMarkupsAdditionalOptionsWidget is a base class for the
+/// \name qMRMLMarkupsAdditionalOptionsWidget
+/// \brief qMRMLMarkupsAdditionalOptionsWidget is a base class for the
 /// additional options widgets associated to some types of markups.
-class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qSlicerMarkupsAdditionalOptionsWidget
+class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsAdditionalOptionsWidget
   : public qSlicerWidget
 {
   Q_OBJECT
 
 public:
   typedef qSlicerWidget Superclass;
-  qSlicerMarkupsAdditionalOptionsWidget(QWidget* parent=nullptr);
-  ~qSlicerMarkupsAdditionalOptionsWidget()=default;
+  qMRMLMarkupsAdditionalOptionsWidget(QWidget* parent=nullptr);
+  ~qMRMLMarkupsAdditionalOptionsWidget()=default;
 
   /// Updates the widget based on information from MRML.
   virtual void updateWidgetFromMRML() = 0;
 
   /// Gets the name of the additional options widget type
   virtual const QString getAdditionalOptionsWidgetTypeName() = 0;
-
-  /// Checks whether a given node can be handled by the widget
-  virtual bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const = 0;
 
   // Returns the associated markups node
   vtkMRMLMarkupsNode* mrmlMarkupsNode();
@@ -71,12 +68,12 @@ public slots:
 
 protected:
   /// This constructor allows subclasses to initialize with their own concrete Private
-  qSlicerMarkupsAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidgetPrivate &d, QWidget* parent=nullptr);
-  QScopedPointer<qSlicerMarkupsAdditionalOptionsWidgetPrivate> d_ptr;
+  qMRMLMarkupsAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidgetPrivate &d, QWidget* parent=nullptr);
+  QScopedPointer<qMRMLMarkupsAdditionalOptionsWidgetPrivate> d_ptr;
 
 private:
-  Q_DECLARE_PRIVATE(qSlicerMarkupsAdditionalOptionsWidget);
-  Q_DISABLE_COPY(qSlicerMarkupsAdditionalOptionsWidget);
+  Q_DECLARE_PRIVATE(qMRMLMarkupsAdditionalOptionsWidget);
+  Q_DISABLE_COPY(qMRMLMarkupsAdditionalOptionsWidget);
 };
 
 #endif // __qslicermarkupsadditionalwidget_h_

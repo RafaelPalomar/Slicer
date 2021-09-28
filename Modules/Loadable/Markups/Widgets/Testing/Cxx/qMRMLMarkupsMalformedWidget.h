@@ -18,34 +18,27 @@
 
 ==============================================================================*/
 
-#ifndef __qslicermalformedwidget_h_
-#define __qslicermalformedwidget_h_
+#ifndef __qMRMLMalformedWidget_h_
+#define __qMRMLMalformedWidget_h_
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
 
-class qSlicerMarkupsMalformedWidgetPrivate;
+//------------------------------------------------------------------------------
+class qMRMLMarkupsMalformedWidgetPrivate;
 class vtkMRMLMarkupsNode;
 
-class qSlicerMarkupsMalformedWidget : public qSlicerMarkupsAdditionalOptionsWidget
+//------------------------------------------------------------------------------
+class qMRMLMarkupsMalformedWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  typedef qSlicerMarkupsAdditionalOptionsWidget Superclass;
-  qSlicerMarkupsMalformedWidget(QWidget* parent=nullptr);
-  ~qSlicerMarkupsMalformedWidget()=default;
+  typedef QWidget Superclass;
+  qMRMLMarkupsMalformedWidget(QWidget* parent=nullptr);
 
-  const QString getAdditionalOptionsWidgetTypeName() override { return ""; }
-  void updateWidgetFromMRML() override {}
-  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *) const override {return false;}
-
-protected:
-  qSlicerMarkupsMalformedWidget(qSlicerMarkupsMalformedWidgetPrivate &d, QWidget* parent=nullptr);
-
-private:
-  Q_DECLARE_PRIVATE(qSlicerMarkupsMalformedWidget);
-  Q_DISABLE_COPY(qSlicerMarkupsMalformedWidget);
+  void updateWidgetFromMRML() {}
+  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *) const {return false;}
 };
 
-#endif // __qslicermalformedwidget_h_
+#endif // __qMRMLMalformedWidget_h_

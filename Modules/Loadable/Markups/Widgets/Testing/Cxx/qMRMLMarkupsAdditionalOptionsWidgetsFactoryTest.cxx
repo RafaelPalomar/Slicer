@@ -21,12 +21,12 @@
 // This tests the markups additional options wigets factory.
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
-#include "qSlicerMarkupsCurveSettingsWidget.h"
-#include "qSlicerMarkupsAngleMeasurementsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidgetsFactory.h"
+#include "qMRMLMarkupsAdditionalCurveSettingsOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalAngleMeasurementsOptionsWidget.h"
 
 // Markups tests includes
-#include "qSlicerMarkupsMalformedWidget.h"
+#include "qMRMLMarkupsAdditionalMalformedOptionsWidget.h"
 
 // CTK includes
 #include "ctkTest.h"
@@ -37,7 +37,7 @@
 #include <QTest>
 
 //------------------------------------------------------------------------------
-class qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester : public QObject
+class qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester : public QObject
 {
   Q_OBJECT
 
@@ -72,21 +72,21 @@ class qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester : public QObject
 
 //------------------------------------------------------------------------------
 // In this test we register a valid optional widget
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration1()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
 
   // Test registration of a valid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget());
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget());
   QCOMPARE(registeredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 
   // Test unregistration of a valid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget());
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget());
   QCOMPARE(unregisteredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
@@ -94,10 +94,10 @@ testAdditionalOptionsWidgetRegistration1()
 
 //------------------------------------------------------------------------------
 // In this test we register a nullptr widget and try to unregister
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration2()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
 
@@ -116,21 +116,21 @@ testAdditionalOptionsWidgetRegistration2()
 
 //------------------------------------------------------------------------------
 // In this test we register a malformed widget
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration3()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
 
   // Test registration of an invalid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsMalformedWidget);
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalMalformedOptionsWidget);
   QCOMPARE(registeredSignalSpy.count(), 0); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
 
   // Test unregistration of an invalid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsMalformedWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalMalformedOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 0); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
@@ -138,27 +138,27 @@ testAdditionalOptionsWidgetRegistration3()
 
 //------------------------------------------------------------------------------
 // In this test we register a valid widget and try to unregister a malformed one
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration4()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
 
   // Test registration of an invalid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(registeredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 
   // Test unregistration of an invalid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsMalformedWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalMalformedOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 0); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 
   // Test unregistration of a valid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
@@ -166,27 +166,27 @@ testAdditionalOptionsWidgetRegistration4()
 
 //------------------------------------------------------------------------------
 // In this test we register a valid widget and try to unregister a valid different type
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration5()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
 
   // Test registration of an invalid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(registeredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 
   // Test unregistration of an invalid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsAngleMeasurementsWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalAngleMeasurementsOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 0); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 
   // Test unregistration of a valid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
@@ -194,23 +194,23 @@ testAdditionalOptionsWidgetRegistration5()
 
 //------------------------------------------------------------------------------
 // In this test we register a valid widget and make use of it
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration6()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
   QSignalSpy unregisteredSignalSpy(factory, SIGNAL(additionalOptionsWidgetUnregistered()));
   QScopedPointer<QWidget> widgetPtr(new QWidget);
 
   // Test registration of an invalid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(registeredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
   registeredWidgets[0]->setParent(widgetPtr.data());
 
   // Test unregistration of a valid widget
-  factory->unregisterAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->unregisterAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(unregisteredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 0);
@@ -218,19 +218,19 @@ testAdditionalOptionsWidgetRegistration6()
 
 //------------------------------------------------------------------------------
 // In this test we register a valid widget and make use of it
-void qSlicerMarkupsAdditionalOptionsWidgetsFactoryTester::
+void qMRMLMarkupsAdditionalOptionsWidgetsFactoryTester::
 testAdditionalOptionsWidgetRegistration7()
 {
-  auto factory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+  auto factory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
   QSignalSpy registeredSignalSpy(factory, SIGNAL(additionalOptionsWidgetRegistered()));
 
   // Test registration of an invalid widget
-  factory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget);
+  factory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget);
   QCOMPARE(registeredSignalSpy.count(), 1); // Make sure the signal triggers only 1 time.
   auto registeredWidgets = factory->additionalOptionsWidgets();
   QVERIFY(registeredWidgets.length() == 1);
 }
 
 //------------------------------------------------------------------------------
-CTK_TEST_MAIN(qSlicerMarkupsAdditionalOptionsWidgetsFactoryTest)
-#include "moc_qSlicerMarkupsAdditionalOptionsWidgetsFactoryTest.cxx"
+CTK_TEST_MAIN(qMRMLMarkupsAdditionalOptionsWidgetsFactoryTest)
+#include "moc_qMRMLMarkupsAdditionalOptionsWidgetsFactoryTest.cxx"

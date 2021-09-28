@@ -60,10 +60,10 @@
 #include "vtkSlicerROIWidget.h"
 
 // Markups widgets
-#include "qMRMLMarkupsROIWidget.h"
-#include "qSlicerMarkupsAngleMeasurementsWidget.h"
-#include "qSlicerMarkupsCurveSettingsWidget.h"
-#include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
+#include "qMRMLMarkupsAdditionalROIOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalAngleMeasurementsOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalCurveSettingsOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidgetsFactory.h"
 
 // DisplayableManager initialization
 #include <vtkAutoInit.h>
@@ -204,10 +204,10 @@ void qSlicerMarkupsModule::setup()
 qSlicerAbstractModuleRepresentation* qSlicerMarkupsModule::createWidgetRepresentation()
 {
   // Create and configure the additional widgets
-  auto optionsWidgetFactory = qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
-  // optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsAngleMeasurementsWidget());
-  // optionsWidgetFactory->registerAdditionalOptionsWidget(new qSlicerMarkupsCurveSettingsWidget());
-  optionsWidgetFactory->registerAdditionalOptionsWidget(new qMRMLMarkupsROIWidget());
+  auto optionsWidgetFactory = qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
+  optionsWidgetFactory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalAngleMeasurementsOptionsWidget());
+  optionsWidgetFactory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalCurveSettingsOptionsWidget());
+  optionsWidgetFactory->registerAdditionalOptionsWidget(new qMRMLMarkupsAdditionalROIOptionsWidget());
 
   // Create and configure module widget.
   auto moduleWidget = new qSlicerMarkupsModuleWidget();

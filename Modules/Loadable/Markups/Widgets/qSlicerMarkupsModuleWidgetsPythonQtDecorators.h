@@ -17,7 +17,7 @@
 #include <PythonQt.h>
 
 // Slicer includes
-#include "qSlicerMarkupsAdditionalOptionsWidgetsFactory.h"
+#include "qMRMLMarkupsAdditionalOptionsWidgetsFactory.h"
 
 #include "qSlicerMarkupsModuleWidgetsExport.h"
 
@@ -35,30 +35,30 @@ public:
 
   qSlicerMarkupsModuleWidgetsPythonQtDecorators()
     {
-    //PythonQt::self()->registerClass(&qSlicerMarkupsAdditionalOptionsWidgetsFactory::staticMetaObject);
+    //PythonQt::self()->registerClass(&qMRMLMarkupsAdditionalOptionsWidgetsFactory::staticMetaObject);
     // Note: Use registerCPPClassForPythonQt to register pure Cpp classes
     }
 
 public slots:
 
   //----------------------------------------------------------------------------
-  // qSlicerMarkupsAdditionalOptionsWidgetsFactory
+  // qMRMLMarkupsAdditionalOptionsWidgetsFactory
 
   //----------------------------------------------------------------------------
   // static methods
 
   //----------------------------------------------------------------------------
-  qSlicerMarkupsAdditionalOptionsWidgetsFactory* static_qSlicerMarkupsAdditionalOptionsWidgetsFactory_instance()
+  qMRMLMarkupsAdditionalOptionsWidgetsFactory* static_qMRMLMarkupsAdditionalOptionsWidgetsFactory_instance()
     {
-    return qSlicerMarkupsAdditionalOptionsWidgetsFactory::instance();
+    return qMRMLMarkupsAdditionalOptionsWidgetsFactory::instance();
     }
 
   //----------------------------------------------------------------------------
   // instance methods
 
   //----------------------------------------------------------------------------
-  bool registerAdditionalOptionsWidget(qSlicerMarkupsAdditionalOptionsWidgetsFactory* factory,
-                                       PythonQtPassOwnershipToCPP<qSlicerMarkupsAdditionalOptionsWidget*> plugin)
+  bool registerAdditionalOptionsWidget(qMRMLMarkupsAdditionalOptionsWidgetsFactory* factory,
+                                       PythonQtPassOwnershipToCPP<qMRMLMarkupsAdditionalOptionsWidget*> plugin)
     {
     return factory->registerAdditionalOptionsWidget(plugin);
     }

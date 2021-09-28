@@ -32,18 +32,18 @@
 
 //-----------------------------------------------------------------------------
 class QStringList;
-class qSlicerMarkupsAdditionalOptionsWidget;
+class qMRMLMarkupsAdditionalOptionsWidget;
 class vtkMRMLMarkupsNode;
 
 //-----------------------------------------------------------------------------
-class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qSlicerMarkupsAdditionalOptionsWidgetPrivate
+class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsAdditionalOptionsWidgetPrivate
   : public QObject
 {
 
 public:
   typedef QObject Superclass;
-  qSlicerMarkupsAdditionalOptionsWidgetPrivate();
-  ~qSlicerMarkupsAdditionalOptionsWidgetPrivate()=default;
+  qMRMLMarkupsAdditionalOptionsWidgetPrivate();
+  ~qMRMLMarkupsAdditionalOptionsWidgetPrivate()=default;
 
   // Internal reference to node to operate on
   vtkWeakPointer<vtkMRMLMarkupsNode> MarkupsNode;

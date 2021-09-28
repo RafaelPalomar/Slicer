@@ -11,16 +11,20 @@ set(${KIT}_INCLUDE_DIRECTORIES
   )
 
 set(${KIT}_SRCS
-  qSlicerMarkupsTestLineWidget.h
-  qSlicerMarkupsTestLineWidget.cxx
+  qMRMLMarkupsTestLineWidget.h
+  qMRMLMarkupsTestLineWidget.cxx
+  qMRMLMarkupsAdditionalTestLineOptionsWidget.h
+  qMRMLMarkupsAdditionalTestLineOptionsWidget.cxx
   )
 
 set(${KIT}_MOC_SRCS
-  qSlicerMarkupsTestLineWidget.h
+  qMRMLMarkupsTestLineWidget.h
+  qMRMLMarkupsAdditionalTestLineOptionsWidget.h
   )
 
 set(${KIT}_UI_SRCS
-  Resources/UI/qSlicerMarkupsTestLineWidget.ui
+  Resources/UI/qMRMLMarkupsTestLineWidget.ui
+  Resources/UI/qMRMLMarkupsAdditionalTestLineOptionsWidget.ui
   )
 
 set(${KIT}_RESOURCES

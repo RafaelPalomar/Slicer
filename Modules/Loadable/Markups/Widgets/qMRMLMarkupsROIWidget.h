@@ -26,7 +26,7 @@
 #include <QWidget>
 
 // Markups widgets includes
-#include "qSlicerMarkupsAdditionalOptionsWidget.h"
+#include "qMRMLMarkupsAdditionalOptionsWidget.h"
 #include "qSlicerMarkupsModuleWidgetsExport.h"
 
 // CTK includes
@@ -38,40 +38,29 @@ class vtkMRMLNode;
 class vtkMRMLMarkupsROINode;
 class qMRMLMarkupsROIWidgetPrivate;
 
-class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsROIWidget : public qSlicerMarkupsAdditionalOptionsWidget
+class Q_SLICER_MODULE_MARKUPS_WIDGETS_EXPORT qMRMLMarkupsROIWidget : public QWidget
 {
   Q_OBJECT
   QVTK_OBJECT
 
 public:
-  typedef qSlicerMarkupsAdditionalOptionsWidget Superclass;
+  typedef QWidget Superclass;
   qMRMLMarkupsROIWidget(QWidget* parent=nullptr);
   ~qMRMLMarkupsROIWidget() override;
 
   /// Returns the current MRML ROI node
   vtkMRMLMarkupsROINode* mrmlROINode()const;
 
-  /// Gets the name of the additional options widget type
-  const QString getAdditionalOptionsWidgetTypeName() override { return "ROI"; }
-
   void setExtent(double min, double max);
   void setExtent(double minLR, double maxLR,
                  double minPA, double maxPA,
                  double minIS, double maxIS);
 
-  /// Updates the widget based on information from MRML.
-  void updateWidgetFromMRML() override;
 
   /// Checks whether a given node can be handled by the widget
-  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const override;
+  bool canManageMRMLMarkupsNode(vtkMRMLMarkupsNode *markupsNode) const;
 
 public slots:
-
-  /// Set the MRML node of interest
-  void setMRMLMarkupsNode(vtkMRMLMarkupsNode* node) override;
-
-  /// Sets the vtkMRMLMarkupsNode to operate on.
-  void setMRMLMarkupsNode(vtkMRMLNode* node) override;
 
   /// Turn on/off the visibility of the ROI node
   void setDisplayClippingBox(bool visible);
@@ -79,6 +68,15 @@ public slots:
   /// Turn on/off the tracking mode of the sliders.
   /// The ROI node will be updated only when the slider handles are released.
   void setInteractiveMode(bool interactive);
+
+  /// Set the MRML node of interest
+  void setMRMLMarkupsNode(vtkMRMLMarkupsNode* node);
+  /// Sets the vtkMRMLMarkupsNode to operate on.
+  void setMRMLMarkupsNode(vtkMRMLNode* node);
+
+  /// Updates the widget on MRML changes
+  void updateWidgetFromMRML();
+
 signals:
   void displayClippingBoxChanged(bool);
 
@@ -93,13 +91,14 @@ protected slots:
   void onROITypeParameterChanged();
 
 protected:
-  qMRMLMarkupsROIWidget(qMRMLMarkupsROIWidgetPrivate &d, QWidget* parent=nullptr);
   void setup();
+
+protected:
+  QScopedPointer<qMRMLMarkupsROIWidgetPrivate> d_ptr;
 
 private:
   Q_DECLARE_PRIVATE(qMRMLMarkupsROIWidget);
   Q_DISABLE_COPY(qMRMLMarkupsROIWidget);
-
 };
 
 #endif

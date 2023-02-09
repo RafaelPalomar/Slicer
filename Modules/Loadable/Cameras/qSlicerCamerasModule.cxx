@@ -17,10 +17,18 @@
   and was partially funded by NIH grant 3P41RR013218-12S1
 
 ==============================================================================*/
+// Qt includes
+#include <QDebug>
 
 // Slicer includes
+#include "qSlicerIOManager.h"
+#include "qSlicerSceneReader.h"
+
+// Cameras module includes
 #include "qSlicerCamerasModule.h"
 #include "qSlicerCamerasModuleWidget.h"
+
+// SlicerLogic includes
 #include "vtkSlicerCamerasModuleLogic.h"
 
 //-----------------------------------------------------------------------------
@@ -46,9 +54,41 @@ QStringList qSlicerCamerasModule::categories()const
 }
 
 //-----------------------------------------------------------------------------
+void qSlicerCamerasModule::setup()
+{
+  Q_D(const qSlicerCamerasModule);
+
+  this->Superclass::setup();
+
+  vtkSlicerCamerasModuleLogic* camerasLogic =
+    vtkSlicerCamerasModuleLogic::SafeDownCast(this->moduleLogic(/*no tr*/"Cameras"));
+  // NOTE: here we assume that camerasLogic with a nullptr value can be passed
+  // to the qSlicerSceneReader. Therefore we trigger a warning but don't return
+  // immediately.
+  if (!camerasLogic)
+    {
+    qCritical() << Q_FUNC_INFO << ": Cameras module logic is not found";
+    }
+
+  qSlicerIOManager* ioManager = qSlicerApplication::application()->ioManager();
+
+  // Readers
+  ioManager->registerIO(new qSlicerSceneReader(camerasLogic, this));
+}
+//-----------------------------------------------------------------------------
 QIcon qSlicerCamerasModule::icon()const
 {
   return QIcon(":/Icons/Cameras.png");
+}
+
+
+//-----------------------------------------------------------------------------
+QStringList qSlicerCamerasModule::dependencies() const
+{
+  QStringList moduleDependencies;
+  // Data: Required in qSlicerSceneReader
+  moduleDependencies << /*no tr*/"Data";
+  return moduleDependencies;
 }
 
 //-----------------------------------------------------------------------------

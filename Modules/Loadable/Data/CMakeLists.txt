@@ -15,8 +15,6 @@ set(MODULE_EXPORT_DIRECTIVE "Q_SLICER_QTMODULES_${MODULE_NAME_UPPER}_EXPORT")
 set(MODULE_INCLUDE_DIRECTORIES
   ${CMAKE_CURRENT_SOURCE_DIR}/Logic
   ${CMAKE_CURRENT_BINARY_DIR}/Logic
-  ${vtkSlicerCamerasModuleLogic_SOURCE_DIR}
-  ${vtkSlicerCamerasModuleLogic_BINARY_DIR}
   ${qSlicerSubjectHierarchyModuleWidgets_INCLUDE_DIRS}
   ${qMRMLWidgets_INCLUDE_DIRS}
   )
@@ -49,7 +47,6 @@ set(MODULE_UI_SRCS
 
 set(MODULE_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleLogic
-  vtkSlicerCamerasModuleLogic
   qSlicerSubjectHierarchyModuleWidgets
   qMRMLWidgets
   )

@@ -42,7 +42,10 @@ public:
   qSlicerCamerasModule(QObject *parent=nullptr);
   ~qSlicerCamerasModule() override;
 
+  void setup() override;
+
   QStringList categories()const override;
+  QStringList dependencies()const override;
   QIcon icon()const override;
 
   qSlicerGetTitleMacro(QTMODULE_TITLE);

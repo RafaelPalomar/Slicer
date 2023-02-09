@@ -22,27 +22,24 @@
 
 // Slicer includes
 #include "qSlicerApplication.h"
+#include "qSlicerDataDialog.h"
+#include "qSlicerExportNodeDialog.h"
 #include "qSlicerIOManager.h"
 #include "qSlicerModuleManager.h"
-
-// Data includes
-#include "qSlicerDataDialog.h"
-#include "qSlicerDataModule.h"
-#include "qSlicerDataModuleWidget.h"
 #include "qSlicerSaveDataDialog.h"
-#include "qSlicerExportNodeDialog.h"
 #include "qSlicerSceneBundleReader.h"
 #include "qSlicerSceneReader.h"
 #include "qSlicerSceneWriter.h"
+
+// Data includes
+#include "qSlicerDataModule.h"
+#include "qSlicerDataModuleWidget.h"
 
 // SlicerLogic includes
 #include <vtkSlicerApplicationLogic.h>
 
 // Data Logic includes
 #include "vtkSlicerDataModuleLogic.h"
-
-// Logic includes
-#include <vtkSlicerCamerasModuleLogic.h>
 
 // VTK includes
 #include <vtkSmartPointer.h>
@@ -75,35 +72,25 @@ QStringList qSlicerDataModule::categories() const
 }
 
 //-----------------------------------------------------------------------------
-QStringList qSlicerDataModule::dependencies() const
-{
-  QStringList moduleDependencies;
-  // Cameras: Required in qSlicerSceneReader
-  moduleDependencies << /*no tr*/"Cameras";
-  return moduleDependencies;
-}
-
-//-----------------------------------------------------------------------------
 void qSlicerDataModule::setup()
 {
-  Q_D(const qSlicerDataModule);
+  // Q_D(const qSlicerDataModule);
 
-  this->Superclass::setup();
+  // this->Superclass::setup();
 
-  vtkSlicerCamerasModuleLogic* camerasLogic =
-    vtkSlicerCamerasModuleLogic::SafeDownCast(this->moduleLogic(/*no tr*/"Cameras"));
-  // NOTE: here we assume that camerasLogic with a nullptr value can be passed
-  // to the qSlicerSceneReader. Therefore we trigger a warning but don't return
-  // immediately.
-  if (!camerasLogic)
-    {
-    qCritical() << Q_FUNC_INFO << ": Cameras module is not found";
-    }
+  // vtkSlicerCamerasModuleLogic* camerasLogic =
+  //   vtkSlicerCamerasModuleLogic::SafeDownCast(this->moduleLogic(/*no tr*/"Cameras"));
+  // // NOTE: here we assume that camerasLogic with a nullptr value can be passed
+  // // to the qSlicerSceneReader. Therefore we trigger a warning but don't return
+  // // immediately.
+  // if (!camerasLogic)
+  //   {
+  //   qCritical() << Q_FUNC_INFO << ": Cameras module is not found";
+  //   }
 
   qSlicerIOManager* ioManager = qSlicerApplication::application()->ioManager();
 
   // Readers
-  ioManager->registerIO(new qSlicerSceneReader(camerasLogic, this));
   ioManager->registerIO(new qSlicerSceneBundleReader(this));
 
   // Writers

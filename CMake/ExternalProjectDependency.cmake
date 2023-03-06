@@ -1114,6 +1114,7 @@ macro(ExternalProject_SetIfNotDefined var defaultvalue)
     endif()
     message(STATUS "Cache variable '${var}' set to '${_value}'")
   endif()
+message(STATUS "${var}=${${var}}")
 endmacro()
 
 #.rst:

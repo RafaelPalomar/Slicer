@@ -61,10 +61,22 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       )
   endif()
 
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_ARCHIVE_URL
+    "${_download_3.9.10_url}"
+    QUIET
+  )
+
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_ARCHIVE_MD5
+    "${_download_3.9.10_md5}"
+    QUIET
+  )
+
   ExternalProject_Add(python-source
     ${EXTERNAL_PROJECT_OPTIONAL_ARGS}
-    URL ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_url}
-    URL_MD5 ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_md5}
+    URL ${Slicer_${proj}_ARCHIVE_URL}
+    URL_MD5 ${Slicer_${proj}_ARCHIVE_MD5}
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
     SOURCE_DIR ${python_SOURCE_DIR}
     CONFIGURE_COMMAND ""

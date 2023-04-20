@@ -44,7 +44,28 @@ if(NOT Slicer_USE_SYSTEM_${proj})
                 --hash=sha256:396fae3f8c12ad14c5f3eb40499fd06a6fef8393a6baa352a652ecd51e74e029 \
                 --hash=sha256:be8c962a821957fdde8c4044efdab7a140c13294997a407eaee777acf63cbf0c
   # [/scipy]
-  ]===])
+  # [meson-python]
+  meson-python==0.12.0 --hash=sha256:3a2e7bfabf37f1878ad7b5556399deaf2dbffead85a50fc681a8bd4f4ef63da5
+  # [/meson-python]
+  ]===]
+)
+
+  # This block considers the possibility that the dependencies are given as a single file (one dependency)
+  # or as a directory of dependencies, in which case all the *.whl files in the directory will be installed
+  if(DEFINED Slicer_${proj}_WHEEL_PATH)
+    if(IS_DIRECTORY "${Slicer_${proj}_WHEEL_PATH}")
+      set(Slicer_${proj}_INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install --no-deps)
+      file(GLOB WHEEL_FILES "${Slicer_${proj}_WHEEL_PATH}/*.whl")
+      file(GLOB TAR_FILES "${Slicer_${proj}_WHEEL_PATH}/*.tar.gz")
+      foreach(PACKAGE_FILE ${WHEEL_FILES} ${TAR_FILES})
+        set(Slicer_${proj}_INSTALL_COMMAND ${Slicer_${proj}_INSTALL_COMMAND} ${PACKAGE_FILE})
+      endforeach()
+    else()
+      set(Slicer_${proj}_INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install --no-deps ${Slicer_${proj}_WHEEL_PATH})
+    endif()
+  else()
+    set(Slicer_${proj}_INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install --require-hashes -r ${requirements_file})
+  endif()
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
@@ -53,7 +74,7 @@ if(NOT Slicer_USE_SYSTEM_${proj})
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
-    INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install --require-hashes -r ${requirements_file}
+    INSTALL_COMMAND ${Slicer_${proj}_INSTALL_COMMAND}
     LOG_INSTALL 1
     DEPENDS
       ${${proj}_DEPENDENCIES}

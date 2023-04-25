@@ -74,7 +74,6 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
     -DModule_ITKDeprecated:BOOL=ON #<-- Needed for ITKv5 now. (itkMultiThreader.h and MutexLock backwards compatibility.)
     )
 
-
   #Add additional user specified modules from this variable
   #Slicer_ITK_ADDITIONAL_MODULES
   #Add -DModule_${module} for each listed module
@@ -86,7 +85,6 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
         )
     endforeach()
   endif()
-
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
@@ -106,6 +104,7 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
       -DITK_C_OPTIMIZATION_FLAGS:STRING=  # Force compiler-default instruction set to ensure compatibility with older CPUs
       -DITK_INSTALL_ARCHIVE_DIR:PATH=${Slicer_INSTALL_LIB_DIR}
       -DITK_INSTALL_LIBRARY_DIR:PATH=${Slicer_INSTALL_LIB_DIR}
+      -DITK_FORBID_DOWNLOADS:BOOL=ON
       -DBUILD_TESTING:BOOL=OFF
       -DBUILD_EXAMPLES:BOOL=OFF
       -DITK_BUILD_DEFAULT_MODULES:BOOL=ON
@@ -142,6 +141,53 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
     DEPENDS
       ${${proj}_DEPENDENCIES}
     )
+
+ # Add custom command to copy ITK remote modules
+  if(DEFINED ITK_REMOTE_MODULES_DIR)
+    file(GLOB ITK_REMOTE_MODULE_DIRS "${ITK_REMOTE_MODULES_DIR}/*.remote.git")
+    set(ITK_REMOTE_COPY_COMMANDS)
+
+    foreach(remote_module_dir ${ITK_REMOTE_MODULE_DIRS})
+      get_filename_component(remote_module_name_raw ${remote_module_dir} NAME_WE)
+      string(REPLACE "ITK-Remote-" "" remote_module_name ${remote_module_name_raw})
+      #string(REPLACE ".remote.git" "" remote_module_name ${remote_module_name})
+
+      set(remote_module_copy_dest "${EP_SOURCE_DIR}/Modules/Remote/${remote_module_name}")
+
+      message(STATUS ---------------------------)
+      message(STATUS "${remote_module_dir}")
+      message(STATUS "${remote_module_name_raw}")
+      message(STATUS "${remote_module_name}")
+      message(STATUS "${remote_module_copy_dest}")
+      list(APPEND ITK_REMOTE_COPY_COMMANDS
+        COMMAND ln -s ${remote_module_dir} ${remote_module_copy_dest}
+      )
+    endforeach()
+
+    # list(APPEND ITK_REMOTE_COPY_COMMANDS
+    #   COMMAND touch ${EP_SOURCE_DIR}/Rafa
+    # )
+
+    # add_custom_command(
+    #   OUTPUT ITKRemoteModulesCopies
+    #   DEPENDS ${${proj}_DEPENDENCIES}
+    #   ${ITK_REMOTE_COPY_COMMANDS}
+    #   COMMENT "Copying ITK remote modules ${ITK_REMOTE_COPY_COMMANDS}"
+    # )
+
+    # add_custom_target(ITKRemoteModulesCopiesTarget DEPENDS ITKRemoteModulesCopies)
+
+    # # Add dependency on ITKRemoteModulesCopiesTarget to the update step of the project
+    # ExternalProject_Add_StepDependencies(${proj} configure ITKRemoteModulesCopiesTarget)
+
+    ExternalProject_Add_Step(${proj} symlink
+      ${ITK_REMOTE_COPY_COMMANDS}
+      DEPENDEES update
+      DEPENDERS configure
+      COMMENT "Creating remote modules symlink..."
+    )
+
+  endif()
 
   ExternalProject_GenerateProjectDescription_Step(${proj})
 

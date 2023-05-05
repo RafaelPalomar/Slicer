@@ -230,6 +230,10 @@ macro(Slicer_Remote_Add projectname)
     endforeach()
   endif()
 
+  if(DEFINED Slicer_${projectname}_GIT_REPOSITORY)
+    set(_ep_GIT_REPOSITORY ${Slicer_${projectname}_GIT_REPOSITORY})
+  endif()
+
   #message("[${projectname}] Option (${_ep_OPTION_NAME}) value ${${_ep_OPTION_NAME}}")
   if(_add_source)
     message(STATUS "Remote - ${projectname} [OK]")

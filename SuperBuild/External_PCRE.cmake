@@ -49,10 +49,22 @@ ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
 
   set(_version "8.44")
 
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_ARCHIVE_URL
+    https://github.com/Slicer/SlicerBinaryDependencies/releases/download/PCRE/pcre-${_version}.tar.gz
+    QUIET
+  )
+
+  ExternalProject_SetIfNotDefined(
+    Slicer_${proj}_ARCHIVE_SHA512
+    abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb
+    QUIET
+  )
+
   ExternalProject_add(PCRE
     ${${proj}_EP_ARGS}
-    URL https://github.com/Slicer/SlicerBinaryDependencies/releases/download/PCRE/pcre-${_version}.tar.gz
-    URL_HASH SHA512=abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb
+    URL ${Slicer_${proj}_ARCHIVE_URL}
+    URL_HASH SHA512=${Slicer_${proj}_ARCHIVE_SHA512}
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}

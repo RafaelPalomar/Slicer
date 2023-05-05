@@ -93,10 +93,22 @@ ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
     --with-python=${PYTHON_EXECUTABLE})
 ")
 
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_ARCHIVE_URL
+      https://github.com/Slicer/SlicerBinaryDependencies/releases/download/swig/swig-${SWIG_TARGET_VERSION}.tar.gz
+      QUIET
+    )
+
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_ARCHIVE_SHA512
+      ${SWIG_DOWNLOAD_SOURCE_HASH}
+      QUIET
+    )
+
     ExternalProject_add(Swig
       ${EXTERNAL_PROJECT_OPTIONAL_ARGS}
-      URL https://github.com/Slicer/SlicerBinaryDependencies/releases/download/swig/swig-${SWIG_TARGET_VERSION}.tar.gz
-      URL_HASH SHA512=${SWIG_DOWNLOAD_SOURCE_HASH}
+      URL ${Slicer_${proj}_ARCHIVE_URL}
+      URL_HASH SHA512=${Slicer_${proj}_ARCHIVE_SHA512}
       DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
       SOURCE_DIR ${EP_SOURCE_DIR}
       BINARY_DIR ${EP_BINARY_DIR}

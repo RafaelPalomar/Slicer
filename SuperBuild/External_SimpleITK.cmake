@@ -168,6 +168,7 @@ ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pi
     INSTALL_DIR ${EP_INSTALL_DIR}
     DOWNLOAD_COMMAND ""
     UPDATE_COMMAND ""
+    PATCH_COMMAND git apply ${FLATPAK_BUILDER_BUILDDIR}/patches/SimpleITK/0001-ENH-ExternalData-only-on-testing.patch
     CMAKE_CACHE_ARGS
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       -DCMAKE_CXX_FLAGS:STRING=${ep_common_cxx_flags}

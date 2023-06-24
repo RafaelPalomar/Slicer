@@ -3604,9 +3604,9 @@ def pip_install(requirements):
     if type(requirements) == str:
         # shlex.split splits string the same way as the shell (keeping quoted string as a single argument)
         import shlex
-        args = 'install', *(shlex.split(requirements))
+        args = 'install', '--target', '/var/data/python3.9/site-packages', *(shlex.split(requirements))
     elif type(requirements) == list:
-        args = 'install', *requirements
+        args = 'install', '--target', '/var/data/python3.9/site-packages', *requirements
     else:
         raise ValueError("pip_install requirement input must be string or list")
 

@@ -199,6 +199,7 @@ ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pi
       -DWRAP_PYTHON:BOOL=ON
       -DSimpleITK_BUILD_DISTRIBUTE:BOOL=ON # Shorten version and install path removing -g{GIT-HASH} suffix.
       -DExternalData_OBJECT_STORES:PATH=${ExternalData_OBJECT_STORES}
+      -DExternalData_URL_TEMPLATES:STRING="file://${FLATPAK_BUILDER_BUILDDIR}/dependencies/SimpleITK-dependencies/%(hash)"
       ${EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS}
     #
     INSTALL_COMMAND ${CMAKE_COMMAND} -P ${_install_script}

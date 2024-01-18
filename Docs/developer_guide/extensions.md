@@ -674,13 +674,13 @@ Also, starting with [Slicer r25959](http://viewvc.slicer.org/viewvc.cgi/Slicer4?
 
 These relative paths are the one that the extensions manager will consider when generating the launcher and application settings for a given extension.
 
-### Can I use C++14/17/20 language features?
+### Can I use C++17/20 language features in Slicer?
 
-We try to balance between compatibility and using new features. As a result, currently C++14 features are allowed, but usage of C++17/20 language features are discouraged in extensions (relying on C++17/20 features may lead to build errors on some build configurations).
+With our recent updates, Slicer has adopted C++17/20 standards, dropping support for the older C++14. This means you are now encouraged to utilize C++17/20 language features in your extensions. Using these newer features aligns with our current build configurations and should not lead to build errors.
 
-If your extension can be compiled as a standalone project where you would like to use newer feature, you could rely on CMake detecting compile features. See [cmake-compile-features](https://cmake.org/cmake/help/v3.5/manual/cmake-compile-features.7.html) for more details.
+If you are developing an extension that is compiled as a standalone project and wish to leverage these advanced features, you can rely on CMake for detecting compile features. For more information, please refer to [cmake-compile-features](https://cmake.org/cmake/help/v3.5/manual/cmake-compile-features.7.html).
 
-See the labs topic on [upgrading compiler infrastructure](https://www.slicer.org/wiki/Documentation/Labs/UpgradingCompilerInfrastructure) for additional information/status.
+For additional details and updates on our compiler infrastructure, visit the [upgrading compiler infrastructure](https://www.slicer.org/wiki/Documentation/Labs/UpgradingCompilerInfrastructure) page on our labs topic.
 
 ### How do I publish a paper about my extension?
 

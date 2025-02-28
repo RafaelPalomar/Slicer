@@ -22,7 +22,9 @@
 #-----------------------------------------------------------------------------
 # CMake https support
 #-----------------------------------------------------------------------------
-include(SlicerCheckCMakeHTTPS)
+if(NOT Slicer_DISABLE_HTTPS_CHECK)
+  include(SlicerCheckCMakeHTTPS)
+endif()
 
 #-----------------------------------------------------------------------------
 # Git protocol option

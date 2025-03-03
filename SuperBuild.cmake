@@ -202,9 +202,13 @@ endmacro()
 #------------------------------------------------------------------------------
 # Include remote libraries
 #------------------------------------------------------------------------------
+if(NOT DEFINED Slicer_vtkAddon_GIT_REPOSITORY)
+  set(Slicer_vtkAddon_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/vtkAddon.git"
+endif()
+mark_as_superbuild(Slicer_vtkAddon_GIT_REPOSITORY:STRING)
 
 Slicer_Remote_Add(vtkAddon
-  GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/vtkAddon"
+  GIT_REPOSITORY ${Slicer_vtkAddon_GIT_REPOSITORY}
   GIT_TAG 3f317421da77b9f6fd48aaf40608545db4fec3e0
   OPTION_NAME Slicer_BUILD_vtkAddon
   )
@@ -229,8 +233,13 @@ mark_as_superbuild(vtkAddon_WRAP_PYTHON:BOOL)
 option(Slicer_BUILD_MULTIVOLUME_SUPPORT "Build MultiVolume support." ON)
 mark_as_advanced(Slicer_BUILD_MULTIVOLUME_SUPPORT)
 
+if(NOT DEFINED Slicer_MultiVolumeExplorer_GIT_REPOSITORY)
+  set(Slicer_MultiVolumeExplorer_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/MultiVolumeExplorer.git"
+endif()
+mark_as_superbuild(Slicer_MultiVolumeExplorer_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(MultiVolumeExplorer
-  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeExplorer.git
+  GIT_REPOSITORY ${Slicer_MultiVolumeExplorer_GIT_REPOSITORY}
   GIT_TAG 36102fd0ffae409319c0a0fee71dde1df64fe9e0
   OPTION_NAME Slicer_BUILD_MultiVolumeExplorer
   OPTION_DEPENDS "Slicer_BUILD_QTLOADABLEMODULES;Slicer_BUILD_MULTIVOLUME_SUPPORT;Slicer_USE_PYTHONQT"
@@ -238,8 +247,14 @@ Slicer_Remote_Add(MultiVolumeExplorer
   )
 list_conditional_append(Slicer_BUILD_MultiVolumeExplorer Slicer_REMOTE_DEPENDENCIES MultiVolumeExplorer)
 
+
+if(NOT DEFINED Slicer_MultiVolumeImporter_GIT_REPOSITORY)
+  set(Slicer_MultiVolumeImporter_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/MultiVolumeImporter.git"
+endif()
+mark_as_superbuild(Slicer_MultiVolumeImporter_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(MultiVolumeImporter
-  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeImporter.git
+  GIT_REPOSITORY ${Slicer_MultiVolumeImporter_GIT_REPOSITORY}
   GIT_TAG c8a37eb5e4f35b78ccc9287b298457a064c9d001
   OPTION_NAME Slicer_BUILD_MultiVolumeImporter
   OPTION_DEPENDS "Slicer_BUILD_QTLOADABLEMODULES;Slicer_BUILD_MULTIVOLUME_SUPPORT;Slicer_USE_PYTHONQT"
@@ -247,15 +262,19 @@ Slicer_Remote_Add(MultiVolumeImporter
   )
 list_conditional_append(Slicer_BUILD_MultiVolumeImporter Slicer_REMOTE_DEPENDENCIES MultiVolumeImporter)
 
+if(NOT DEFINED Slicer_SimpleFilters_GIT_REPOSITORY)
+  set(Slicer_SimpleFilters_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/SimpleITK/SlicerSimpleFilters.git"
+endif()
+mark_as_superbuild(Slicer_SimpleFilters_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(SimpleFilters
-  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/SimpleITK/SlicerSimpleFilters.git
+  GIT_REPOSITORY ${Slicer_SimpleFilters_GIT_REPOSITORY}
   GIT_TAG e82fc598bc010505e994b7ce22d953a9899a175c
   OPTION_NAME Slicer_BUILD_SimpleFilters
   OPTION_DEPENDS "Slicer_BUILD_QTSCRIPTEDMODULES;Slicer_USE_SimpleITK"
   LABELS REMOTE_MODULE
   )
 list_conditional_append(Slicer_BUILD_SimpleFilters Slicer_REMOTE_DEPENDENCIES SimpleFilters)
-
 
 # BRAINSTools_hidden_options are internal options needed for BRAINSTools that should be hidden
 set(BRAINSTools_hidden_options
@@ -303,9 +322,13 @@ set(BRAINSTools_slicer_options
   USE_DWIConvert:BOOL=${Slicer_BUILD_DICOM_SUPPORT} ## Need to figure out library linking
 )
 
+if(NOT DEFINED Slicer_BRAINSTools_GIT_REPOSITORY)
+  set(Slicer_BRAINSTools_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/BRAINSia/BRAINSTools.git"
+endif()
+mark_as_superbuild(Slicer_BRAINSTools_GIT_REPOSITORY:STRING)
 
 Slicer_Remote_Add(BRAINSTools
-  GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/BRAINSia/BRAINSTools.git
+  GIT_REPOSITORY ${Slicer_BRAINSTools_GIT_REPOSITORY}
   GIT_TAG "d88a4f43e7d6c7447876d20676b538185f5edea1"  # 2024-05-31
   LICENSE_FILES "https://www.apache.org/licenses/LICENSE-2.0.txt"
   OPTION_NAME Slicer_BUILD_BRAINSTOOLS
@@ -320,8 +343,13 @@ if(Slicer_BUILD_BRAINSTOOLS)
   mark_as_superbuild(BRAINSCommonLib_DIR:PATH)
 endif()
 
+if(NOT DEFINED Slicer_CompareVolumes_GIT_REPOSITORY)
+  set(Slicer_CompareVolumes_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/pieper/CompareVolumes.git"
+endif()
+mark_as_superbuild(Slicer_CompareVolumes_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(CompareVolumes
-  GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/pieper/CompareVolumes"
+  GIT_REPOSITORY ${Slicer_CompareVolumes_GIT_REPOSITORY}
   GIT_TAG cb755dda78f726cf9262aa4e1f75122c72a0df2f
   OPTION_NAME Slicer_BUILD_CompareVolumes
   OPTION_DEPENDS "Slicer_USE_PYTHONQT"
@@ -329,8 +357,13 @@ Slicer_Remote_Add(CompareVolumes
   )
 list_conditional_append(Slicer_BUILD_CompareVolumes Slicer_REMOTE_DEPENDENCIES CompareVolumes)
 
+if(NOT DEFINED Slicer_LandmarkRegistration_GIT_REPOSITORY)
+  set(Slicer_LandmarkRegistration_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/LandmarkRegistration.git"
+endif()
+mark_as_superbuild(Slicer_LandmarkRegistration_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(LandmarkRegistration
-  GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/LandmarkRegistration"
+  GIT_REPOSITORY ${Slicer_LandmarkRegistration_GIT_REPOSITORY}
   GIT_TAG aa23730ae78992cf14e858fe26ccfb213ea038ab
   OPTION_NAME Slicer_BUILD_LandmarkRegistration
   OPTION_DEPENDS "Slicer_BUILD_CompareVolumes;Slicer_USE_PYTHONQT"
@@ -338,8 +371,13 @@ Slicer_Remote_Add(LandmarkRegistration
  )
 list_conditional_append(Slicer_BUILD_LandmarkRegistration Slicer_REMOTE_DEPENDENCIES LandmarkRegistration)
 
+if(NOT DEFINED Slicer_SlicerSurfaceToolbox_GIT_REPOSITORY)
+  set(Slicer_SlicerSurfaceToolbox_GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/SlicerSurfaceToolbox.git"
+endif()
+mark_as_superbuild(Slicer_SlicerSurfaceToolbox_GIT_REPOSITORY:STRING)
+
 Slicer_Remote_Add(SurfaceToolbox
-  GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/SlicerSurfaceToolbox"
+  GIT_REPOSITORY ${Slicer_SlicerSurfaceToolbox_GIT_REPOSITORY}
   GIT_TAG e8b8f70930883adb6f4a227ad9d7339d20120f2c
   OPTION_NAME Slicer_BUILD_SurfaceToolbox
   OPTION_DEPENDS "Slicer_USE_PYTHONQT"

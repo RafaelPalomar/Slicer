@@ -1,11 +1,4 @@
-
-#-----------------------------------------------------------------------------
-# Macro allowing to set a variable to its default value only if not already defined
-macro(setIfNotDefined var defaultvalue)
-  if(NOT DEFINED ${var})
-    set(${var} "${defaultvalue}")
-  endif()
-endmacro()
+include(SlicerUtilMacros)
 
 #-----------------------------------------------------------------------------
 if(NOT EXISTS "${SCRIPT_ARGS_FILE}")

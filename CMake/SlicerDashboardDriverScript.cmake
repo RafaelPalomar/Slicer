@@ -1,4 +1,4 @@
-
+include(SlicerUtilMacros)
 
 #
 # Included from a dashboard script, this cmake file will drive the configure and build
@@ -195,41 +195,6 @@ list(APPEND variables CTEST_CONFIGURATION_TYPE)
 #-----------------------------------------------------------------------------
 # Append top-level script as a CDash note
 list(APPEND CTEST_NOTES_FILES "${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}")
-
-#-----------------------------------------------------------------------------
-# Macro allowing to set a variable to its default value if not already defined.
-# The default value is set with:
-#  (1) if set, the value environment variable <var>.
-#  (2) if set, the value of local variable variable <var>.
-#  (3) if none of the above, the value passed as a parameter.
-# Setting the optional parameter 'OBFUSCATE' will display 'OBFUSCATED' instead of the real value.
-macro(setIfNotDefined var defaultvalue)
-  set(_obfuscate FALSE)
-  foreach(arg ${ARGN})
-    if(arg STREQUAL "OBFUSCATE")
-      set(_obfuscate TRUE)
-    endif()
-  endforeach()
-  if(DEFINED ENV{${var}} AND NOT DEFINED ${var})
-    set(_value "$ENV{${var}}")
-    if(_obfuscate)
-      set(_value "OBFUSCATED")
-    endif()
-    message(STATUS "Setting '${var}' variable with environment variable value '${_value}'")
-    set(${var} $ENV{${var}})
-  endif()
-  if(NOT DEFINED ${var})
-    set(_value "${defaultvalue}")
-    if(_obfuscate)
-      set(_value "OBFUSCATED")
-    endif()
-    message(STATUS "Setting '${var}' variable with default value '${_value}'")
-    set(${var} "${defaultvalue}")
-  endif()
-  if(NOT _obfuscate)
-    list(APPEND variables ${var})
-  endif()
-endmacro()
 
 #-----------------------------------------------------------------------------
 # Set default values

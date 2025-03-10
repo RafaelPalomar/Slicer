@@ -11,17 +11,26 @@ if(Slicer_USE_SYSTEM_${proj})
   message(FATAL_ERROR "Enabling Slicer_USE_SYSTEM_${proj} is not supported!")
 endif()
 
-set(tbb_ver "2021.5.0")
-if (WIN32)
-  set(tbb_file "oneapi-tbb-${tbb_ver}-win.zip")
-  set(tbb_sha256 "096c004c7079af89fe990bb259d58983b0ee272afa3a7ef0733875bfe09fcd8e")
-elseif (APPLE)
-  set(tbb_file "oneapi-tbb-${tbb_ver}-mac.tgz")
-  set(tbb_sha256 "388c1c25314e3251e38c87ade2323af74cdaae2aec9b68e4c206d61c30ef9c33")
-else ()
-  set(tbb_file "oneapi-tbb-${tbb_ver}-lin.tgz")
-  set(tbb_sha256 "74861b1586d6936b620cdab6775175de46ad8b0b36fa6438135ecfb8fb5bdf98")
-endif ()
+if((DEFINED tbb_ARCHIVE) AND
+    (DEFINED tbb_ARCHIVE_SHA256) AND
+    (DEFINED tbb_VERSION))
+  set(tbb_url "file://${tbb_ARCHIVE}")
+  set(tbb_sha256 "${tbb_ARCHIVE_SHA256}")
+  set(tbb_ver "${tbb_VERSION}")
+else()
+  set(tbb_ver "2021.5.0")
+  if (WIN32)
+    set(tbb_file "oneapi-tbb-${tbb_ver}-win.zip")
+    set(tbb_sha256 "096c004c7079af89fe990bb259d58983b0ee272afa3a7ef0733875bfe09fcd8e")
+  elseif (APPLE)
+    set(tbb_file "oneapi-tbb-${tbb_ver}-mac.tgz")
+    set(tbb_sha256 "388c1c25314e3251e38c87ade2323af74cdaae2aec9b68e4c206d61c30ef9c33")
+  else ()
+    set(tbb_file "oneapi-tbb-${tbb_ver}-lin.tgz")
+    set(tbb_sha256 "74861b1586d6936b620cdab6775175de46ad8b0b36fa6438135ecfb8fb5bdf98")
+  endif ()
+  set(tbb_url "https://github.com/oneapi-src/oneTBB/releases/download/v${tbb_ver}/${tbb_file}")
+endif()
 
 # When updating the version of tbb, consider also
 # updating the soversion numbers hard-coded below in the
@@ -51,7 +60,7 @@ set(TBB_INSTALL_DIR "${CMAKE_BINARY_DIR}/${proj}-install")
 
 ExternalProject_Add(${proj}
   ${${proj}_EP_ARGS}
-  URL https://github.com/oneapi-src/oneTBB/releases/download/v${tbb_ver}/${tbb_file}
+  URL ${tbb_url}
   URL_HASH SHA256=${tbb_sha256}
   DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
   SOURCE_DIR ${TBB_INSTALL_DIR}

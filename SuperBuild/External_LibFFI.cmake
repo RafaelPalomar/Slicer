@@ -22,9 +22,13 @@ endif()
 if(DEFINED LibFFI_LIBRARY AND NOT EXISTS ${LibFFI_LIBRARY})
   message(FATAL_ERROR "LibFFI_LIBRARY variable is defined but corresponds to nonexistent file")
 endif()
+if(DEFINED LibFFI_ROOT AND NOT EXISTS ${LibFFI_ROOT})
+  message(FATAL_ERROR "LibFFI_ROOT variable is defined but corresponds to nonexistent file")
+endif()
 
 if((NOT DEFINED LibFFI_INCLUDE_DIR
-   OR NOT DEFINED LibFFI_LIBRARY) AND NOT Slicer_USE_SYSTEM_${proj})
+      OR NOT DEFINED LibFFI_LIBRARY)
+    AND NOT DEFINED LibFFI_ROOT AND NOT Slicer_USE_SYSTEM_${proj})
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
@@ -76,6 +80,7 @@ mark_as_superbuild(
   VARS
     LibFFI_INCLUDE_DIR:PATH
     LibFFI_LIBRARY:FILEPATH
+    LibFFI_ROOT:PATH
   LABELS "FIND_PACKAGE"
   )
 

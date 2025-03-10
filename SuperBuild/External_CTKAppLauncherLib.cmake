@@ -18,30 +18,40 @@ endif()
 
 if(NOT DEFINED CTKAppLauncherLib_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/commontk/AppLauncher.git"
-    QUIET
+  set(CTKAppLauncherLib_DOWNLOAD_METHOD)
+  if(NOT DEFINED Slicer_CTKAppLauncherLib_SOURCE_DIR)
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_GIT_REPOSITORY
+      "${EP_GIT_PROTOCOL}://github.com/commontk/AppLauncher.git"
+      QUIET
     )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "8759e03985738b8a8f3eb74ab516ba4e8ef29988"
-    QUIET
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_GIT_TAG
+      "8759e03985738b8a8f3eb74ab516ba4e8ef29988"
+      QUIET
     )
+
+    list(APPEND CTKAppLauncherLib_DOWNLOAD_METHOD
+      GIT_REPOSITORY ${Slicer_${proj}_GIT_REPOSITORY}
+      GIT_TAG ${Slicer_${proj}_GIT_TAG}
+    )
+
+    set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+  else()
+    set(EP_SOURCE_DIR ${Slicer_CTKAppLauncherLib_SOURCE_DIR})
+  endif()
 
   set(EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS)
       list(APPEND EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS
         -DQt5_DIR:FILEPATH=${Qt5_DIR}
       )
 
-  set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${CTKAppLauncherLib_DOWNLOAD_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

@@ -130,33 +130,45 @@ if((NOT DEFINED VTK_DIR OR NOT DEFINED VTK_SOURCE_DIR) AND NOT Slicer_USE_SYSTEM
     -DVTK_MODULE_ENABLE_VTK_GUISupportQtQuick:BOOL=NO
     )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/slicer/VTK.git"
-    QUIET
-    )
 
-  set(_git_tag)
-  if("${Slicer_VTK_VERSION_MAJOR}" STREQUAL "9")
-    set(_git_tag "57bacae7e9d8613c1a5fc955028211c455f3787a") # slicer-v9.2.20230607-1ff325c54-2
-    set(vtk_egg_info_version "9.2.20230607")
-  else()
-    message(FATAL_ERROR "error: Unsupported Slicer_VTK_VERSION_MAJOR: ${Slicer_VTK_VERSION_MAJOR}")
-  endif()
+    set(VTK_DOWNLOAD_METHOD)
+    if(NOT DEFINED Slicer_VTK_SOURCE_DIR)
+      ExternalProject_SetIfNotDefined(
+        Slicer_${proj}_GIT_REPOSITORY
+        "${EP_GIT_PROTOCOL}://github.com/slicer/VTK.git"
+        QUIET
+      )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    ${_git_tag}
-    QUIET
-    )
+      set(_git_tag)
+      if("${Slicer_VTK_VERSION_MAJOR}" STREQUAL "9")
+        set(_git_tag "57bacae7e9d8613c1a5fc955028211c455f3787a") # slicer-v9.2.20230607-1ff325c54-2
+        set(vtk_egg_info_version "9.2.20230607")
+      else()
+        message(FATAL_ERROR "error: Unsupported Slicer_VTK_VERSION_MAJOR: ${Slicer_VTK_VERSION_MAJOR}")
+      endif()
 
-  set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+      ExternalProject_SetIfNotDefined(
+        Slicer_${proj}_GIT_TAG
+        ${_git_tag}
+        QUIET
+      )
+
+      set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+
+      list(APPEND VTK_DOWNLOAD_METHOD
+        GIT_REPOSITORY ${Slicer_${proj}_GIT_REPOSITORY}
+        GIT_TAG ${Slicer_${proj}_GIT_TAG}
+      )
+
+    else()
+      set(EP_SOURCE_DIR ${Slicer_VTK_SOURCE_DIR})
+    endif()
+
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${VTK_DOWNLOAD_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

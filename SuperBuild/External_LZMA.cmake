@@ -22,9 +22,13 @@ endif()
 if(DEFINED ${proj}_LIBRARY AND NOT EXISTS ${${proj}_LIBRARY})
   message(FATAL_ERROR "${proj}_LIBRARY variable is defined but corresponds to nonexistent directory")
 endif()
+if(DEFINED ${proj}_ROOT AND NOT EXISTS ${${proj}_ROOT})
+  message(FATAL_ERROR "${proj}_ROOT variable is defined but corresponds to nonexistent directory")
+endif()
 
 if((NOT DEFINED ${proj}_INCLUDE_DIR
-   OR NOT DEFINED ${proj}_LIBRARY) AND NOT Slicer_USE_SYSTEM_${proj})
+      OR NOT DEFINED ${proj}_LIBRARY)
+    AND NOT DEFINED ${proj}_ROOT AND NOT Slicer_USE_SYSTEM_${proj})
 
   ExternalProject_SetIfNotDefined(
     Slicer_${proj}_GIT_REPOSITORY
@@ -86,6 +90,7 @@ mark_as_superbuild(
   VARS
     ${proj}_INCLUDE_DIR:PATH
     ${proj}_LIBRARY:FILEPATH
+    ${proj}_ROOT:FILEPATH
   LABELS "FIND_PACKAGE"
   )
 

@@ -25,17 +25,38 @@ endif()
 
 if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/ITK"
-    QUIET
-    )
+  set(itk_DOWNLOAD_METHOD)
+  set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "29b78d73c81d6c00c393416598d16058704c535c" # slicer-v5.4.0-2024-05-16-311b706
-    QUIET
+  if((DEFINED itk_ARCHIVE) AND
+      (DEFINED itk_ARCHIVE_MD5))
+
+    list(APPEND itk_DOWNLOAD_METHOD
+      URL ${itk_ARCHIVE}
+      URL_MD5 ${itk_ARCHIVE_MD5}
     )
+  else()
+    if(NOT DEFINED itk_SOURCE_DIR)
+      ExternalProject_SetIfNotDefined(
+        Slicer_${proj}_GIT_REPOSITORY
+        "${EP_GIT_PROTOCOL}://github.com/Slicer/ITK"
+        QUIET
+      )
+
+      ExternalProject_SetIfNotDefined(
+        Slicer_${proj}_GIT_TAG
+        "29b78d73c81d6c00c393416598d16058704c535c" # slicer-v5.4.0-2024-05-16-311b706
+        QUIET
+      )
+
+      list(APPEND itk_DOWNLOAD_METHOD
+        GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
+        GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+      )
+    else()
+      set(EP_SOURCE_DIR ${itk_SOURCE_DIR})
+    endif()
+  endif()
 
   set(EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS)
 
@@ -65,7 +86,6 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
       )
   endif()
 
-  set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   list(APPEND EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS
@@ -90,8 +110,7 @@ if(NOT DEFINED ITK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${itk_DOWNLOAD_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

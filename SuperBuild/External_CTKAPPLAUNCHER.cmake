@@ -24,24 +24,36 @@ if(Slicer_USE_CTKAPPLAUNCHER)
   if(NOT DEFINED CTKAppLauncher_DIR)
 
     SlicerMacroGetOperatingSystemArchitectureBitness(VAR_PREFIX CTKAPPLAUNCHER)
-    set(launcher_version "0.1.31")
-    # On windows, use i386 launcher unconditionally
-    if("${CTKAPPLAUNCHER_OS}" STREQUAL "win")
-      set(CTKAPPLAUNCHER_ARCHITECTURE "i386")
-      set(md5 "3bbe3823b6950f342dd922fab32d643d")
-    elseif("${CTKAPPLAUNCHER_OS}" STREQUAL "linux")
-      set(md5 "627d3634d806d1bc38e92e084f3f4f03")
-    elseif("${CTKAPPLAUNCHER_OS}" STREQUAL "macosx")
-      set(md5 "c50f5b765d7060bed16b6f669300b680")
-    endif()
+
+    if((DEFINED CTKAppLauncher_ARCHIVE) AND
+        (DEFINED CTKAppLauncher_ARCHIVE_MD5) AND
+        (DEFINED CTKAppLauncher_ARCHIVE_VERSION))
+
+      set(CTKAppLauncher_URL "file://${CTKAppLauncher_ARCHIVE}")
+      set(CTKAppLauncher_MD5 "${CTKAppLauncher_ARCHIVE_MD5}")
+      set(launcher_version "${CTkAppLauncher_ARCHIVE_VERSION}")
+
+      else()
+        set(launcher_version "0.1.31")
+        # On windows, use i386 launcher unconditionally
+        if("${CTKAPPLAUNCHER_OS}" STREQUAL "win")
+          set(CTKAPPLAUNCHER_ARCHITECTURE "i386")
+          set(CTKAppLauncher_ARCHIVE_MD5 "3bbe3823b6950f342dd922fab32d643d")
+        elseif("${CTKAPPLAUNCHER_OS}" STREQUAL "linux")
+          set(CTKAppLauncher_ARCHIVE_MD5"627d3634d806d1bc38e92e084f3f4f03")
+        elseif("${CTKAPPLAUNCHER_OS}" STREQUAL "macosx")
+          set(CTKAppLauncher_ARCHIVE_MD5 "c50f5b765d7060bed16b6f669300b680")
+        endif()
+        set(CTKAppLauncherFileName CTKAppLauncher-${launcher_version}-${CTKAPPLAUNCHER_OS}-${CTKAPPLAUNCHER_ARCHITECTURE}.tar.gz)
+        set(CTKAppLauncher_URL "https://github.com/commontk/AppLauncher/releases/download/v${launcher_version}/${CTKAppLauncherFileName}")
+      endif()
 
     set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj})
 
-    set(CTKAppLauncherFileName CTKAppLauncher-${launcher_version}-${CTKAPPLAUNCHER_OS}-${CTKAPPLAUNCHER_ARCHITECTURE}.tar.gz)
     ExternalProject_Add(${proj}
       ${${proj}_EP_ARGS}
-      URL https://github.com/commontk/AppLauncher/releases/download/v${launcher_version}/${CTKAppLauncherFileName}
-      URL_MD5 ${md5}
+      URL ${CTKAppLauncher_URL}
+      URL_MD5 ${CTKAppLauncher_ARCHIVE_MD5}
       DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
       SOURCE_DIR ${EP_BINARY_DIR}
       BUILD_IN_SOURCE 1

@@ -49,10 +49,23 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
    OR NOT DEFINED PYTHON_LIBRARY
    OR NOT DEFINED PYTHON_EXECUTABLE) AND NOT Slicer_USE_SYSTEM_${proj})
 
-  set(python_SOURCE_DIR "${CMAKE_BINARY_DIR}/Python-${Slicer_REQUIRED_PYTHON_VERSION}")
+  set(python-source_DOWNLOAD_METHOD)
+  if(NOT DEFINED python-source_SOURCE_DIR)
 
-  set(_download_3.9.10_url "https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz")
-  set(_download_3.9.10_md5 "1440acb71471e2394befdb30b1a958d1")
+    set(python-source_SOURCE_DIR "${CMAKE_BINARY_DIR}/Python-${Slicer_REQUIRED_PYTHON_VERSION}")
+
+    if(NOT DEFINED python-source_ARCHIVE)
+      set(_download_3.9.10_url "https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz")
+    else()
+      set(_download_3.9.10_url "file://${python-source_ARCHIVE}")
+    endif()
+
+      set(_download_3.9.10_md5 "1440acb71471e2394befdb30b1a958d1")
+      list(APPEND python-source_DOWNLOAD_METHOD
+        URL ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_url}
+        URL_MD5 ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_md5}
+        )
+  endif()
 
   set(EXTERNAL_PROJECT_OPTIONAL_ARGS)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
@@ -63,10 +76,9 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
 
   ExternalProject_Add(python-source
     ${EXTERNAL_PROJECT_OPTIONAL_ARGS}
-    URL ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_url}
-    URL_MD5 ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_md5}
+    ${python-source_DOWNLOAD_METHOD}
+    SOURCE_DIR ${python-source_SOURCE_DIR}
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
-    SOURCE_DIR ${python_SOURCE_DIR}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -123,6 +135,8 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       )
   endif()
 
+set(python_DOWNLOAD_METHOD)
+if(NOT DEFINED python_SOURCE_DIR)
   ExternalProject_SetIfNotDefined(
     Slicer_${proj}_GIT_REPOSITORY
     "${EP_GIT_PROTOCOL}://github.com/python-cmake-buildsystem/python-cmake-buildsystem.git"
@@ -135,7 +149,19 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
     QUIET
     )
 
+  list(APPEND python_DOWNLOAD_METHOD
+    GIT_REPOSITORY ${Slicer_${proj}_GIT_REPOSITORY}
+    GIT_TAG ${Slicer_${proj}_GIT_TAG}
+    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
+    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+  )
+
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+
+  else()
+    set(EP_SOURCE_DIR ${python_SOURCE_DIR})
+  endif() # NOT DEFINED python_SOURCE_DIR
+
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
   set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/${proj}-install)
 
@@ -148,11 +174,12 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
-    SOURCE_DIR ${EP_SOURCE_DIR}
+    ${python_DOWNLOAD_METHOD}
     BINARY_DIR ${EP_BINARY_DIR}
+    SOURCE_DIR ${EP_SOURCE_DIR}
     CMAKE_CACHE_ARGS
+      -DCMAKE_CXX_COMPILER_LAUNCHER:STRING=${CMAKE_CXX_COMPILER_LAUNCHER}
+      -DCMAKE_C_COMPILER_LAUNCHER:STRING=${CMAKE_C_COMPILER_LAUNCHER}
       -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
       #-DCMAKE_CXX_FLAGS:STRING=${ep_common_cxx_flags} # Not used
       -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
@@ -161,7 +188,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       #-DBUILD_TESTING:BOOL=OFF
       -DBUILD_LIBPYTHON_SHARED:BOOL=ON
       -DUSE_SYSTEM_LIBRARIES:BOOL=OFF
-      -DSRC_DIR:PATH=${python_SOURCE_DIR}
+      -DSRC_DIR:PATH=${python-source_SOURCE_DIR}
       -DDOWNLOAD_SOURCES:BOOL=OFF
       -DINSTALL_WINDOWS_TRADITIONAL:BOOL=OFF
       -DBZIP2_INCLUDE_DIR:PATH=${BZIP2_INCLUDE_DIR}
@@ -175,6 +202,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       -DSQLite3_INCLUDE_DIR:PATH=${sqlite_INCLUDE_DIR}
       -DSQLite3_LIBRARY:FILEPATH=${sqlite_LIBRARY}
       -DENABLE_SSL:BOOL=${PYTHON_ENABLE_SSL}
+      -DPYTHON_APPLY_PATCHES:BOOL=OFF
       -DPatch_EXECUTABLE:FILEPATH=${Patch_EXECUTABLE}
       ${EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS}
     ${EXTERNAL_PROJECT_OPTIONAL_CMAKE_ARGS}
@@ -313,7 +341,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
   endif()
 
   if(NOT DEFINED PYTHON_VALGRIND_SUPPRESSIONS_FILE)
-    set(PYTHON_VALGRIND_SUPPRESSIONS_FILE ${python_SOURCE_DIR}/Misc/valgrind-python.supp)
+    set(PYTHON_VALGRIND_SUPPRESSIONS_FILE ${python-source_SOURCE_DIR}/Misc/valgrind-python.supp)
   endif()
   mark_as_superbuild(PYTHON_VALGRIND_SUPPRESSIONS_FILE:FILEPATH)
 

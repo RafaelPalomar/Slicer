@@ -21,6 +21,20 @@ if(NOT Slicer_USE_SYSTEM_${proj})
   #  PCRE (Perl Compatible Regular Expressions)
   #
 
+  set(PCRE_DOWNLOAD_METHOD)
+  if((DEFINED PCRE_ARCHIVE) AND (DEFINED PCRE_ARCHIVE_SHA512) AND (DEFINED PCRE_VERSION))
+    list(APPEND PCRE_DOWNLOAD_METHOD
+      URL "file://${PCRE_ARCHIVE}"
+      URL_HASH SHA512=${PCRE_ARCHIVE_SHA512}
+      )
+  else()
+    set(PCRE_VERSION "8.44")
+    list(APPEND PCRE_DOWNLOAD_METHOD
+      URL https://github.com/Slicer/SlicerBinaryDependencies/releases/download/PCRE/pcre-${PCRE_VERSION}.tar.gz
+      URL_HASH SHA512=abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb
+      )
+  endif()
+
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/PCRE)
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/PCRE-build)
   set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/PCRE-install)
@@ -47,12 +61,11 @@ ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
     --prefix=${EP_INSTALL_DIR} --disable-shared)
 ")
 
-  set(_version "8.44")
+  set(_version ${PCRE_VERSION})
 
   ExternalProject_add(PCRE
     ${${proj}_EP_ARGS}
-    URL https://github.com/Slicer/SlicerBinaryDependencies/releases/download/PCRE/pcre-${_version}.tar.gz
-    URL_HASH SHA512=abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb
+    ${PCRE_DOWNLOAD_METHOD}
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}

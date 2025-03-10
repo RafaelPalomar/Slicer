@@ -62,19 +62,28 @@ if(NOT DEFINED DCMTK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
       )
   endif()
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/commontk/DCMTK.git"
-    QUIET
+  set(dcmtk_DOWNLOAD_METHOD)
+  if(NOT DEFINED dcmtk_SOURCE_DIR)
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_GIT_REPOSITORY
+      "${EP_GIT_PROTOCOL}://github.com/commontk/DCMTK.git"
+      QUIET
     )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "ea07125078cd097245867a71d8fba8b36fd92878" # patched-DCMTK-3.6.8_20241024
-    QUIET
+    ExternalProject_SetIfNotDefined(
+      Slicer_${proj}_GIT_TAG
+      "ea07125078cd097245867a71d8fba8b36fd92878" # patched-DCMTK-3.6.8_20241024
+      QUIET
     )
-
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+  list(APPEND
+    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
+    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+  )
+  else()
+    set(EP_SOURCE_DIR ${dcmtk_SOURCE_DIR})
+  endif()
+
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   # If it applies, prepend "CMAKE_ARGS"
@@ -86,8 +95,7 @@ if(NOT DEFINED DCMTK_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${dcmtk_DOWNLOAD_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

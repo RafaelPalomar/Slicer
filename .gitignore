@@ -1,5 +1,6 @@
 # Ignore all dotfiles...
 .*
+!.dir-locals.el
 !.codespellignore
 !.gitattributes
 !.git-blame-ignore-revs

@@ -199,13 +199,25 @@ endmacro()
 # Corresponding logic is implemented in ExternalProjectAddSource.cmake
 #
 
+include(ExternalProjectAddFetchMethod)
+
 #------------------------------------------------------------------------------
 # Include remote libraries
 #------------------------------------------------------------------------------
 
-Slicer_Remote_Add(vtkAddon
+ExternalProject_Add_FetchMethod(
+  PROJECT vtkAddon
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/vtkAddon"
   GIT_TAG b5aa0615a6486b6bdceeb13bd59c2fb9f89cce42
+  CAN_BE_OVERRIDDEN
+)
+
+# NOTE: Slicer_Remote_Add does not play well with
+# ExternalProject_Add_FetchMethod due to lack of SOURCE_DIR variable.
+# One has to resort to use of either GIT or ARCHIVE.
+Slicer_Remote_Add(vtkAddon
+  ${vtkAddon_FETCH_METHOD}
+  SOURCE_DIR file://github.com
   OPTION_NAME Slicer_BUILD_vtkAddon
   )
 list_conditional_append(Slicer_BUILD_vtkAddon Slicer_REMOTE_DEPENDENCIES vtkAddon)
@@ -229,27 +241,45 @@ mark_as_superbuild(vtkAddon_WRAP_PYTHON:BOOL)
 option(Slicer_BUILD_MULTIVOLUME_SUPPORT "Build MultiVolume support." ON)
 mark_as_advanced(Slicer_BUILD_MULTIVOLUME_SUPPORT)
 
-Slicer_Remote_Add(MultiVolumeExplorer
+ExternalProject_Add_FetchMethod(
+  PROJECT MultiVolumeExplorer
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeExplorer.git
   GIT_TAG 36102fd0ffae409319c0a0fee71dde1df64fe9e0
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(MultiVolumeExplorer
+  ${MultiVolumeExplorer_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_MultiVolumeExplorer
   OPTION_DEPENDS "Slicer_BUILD_QTLOADABLEMODULES;Slicer_BUILD_MULTIVOLUME_SUPPORT;Slicer_USE_PYTHONQT"
   LABELS REMOTE_MODULE
   )
 list_conditional_append(Slicer_BUILD_MultiVolumeExplorer Slicer_REMOTE_DEPENDENCIES MultiVolumeExplorer)
 
-Slicer_Remote_Add(MultiVolumeImporter
+ExternalProject_Add_FetchMethod(
+  PROJECT MultiVolumeImporter
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeImporter.git
   GIT_TAG c8a37eb5e4f35b78ccc9287b298457a064c9d001
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(MultiVolumeImporter
+  ${MultiVolumeImporter_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_MultiVolumeImporter
   OPTION_DEPENDS "Slicer_BUILD_QTLOADABLEMODULES;Slicer_BUILD_MULTIVOLUME_SUPPORT;Slicer_USE_PYTHONQT"
   LABELS REMOTE_MODULE
   )
 list_conditional_append(Slicer_BUILD_MultiVolumeImporter Slicer_REMOTE_DEPENDENCIES MultiVolumeImporter)
 
-Slicer_Remote_Add(SimpleFilters
+ExternalProject_Add_FetchMethod(
+  PROJECT SimpleFilters
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/SimpleITK/SlicerSimpleFilters.git
   GIT_TAG e82fc598bc010505e994b7ce22d953a9899a175c
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(SimpleFilters
+  ${SimpleFilters_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_SimpleFilters
   OPTION_DEPENDS "Slicer_BUILD_QTSCRIPTEDMODULES;Slicer_USE_SimpleITK"
   LABELS REMOTE_MODULE
@@ -303,10 +333,15 @@ set(BRAINSTools_slicer_options
   USE_DWIConvert:BOOL=${Slicer_BUILD_DICOM_SUPPORT} ## Need to figure out library linking
 )
 
-
-Slicer_Remote_Add(BRAINSTools
+ExternalProject_Add_FetchMethod(
+  PROJECT BRAINSTools
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/BRAINSia/BRAINSTools.git
   GIT_TAG "3b3cfd0d45a35e924569ee930a29c4f6292a8d1f" # 2025-01-29
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(BRAINSTools
+  ${BRAINSTools_FETCH_METHOD}
   LICENSE_FILES "https://www.apache.org/licenses/LICENSE-2.0.txt"
   OPTION_NAME Slicer_BUILD_BRAINSTOOLS
   OPTION_DEPENDS "Slicer_BUILD_CLI_SUPPORT;Slicer_BUILD_CLI"
@@ -320,27 +355,45 @@ if(Slicer_BUILD_BRAINSTOOLS)
   mark_as_superbuild(BRAINSCommonLib_DIR:PATH)
 endif()
 
-Slicer_Remote_Add(CompareVolumes
+ExternalProject_Add_FetchMethod(
+  PROJECT CompareVolumes
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/pieper/CompareVolumes"
   GIT_TAG cb755dda78f726cf9262aa4e1f75122c72a0df2f
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(CompareVolumes
+  ${CompareVolumes_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_CompareVolumes
   OPTION_DEPENDS "Slicer_USE_PYTHONQT"
   LABELS REMOTE_MODULE
   )
 list_conditional_append(Slicer_BUILD_CompareVolumes Slicer_REMOTE_DEPENDENCIES CompareVolumes)
 
-Slicer_Remote_Add(LandmarkRegistration
+ExternalProject_Add_FetchMethod(
+  PROJECT LandmarkRegistration
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/LandmarkRegistration"
   GIT_TAG aa23730ae78992cf14e858fe26ccfb213ea038ab
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(LandmarkRegistration
+  ${LandmarkRegistration_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_LandmarkRegistration
   OPTION_DEPENDS "Slicer_BUILD_CompareVolumes;Slicer_USE_PYTHONQT"
   LABELS REMOTE_MODULE
  )
 list_conditional_append(Slicer_BUILD_LandmarkRegistration Slicer_REMOTE_DEPENDENCIES LandmarkRegistration)
 
-Slicer_Remote_Add(SurfaceToolbox
+ExternalProject_Add_FetchMethod(
+  PROJECT SurfaceToolbox
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/SlicerSurfaceToolbox"
   GIT_TAG e8b8f70930883adb6f4a227ad9d7339d20120f2c
+  CAN_BE_OVERRIDDEN
+)
+
+Slicer_Remote_Add(SurfaceToolbox
+  ${SurfaceToolbox_FETCH_METHOD}
   OPTION_NAME Slicer_BUILD_SurfaceToolbox
   OPTION_DEPENDS "Slicer_USE_PYTHONQT"
   LABELS REMOTE_MODULE

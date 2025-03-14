@@ -50,18 +50,12 @@ if((NOT DEFINED CURL_INCLUDE_DIR
     set(${proj}_CMAKE_C_FLAGS "${ep_common_c_flags} -fPIC")
   endif()
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/curl.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "d73e360a78d97adda85364e6bd5c504a2eb1572a" # slicer-7.70.0-2020-04-29-53cdc2c
-    QUIET
-    )
-
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/curl.git"
+    GIT_TAG "d73e360a78d97adda85364e6bd5c504a2eb1572a" # slicer-7.70.0-2020-04-29-53cdc2c
+    CAN_BE_OVERRIDDEN
+  )
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
   set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/${proj}-install)
@@ -75,9 +69,8 @@ if((NOT DEFINED CURL_INCLUDE_DIR
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
-    SOURCE_DIR ${EP_SOURCE_DIR}
+    ${${proj}_FETCH_METHOD}
+   SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS
     #Not needed -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}

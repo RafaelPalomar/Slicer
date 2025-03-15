@@ -49,11 +49,6 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
    OR NOT DEFINED PYTHON_LIBRARY
    OR NOT DEFINED PYTHON_EXECUTABLE) AND NOT Slicer_USE_SYSTEM_${proj})
 
-  set(python_SOURCE_DIR "${CMAKE_BINARY_DIR}/Python-${Slicer_REQUIRED_PYTHON_VERSION}")
-
-  set(_download_3.9.10_url "https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz")
-  set(_download_3.9.10_md5 "1440acb71471e2394befdb30b1a958d1")
-
   set(EXTERNAL_PROJECT_OPTIONAL_ARGS)
   if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.24")
     list(APPEND EXTERNAL_PROJECT_OPTIONAL_ARGS
@@ -61,11 +56,22 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       )
   endif()
 
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    ARCHIVE "https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz"
+    ARCHIVE_MD5 "1440acb71471e2394befdb30b1a958d1"
+    DOWNLOAD_DIR ${python_SOURCE_DIR}
+    CAN_BE_OVERRIDDEN
+  )
+
+  #NOTE: This variable needs to be set after ExternalProject_Add_FetchMethod
+  #      so it does not interfere with the macro. (see macro documentation)
+  set(python_SOURCE_DIR "${CMAKE_BINARY_DIR}/Python-${Slicer_REQUIRED_PYTHON_VERSION}")
+
+
   ExternalProject_Add(python-source
     ${EXTERNAL_PROJECT_OPTIONAL_ARGS}
-    URL ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_url}
-    URL_MD5 ${_download_${Slicer_REQUIRED_PYTHON_VERSION}_md5}
-    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${python_SOURCE_DIR}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
@@ -123,17 +129,12 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
       )
   endif()
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/python-cmake-buildsystem/python-cmake-buildsystem.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "48aee1262ddb7f1fbc6267352880f5a446420bb7"
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT Slicer_${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/python-cmake-buildsystem/python-cmake-buildsystem.git"
+    GIT_TAG "48aee1262ddb7f1fbc6267352880f5a446420bb7"
+    CAN_BE_OVERRIDDEN
+  )
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
@@ -148,6 +149,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
+    ${Slicer_${proj}_FETCH_METHOD}
     GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
     GIT_TAG "${Slicer_${proj}_GIT_TAG}"
     SOURCE_DIR ${EP_SOURCE_DIR}

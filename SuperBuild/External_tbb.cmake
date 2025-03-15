@@ -49,10 +49,19 @@ endif()
 #------------------------------------------------------------------------------
 set(TBB_INSTALL_DIR "${CMAKE_BINARY_DIR}/${proj}-install")
 
+set(_url "https://github.com/oneapi-src/oneTBB/releases/download/v${tbb_ver}/${tbb_file}")
+set(_url_hash "SHA256=${tbb_sha256}")
+
+ExternalProject_Add_FetchMethod(
+  PROJECT ${proj}
+  ARCHIVE ${_url}
+  ARCHIVE_HASH ${_url_hash}
+  CAN_BE_OVERRIDDEN
+)
+
 ExternalProject_Add(${proj}
   ${${proj}_EP_ARGS}
-  URL https://github.com/oneapi-src/oneTBB/releases/download/v${tbb_ver}/${tbb_file}
-  URL_HASH SHA256=${tbb_sha256}
+  ${${proj}_FETCH_METHOD}
   DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
   SOURCE_DIR ${TBB_INSTALL_DIR}
   BUILD_IN_SOURCE 1

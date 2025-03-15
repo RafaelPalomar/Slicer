@@ -7,7 +7,7 @@ macro(ExternalProject_Add_FetchMethod)
     GIT_REPOSITORY #Optional
     GIT_TAG        #Optional
     ARCHIVE        #Optional
-    ARCHIVE_MD5    #Optional
+    ARCHIVE_HASH #Optional
   )
   set(multiValueArgs)
 
@@ -56,14 +56,14 @@ macro(ExternalProject_Add_FetchMethod)
     )
     # Check for ARCHIVE
   elseif(_fm_ARCHIVE)
-    if(_fm_ARCHIVE_MD5)
-      message(STATUS "Setting fetch method to archive: ${_fm_ARCHIVE} with MD5 ${_fm_ARCHIVE_MD5}")
+    if(_fm_ARCHIVE_HASH)
+      message(STATUS "Setting fetch method to archive: ${_fm_ARCHIVE} with HASH ${_fm_ARCHIVE_HASH}")
       list(APPEND _fm_FETCH_METHOD
         URL "${_fm_ARCHIVE}"
-        URL_MD5 "${_fm_ARCHIVE_MD5}"
+        URL_HASH "${_fm_ARCHIVE_HASH}"
       )
     else()
-      message(FATAL_ERROR "_fm_ARCHIVE overriding option detected, but no _fm_ARCHIVE_MD5 specified!")
+      message(FATAL_ERROR "_fm_ARCHIVE overriding option detected, but no _fm_ARCHIVE_HASH specified!")
     endif()
     # Check for GIT_REPOSITORY
   elseif(_fm_GIT_REPOSITORY)
@@ -103,15 +103,15 @@ macro(ExternalProject_Add_FetchMethod)
       )
       # Check for external ARCHIVE
     elseif(${_fm_PROJECT}_ARCHIVE)
-      if(${_fm_PROJECT}_ARCHIVE_MD5)
-        message(STATUS "Setting fetch method to archive: ${${_fm_PROJECT}_ARCHIVE} with MD5 ${${_fm_PROJECT}_ARCHIVE_MD5}")
+      if(${_fm_PROJECT}_ARCHIVE_HASH)
+        message(STATUS "Setting fetch method to archive: ${${_fm_PROJECT}_ARCHIVE} with HASH ${${_fm_PROJECT}_ARCHIVE_HASH}")
 
         list(APPEND ${_fm_PROJECT}_FETCH_METHOD
           URL "${${_fm_PROJECT}_ARCHIVE}"
-          URL_MD5 "${${_fm_PROJECT}_ARCHIVE_MD5}"
+          URL_HASH "${${_fm_PROJECT}_ARCHIVE_HASH}"
         )
       else()
-        message(FATAL_ERROR "${_fm_PROJECT}_ARCHIVE overriding option detected, but no ${_fm_PROJECT}_ARCHIVE_MD5 specified!")
+        message(FATAL_ERROR "${_fm_PROJECT}_ARCHIVE overriding option detected, but no ${_fm_PROJECT}_ARCHIVE_HASH specified!")
       endif()
       # Check for external _GIT_REPOSITORY
     elseif(${_fm_PROJECT}_GIT_REPOSITORY)

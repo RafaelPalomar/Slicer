@@ -59,7 +59,7 @@ if((NOT DEFINED PYTHON_INCLUDE_DIR
   ExternalProject_Add_FetchMethod(
     PROJECT ${proj}
     ARCHIVE "https://www.python.org/ftp/python/3.9.10/Python-3.9.10.tgz"
-    ARCHIVE_MD5 "1440acb71471e2394befdb30b1a958d1"
+    ARCHIVE_HASH "MD5=1440acb71471e2394befdb30b1a958d1"
     DOWNLOAD_DIR ${python_SOURCE_DIR}
     CAN_BE_OVERRIDDEN
   )

@@ -25,7 +25,6 @@ if(NOT DEFINED ZLIB_ROOT AND NOT Slicer_USE_SYSTEM_${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
   set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/${proj}-install)
 
-
   ExternalProject_Add_FetchMethod(
     PROJECT ${proj}
     GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/commontk/zlib.git"

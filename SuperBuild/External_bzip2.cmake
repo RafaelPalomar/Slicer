@@ -26,17 +26,12 @@ if((NOT DEFINED BZIP2_INCLUDE_DIR
     )
     AND NOT Slicer_USE_SYSTEM_${proj})
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/commontk/bzip2.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "391dddabd24aee4a06e10ab6636f26dd93c21308"
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/commontk/bzip2.git"
+    GIT_TAG "391dddabd24aee4a06e10ab6636f26dd93c21308"
+    CAN_BE_OVERRIDDEN
+  )
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
@@ -44,8 +39,7 @@ if((NOT DEFINED BZIP2_INCLUDE_DIR
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     INSTALL_DIR ${EP_INSTALL_DIR}

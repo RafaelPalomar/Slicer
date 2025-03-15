@@ -30,22 +30,16 @@ if((NOT DEFINED LibFFI_INCLUDE_DIR
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
   set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/${proj}-install)
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/python-cmake-buildsystem/libffi.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "e8599d9d5a50841c11a5ff8e3438dd12f080b096" # libffi-cmake-buildsystem-v3.4.2-2021-06-28-f9ea416
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/python-cmake-buildsystem/libffi.git"
+    GIT_TAG "e8599d9d5a50841c11a5ff8e3438dd12f080b096" # libffi-cmake-buildsystem-v3.4.2-2021-06-28-f9ea416
+    CAN_BE_OVERRIDDEN
+  )
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     INSTALL_DIR ${EP_INSTALL_DIR}

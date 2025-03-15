@@ -79,7 +79,7 @@ macro(ExternalProject_Add_FetchMethod)
   endif()
 
   if(_fm_DOWNLOAD_DIR AND (NOT _fm_SOURCE_DIR))
-    message(STATUS "Setting download directory for ${_fm_PROJECT} to ${_fm_PROJECT}_DOWNLOAD_DIR}")
+    message(STATUS "Setting download directory for ${_fm_PROJECT} to ${${_fm_PROJECT}_DOWNLOAD_DIR}")
     list(APPEND _FM_FETCH_METHOD
       SOURCE_DIR "${_fm_DOWNLOAD_DIR}"
     )

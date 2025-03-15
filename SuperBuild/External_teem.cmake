@@ -38,25 +38,19 @@ if(NOT DEFINED Teem_DIR AND NOT Slicer_USE_SYSTEM_${proj})
     -DPNG_LIBRARY_RELEASE:FILEPATH=${PNG_LIBRARY}
     )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/teem"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "e4746083c0e1dc0c137124c41eca5d23adf73bfa"
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/teem"
+    GIT_TAG "e4746083c0e1dc0c137124c41eca5d23adf73bfa"
+    CAN_BE_OVERRIDDEN
+  )
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

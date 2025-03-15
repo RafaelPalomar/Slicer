@@ -130,12 +130,6 @@ if((NOT DEFINED VTK_DIR OR NOT DEFINED VTK_SOURCE_DIR) AND NOT Slicer_USE_SYSTEM
     -DVTK_MODULE_ENABLE_VTK_GUISupportQtQuick:BOOL=NO
     )
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/slicer/VTK.git"
-    QUIET
-    )
-
   set(_git_tag)
   if("${Slicer_VTK_VERSION_MAJOR}" STREQUAL "9")
     set(_git_tag "492821449a5f2a9a1f5c73c3c6dd4389f1059d66") # slicer-v9.2.20230607-1ff325c54-2
@@ -144,19 +138,19 @@ if((NOT DEFINED VTK_DIR OR NOT DEFINED VTK_SOURCE_DIR) AND NOT Slicer_USE_SYSTEM
     message(FATAL_ERROR "error: Unsupported Slicer_VTK_VERSION_MAJOR: ${Slicer_VTK_VERSION_MAJOR}")
   endif()
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    ${_git_tag}
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/slicer/VTK.git"
+    GIT_TAG ${_git_tag}
+    CAN_BE_OVERRIDDEN
+  )
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     CMAKE_CACHE_ARGS

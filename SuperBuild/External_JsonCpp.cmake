@@ -17,23 +17,19 @@ endif()
 
 if(NOT DEFINED ${proj}_DIR AND NOT Slicer_USE_SYSTEM_${proj})
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/jsoncpp.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "73b8e172d6615251ef851d883ef02f163e7075b2" # slicer-v0.10.6-2016-04-22
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/jsoncpp.git"
+    GIT_TAG "73b8e172d6615251ef851d883ef02f163e7075b2" # slicer-v0.10.6-2016-04-22
+    CAN_BE_OVERRIDDEN
+  )
 
   set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
   set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
+    ${${proj}_FETCH_METHOD}
     GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
     GIT_TAG "${Slicer_${proj}_GIT_TAG}"
     SOURCE_DIR ${EP_SOURCE_DIR}

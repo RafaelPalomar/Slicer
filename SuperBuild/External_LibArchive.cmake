@@ -25,17 +25,12 @@ if((NOT DEFINED LibArchive_INCLUDE_DIR
 
   set(EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS)
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/libarchive.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "14ec55f065e31fbbca23d3d96d43e07f21c6fb6d" # slicer-v3.6.1-2022-04-08-6c3301111
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/libarchive.git"
+    GIT_TAG "14ec55f065e31fbbca23d3d96d43e07f21c6fb6d" # slicer-v3.6.1-2022-04-08-6c3301111
+    CAN_BE_OVERRIDDEN
+  )
 
   # When updating the version of LibArchive, consider also
   # updating the soversion number hard-coded below in the
@@ -53,8 +48,7 @@ if((NOT DEFINED LibArchive_INCLUDE_DIR
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     SOURCE_DIR ${EP_SOURCE_DIR}
     BINARY_DIR ${EP_BINARY_DIR}
     INSTALL_DIR ${EP_INSTALL_DIR}

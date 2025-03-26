@@ -157,25 +157,19 @@ set(${proj}_WORKING_DIR \"${EP_BINARY_DIR}/SimpleITK-build/Wrapping/Python\")
 ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pip\" \"install\" \".\")
 ")
 
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_REPOSITORY
-    "${EP_GIT_PROTOCOL}://github.com/Slicer/SimpleITK.git"
-    QUIET
-    )
-
-  ExternalProject_SetIfNotDefined(
-    Slicer_${proj}_GIT_TAG
-    "441c59aafaa179214d60b77f61d0aa12fd32bdfd"  # slicer-v2.3.1-2024-05-20-bc4449e
-    QUIET
-    )
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/SimpleITK.git"
+    GIT_TAG "441c59aafaa179214d60b77f61d0aa12fd32bdfd"  # slicer-v2.3.1-2024-05-20-bc4449e
+    CAN_BE_OVERRIDDEN
+  )
 
   # A separate project is used to download, so that the SuperBuild
   # subdirectory can be use for SimpleITK's SuperBuild to build
   # required Lua, GTest etc. dependencies not in Slicer SuperBuild
   ExternalProject_add(SimpleITK-download
     SOURCE_DIR ${EP_SOURCE_DIR}
-    GIT_REPOSITORY "${Slicer_${proj}_GIT_REPOSITORY}"
-    GIT_TAG "${Slicer_${proj}_GIT_TAG}"
+    ${${proj}_FETCH_METHOD}
     CONFIGURE_COMMAND ""
     INSTALL_COMMAND ""
     BUILD_COMMAND ""
@@ -204,6 +198,7 @@ ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pi
       -DCMAKE_CXX_VISIBILITY_PRESET:BOOL=default
       -DBUILD_SHARED_LIBS:BOOL=${Slicer_USE_SimpleITK_SHARED}
       -DBUILD_EXAMPLES:BOOL=OFF
+      -DSimpleITK_FORBID_DOWNLOADS:BOOL=ON
       -DSimpleITK_BUILD_STRIP:BOOL=1
       -DSimpleITK_PYTHON_THREADS:BOOL=ON
       -DSimpleITK_INSTALL_ARCHIVE_DIR:PATH=${Slicer_INSTALL_LIB_DIR}
@@ -226,6 +221,7 @@ ExternalProject_Execute(${proj} \"install\" \"${PYTHON_EXECUTABLE}\" \"-m\" \"pi
       -DWRAP_PYTHON:BOOL=ON
       -DSimpleITK_BUILD_DISTRIBUTE:BOOL=ON # Shorten version and install path removing -g{GIT-HASH} suffix.
       -DExternalData_OBJECT_STORES:PATH=${ExternalData_OBJECT_STORES}
+      -DExternalData_URL_TEMPLATES:STRING=${SimpleITK_ExternalData_URL_TEMPLATES}
       ${EXTERNAL_PROJECT_OPTIONAL_CMAKE_CACHE_ARGS}
     #
     INSTALL_COMMAND ${CMAKE_COMMAND} -P ${_install_script}

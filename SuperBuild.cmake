@@ -210,6 +210,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/vtkAddon"
   GIT_TAG b5aa0615a6486b6bdceeb13bd59c2fb9f89cce42
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 # NOTE: Slicer_Remote_Add does not play well with
@@ -217,7 +218,6 @@ ExternalProject_Add_FetchMethod(
 # One has to resort to use of either GIT or ARCHIVE.
 Slicer_Remote_Add(vtkAddon
   ${vtkAddon_FETCH_METHOD}
-  SOURCE_DIR file://github.com
   OPTION_NAME Slicer_BUILD_vtkAddon
   )
 list_conditional_append(Slicer_BUILD_vtkAddon Slicer_REMOTE_DEPENDENCIES vtkAddon)
@@ -246,6 +246,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeExplorer.git
   GIT_TAG 36102fd0ffae409319c0a0fee71dde1df64fe9e0
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(MultiVolumeExplorer
@@ -261,6 +262,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/fedorov/MultiVolumeImporter.git
   GIT_TAG c8a37eb5e4f35b78ccc9287b298457a064c9d001
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(MultiVolumeImporter
@@ -276,6 +278,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/SimpleITK/SlicerSimpleFilters.git
   GIT_TAG e82fc598bc010505e994b7ce22d953a9899a175c
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(SimpleFilters
@@ -338,6 +341,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY ${EP_GIT_PROTOCOL}://github.com/BRAINSia/BRAINSTools.git
   GIT_TAG "3b3cfd0d45a35e924569ee930a29c4f6292a8d1f" # 2025-01-29
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(BRAINSTools
@@ -360,6 +364,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/pieper/CompareVolumes"
   GIT_TAG cb755dda78f726cf9262aa4e1f75122c72a0df2f
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(CompareVolumes
@@ -375,6 +380,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/LandmarkRegistration"
   GIT_TAG aa23730ae78992cf14e858fe26ccfb213ea038ab
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(LandmarkRegistration
@@ -390,6 +396,7 @@ ExternalProject_Add_FetchMethod(
   GIT_REPOSITORY "${EP_GIT_PROTOCOL}://github.com/Slicer/SlicerSurfaceToolbox"
   GIT_TAG e8b8f70930883adb6f4a227ad9d7339d20120f2c
   CAN_BE_OVERRIDDEN
+  SKIP_SOURCE_DEFINITION
 )
 
 Slicer_Remote_Add(SurfaceToolbox

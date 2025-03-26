@@ -25,11 +25,20 @@ endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} [===[
-  # [pip]
-  pip==24.0 --hash=sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc
-  # [/pip]
-  ]===])
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}
+    PACKAGE pip==24.0
+    PACKAGE_HASH sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc
+    CAN_BE_OVERRIDDEN
+  )
+
+  set(requirements_file_content
+  "\# [pip]\n
+  ${${proj}_FETCH_METHOD}\n
+  \# [/pip]\n")
+
+  file(WRITE ${requirements_file} ${requirements_file_content})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}

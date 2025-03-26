@@ -24,12 +24,20 @@ if(Slicer_USE_SYSTEM_${proj})
 endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}
+    PACKAGE wheel==0.43.0
+    PACKAGE_HASH sha256:55c570405f142630c6b9f72fe09d9b67cf1477fcf543ae5b8dcb1f5b7377da81
+    CAN_BE_OVERRIDDEN
+  )
+
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} [===[
-  # [wheel]
-  wheel==0.43.0 --hash=sha256:55c570405f142630c6b9f72fe09d9b67cf1477fcf543ae5b8dcb1f5b7377da81
-  # [/wheel]
-  ]===])
+  set(requirements_file_content
+  "\# [wheel]\n
+  ${${proj}_FETCH_METHOD}\n
+  \# [/wheel]\n")
+  file(WRITE ${requirements_file} ${requirements_file_content})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}

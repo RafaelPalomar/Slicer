@@ -63,9 +63,13 @@ if(NOT SWIG_DIR AND NOT Slicer_USE_SYSTEM_${proj})
     set(BISON_FLAGS "" CACHE STRING "Flags used by bison")
     mark_as_advanced(BISON_FLAGS)
 
-    set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/Swig)
-    set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/Swig-build)
-    set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/Swig-install)
+    if(NOT DEFINED ${proj}_SOURCE_DIR)
+      set(EP_SOURCE_DIR ${CMAKE_BINARY_DIR}/${proj})
+    else()
+      set(EP_SOURCE_DIR ${${proj}_SOURCE_DIR})
+    endif()
+    set(EP_BINARY_DIR ${CMAKE_BINARY_DIR}/${proj}-build)
+    set(EP_INSTALL_DIR ${CMAKE_BINARY_DIR}/${proj}-install)
 
     include(ExternalProjectForNonCMakeProject)
 
@@ -80,12 +84,34 @@ set(ENV{YACC} \"${BISON_EXECUTABLE}\")
 set(ENV{YFLAGS} \"${BISON_FLAGS}\")
 ")
 
+# Some build environments (e.g., GNU/Guix won't have an sh respecting FHS)
+# For those cases, -DSlicer_CONFIG_SHELL can be defined.
+  if(Slicer_CONFIG_SHELL)
+    file(APPEND ${_env_script}
+"set(ENV{CONFIG_SHELL} \"${Slicer_CONFIG_SHELL}\")
+set(ENV{SHELL} \"${Slicer_CONFIG_SHELL}\")
+")
+  endif()
+
+  ExternalProject_Add_FetchMethod(
+    PROJECT ${proj}
+    ARCHIVE https://github.com/Slicer/SlicerBinaryDependencies/releases/download/swig/swig-${SWIG_TARGET_VERSION}.tar.gz
+    ARCHIVE_HASH SHA512=${SWIG_DOWNLOAD_SOURCE_HASH}
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
+    CAN_BE_OVERRIDDEN
+  )
+
+
     # configure step
+  set(_sh /bin/sh)
+  if(Slicer_CONFIG_SHELL)
+    set(_sh ${Slicer_CONFIG_SHELL})
+  endif()
     set(_configure_script ${CMAKE_BINARY_DIR}/${proj}_configure_step.cmake)
     file(WRITE ${_configure_script}
 "include(\"${_env_script}\")
 set(${proj}_WORKING_DIR \"${EP_BINARY_DIR}\")
-ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
+ExternalProject_Execute(${proj} \"configure\" ${_sh} ${EP_SOURCE_DIR}/configure CONFIG_SHELL=${_sh} SHELL=${_sh}
     --prefix=${EP_INSTALL_DIR}
     --with-pcre-prefix=${PCRE_DIR}
     --without-octave
@@ -93,12 +119,11 @@ ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
     --with-python=${PYTHON_EXECUTABLE})
 ")
 
+
     ExternalProject_add(Swig
       ${EXTERNAL_PROJECT_OPTIONAL_ARGS}
-      URL https://github.com/Slicer/SlicerBinaryDependencies/releases/download/swig/swig-${SWIG_TARGET_VERSION}.tar.gz
-      URL_HASH SHA512=${SWIG_DOWNLOAD_SOURCE_HASH}
-      DOWNLOAD_DIR ${CMAKE_BINARY_DIR}
-      SOURCE_DIR ${EP_SOURCE_DIR}
+      ${${proj}_FETCH_METHOD}
+      #SOURCE_DIR ${EP_SOURCE_DIR}
       BINARY_DIR ${EP_BINARY_DIR}
       CONFIGURE_COMMAND ${CMAKE_COMMAND} -P ${_configure_script}
       INSTALL_COMMAND make install -j1  # Avoid race condition disabling parallel build

@@ -4,7 +4,7 @@ set(proj python-setuptools)
 set(${proj}_DEPENDENCIES
   python
   python-ensurepip
-  )
+)
 
 if(NOT DEFINED Slicer_USE_SYSTEM_${proj})
   set(Slicer_USE_SYSTEM_${proj} ${Slicer_USE_SYSTEM_python})
@@ -18,17 +18,27 @@ if(Slicer_USE_SYSTEM_${proj})
     ExternalProject_FindPythonPackage(
       MODULE_NAME "${module_name}"
       REQUIRED
-      )
+    )
   endforeach()
 endif()
 
+
 if(NOT Slicer_USE_SYSTEM_${proj})
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} [===[
-  # [setuptools]
-  setuptools==70.0.0 --hash=sha256:54faa7f2e8d2d11bcd2c07bed282eef1046b5c080d1c32add737d7b5817b1ad4
-  # [/setuptools]
-  ]===])
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}
+    PACKAGE setuptools==70.0.0
+    PACKAGE_HASH sha256:54faa7f2e8d2d11bcd2c07bed282eef1046b5c080d1c32add737d7b5817b1ad4
+    CAN_BE_OVERRIDDEN
+  )
+
+  set(requirements_file_content
+  "\# [setuptools]\n
+  ${${proj}_FETCH_METHOD}\n
+  \# [/setuptools]\n")
+
+  file(WRITE ${requirements_file} ${requirements_file_content})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}
@@ -40,8 +50,8 @@ if(NOT Slicer_USE_SYSTEM_${proj})
     INSTALL_COMMAND ${PYTHON_EXECUTABLE} -m pip install --require-hashes -r ${requirements_file}
     LOG_INSTALL 1
     DEPENDS
-      ${${proj}_DEPENDENCIES}
-    )
+    ${${proj}_DEPENDENCIES}
+  )
 
 else()
   ExternalProject_Add_Empty(${proj} DEPENDS ${${proj}_DEPENDENCIES})

@@ -40,8 +40,16 @@ if(NOT Slicer_USE_SYSTEM_${proj})
 
 set(ENV{YACC} \"${BISON_EXECUTABLE}\")
 set(ENV{YFLAGS} \"${BISON_FLAGS}\")
+
 ")
 
+# Some build environments (e.g., GNU/Guix won't have an sh respecting FHS)
+# For those cases, -DSlicer_CONFIG_SHELL can be defined.
+  if(Slicer_CONFIG_SHELL)
+    file(APPEND ${_env_script}
+"set(ENV{CONFIG_SHELL} \"${Slicer_CONFIG_SHELL}\")
+")
+  endif()
 
   set(_version "8.44")
 
@@ -54,11 +62,15 @@ set(ENV{YFLAGS} \"${BISON_FLAGS}\")
   )
 
   # configure step
+  set(_sh /bin/sh)
+  if(Slicer_CONFIG_SHELL)
+    set(_sh ${Slicer_CONFIG_SHELL})
+  endif()
   set(_configure_script ${CMAKE_BINARY_DIR}/${proj}_configure_step.cmake)
   file(WRITE ${_configure_script}
 "include(\"${_env_script}\")
 set(${proj}_WORKING_DIR \"${EP_BINARY_DIR}\")
-ExternalProject_Execute(${proj} \"configure\" sh ${EP_SOURCE_DIR}/configure
+ExternalProject_Execute(${proj} \"configure\" ${_sh} ${EP_SOURCE_DIR}/configure
     --prefix=${EP_INSTALL_DIR} --disable-shared)
 ")
 

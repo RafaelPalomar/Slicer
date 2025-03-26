@@ -29,18 +29,41 @@ if(Slicer_USE_SYSTEM_${proj})
 endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}_packaging
+    PACKAGE packaging==24.0
+    PACKAGE_HASH sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5
+    CAN_BE_OVERRIDDEN
+  )
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}_pyparsing
+    PACKAGE pyparsing==3.1.2
+    PACKAGE_HASH sha256:f9db75911801ed778fe61bb643079ff86601aca99fcae6345aa67292038fb742
+    CAN_BE_OVERRIDDEN
+  )
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}_six
+    PACKAGE six==1.16.0
+    PACKAGE_HASH sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
+    CAN_BE_OVERRIDDEN
+  )
+
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} [===[
-  # [packaging]
-  packaging==24.0 --hash=sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5
-  # [/packaging]
-  # [pyparsing]
-  pyparsing==3.1.2 --hash=sha256:f9db75911801ed778fe61bb643079ff86601aca99fcae6345aa67292038fb742
-  # [/pyparsing]
-  # [six]
-  six==1.16.0 --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
-  # [/six]
-  ]===])
+  set(requirements_file_content
+"# [packaging]\n
+${${proj}_pydicom_FETCH_URL}\n
+# [/packaging]\n
+# [pyparsing]\n
+${${proj}_pydicom_FETCH_URL}\n
+# [/pyparsing]\n
+# [six]\n
+${${proj}_pydicom_FETCH_URL}\n
+# [/six]\n
+")
+  file(WRITE ${requirements_file} ${requirements_file_content})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}

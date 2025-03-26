@@ -27,26 +27,20 @@ if(Slicer_USE_SYSTEM_${proj})
 endif()
 
 if(NOT Slicer_USE_SYSTEM_${proj})
+
+  ExternalProject_Add_PyPIPackage(
+    PROJECT ${proj}
+    PACKAGE numpy==1.26.4
+    PACKAGE_HASH sha256:f870204a840a60da0b12273ef34f7051e98c3b5961b61b0c2c1be6dfd64fbcd3
+    CAN_BE_OVERRIDDEN
+  )
+
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
-  file(WRITE ${requirements_file} [===[
-  # [numpy]
-  # Hashes correspond to the following packages:
-  #  - numpy-1.26.4-cp39-cp39-macosx_10_9_x86_64.whl
-  #  - numpy-1.26.4-cp39-cp39-macosx_11_0_arm64.whl
-  #  - numpy-1.26.4-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
-  #  - numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  #  - numpy-1.26.4-cp39-cp39-musllinux_1_1_aarch64.whl
-  #  - numpy-1.26.4-cp39-cp39-musllinux_1_1_x86_64.whl
-  #  - numpy-1.26.4-cp39-cp39-win_amd64.whl
-  numpy==1.26.4 --hash=sha256:7349ab0fa0c429c82442a27a9673fc802ffdb7c7775fad780226cb234965e53c \
-                --hash=sha256:52b8b60467cd7dd1e9ed082188b4e6bb35aa5cdd01777621a1658910745b90be \
-                --hash=sha256:d5241e0a80d808d70546c697135da2c613f30e28251ff8307eb72ba696945764 \
-                --hash=sha256:f870204a840a60da0b12273ef34f7051e98c3b5961b61b0c2c1be6dfd64fbcd3 \
-                --hash=sha256:679b0076f67ecc0138fd2ede3a8fd196dddc2ad3254069bcb9faf9a79b1cebcd \
-                --hash=sha256:47711010ad8555514b434df65f7d7b076bb8261df1ca9bb78f53d3b2db02e95c \
-                --hash=sha256:3373d5d70a5fe74a2c1bb6d2cfd9609ecf686d47a2d7b1d37a8f3b6bf6003aea
-  # [/numpy]
-  ]===])
+  set(requirements_file_content
+    "# [numpy]\n
+  ${${proj}_FETCH_METHOD}\n
+  # [/numpy]\n")
+  file(WRITE ${requirements_file} ${requirements_file_content})
 
   ExternalProject_Add(${proj}
     ${${proj}_EP_ARGS}

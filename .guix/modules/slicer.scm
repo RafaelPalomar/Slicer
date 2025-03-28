@@ -2,6 +2,7 @@
   #:use-module ((guix licenses)
                 #:prefix licenses:)
   #:use-module (gnu packages bash)
+  #:use-module (gnu packages ccache)
   #:use-module (gnu packages cmake)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages qt)
@@ -98,10 +99,6 @@
      `(#:install-plan '(("." "/"))
        #:patch-shebangs? #t
        #:phases (modify-phases %standard-phases
-                  ;;            (add-after 'unpack 'patch-autotools-version-requirement
-                  ;;              (lambda* (#:key inputs outputs #:allow-other-keys)
-                  ;;                (let* ((bash (assoc-ref inputs "bash-minimal")))
-                  ;;                (setenv "SHELL" (string-append bash "/bin/bash")))))
                   (delete 'build))))
     (home-page "")
     (synopsis "")
@@ -280,6 +277,7 @@
     (build-system cmake-build-system)
     (inputs
      `(("git" ,git)
+       ("ccache" ,ccache)
        ("cmake" ,cmake-3.30)
        ("openssl" ,openssl)
        ("qtbase-5" ,qtbase-5)
@@ -511,8 +509,8 @@
        ("python-pip-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/8a/6a/19e9fe04fca059ccf770861c7d5721ab4c2aebc539889e97c7977528a53b/pip-24.0-py3-none-any.wh")
-           (file-name "pip-24.0-py3-none-any.wh")
+           (uri "https://files.pythonhosted.org/packages/8a/6a/19e9fe04fca059ccf770861c7d5721ab4c2aebc539889e97c7977528a53b/pip-24.0-py3-none-any.whl")
+           (file-name "pip-24.0-py3-none-any.whl")
            (sha256
             (base32 "1p39gkxf6v0my4wwri8hx56i5zsj07n1p5j6a8kd4rb82qd043ds"))))
        ;; python-wheel
@@ -539,7 +537,7 @@
            (file-name "idna-3.7-py3-none-any.whl")
            (sha256
             (base32 "180sfq3qsycfxn1zc9w4gp4lr44adpx8p2d1sf939m5dg3yf3zl2"))))
-       ;; python-chardet
+       ;; python-charset-normalizer
        ("python-charset-normalizer-whl"
         ,(origin
            (method url-fetch)
@@ -767,8 +765,23 @@
     (arguments
      (list #:tests? #f
            #:phases
-
            #~(modify-phases %standard-phases
+               ;; Set up ccache before configuration
+               (add-before 'configure 'set-up-ccache
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (let ((ccache (assoc-ref inputs "ccache"))
+                         (external-ccache-dir (getenv "EXTERNAL_CCACHE_DIR")))
+                     (setenv "PATH"
+                             (string-append (string-append ccache "/bin") ":" (getenv "PATH")))
+                     (if external-ccache-dir
+                         (setenv "CCACHE_DIR" external-ccache-dir)
+                         (let ((ccache-dir (string-append (getcwd) "/ccache")))
+                           (setenv "CCACHE_DIR" ccache-dir)
+                           (mkdir-p ccache-dir)))
+                     (setenv "CCACHE_BASEDIR" (getcwd))
+                     ;; Optionally set CCACHE_LOGFILE
+                     (setenv "CCACHE_LOGFILE" (string-append (getcwd) "/ccache.log"))
+                     #t)))
                (replace 'install
                  (lambda* (#:key outputs #:allow-other-keys)
                    (let* ((out (assoc-ref outputs "out"))
@@ -781,8 +794,32 @@
                      (mkdir-p out)
                      ;; Extract the tarball into the output directory
                      ;; Use "--no-same-owner" and "--no-same-permissions" to handle permissions correctly
-                     (invoke "tar" "xvzf" tarball-path
-                             "--no-same-owner" "--no-same-permissions" "-C" out)))))
+                     (invoke "tar" "xzf" tarball-path
+                             "--no-same-owner" "--no-same-permissions" "--strip-components=1" "-C" out))))
+               (add-after 'install 'make-wrapper
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (let* ((out (assoc-ref outputs "out"))
+                          (bash (assoc-ref inputs "bash"))
+                          (wrapper (string-append out "/bin/Slicer")))
+                     (with-output-to-file wrapper
+                       (lambda _
+                         (display
+                          (string-append
+                           "#!" bash "/bin/sh\n\n"
+                           out "/Slicer \"$@\"\n"))))
+                     (chmod wrapper #o555))
+                   #t))
+               ;; Save the ccache after installation
+               (add-after 'install 'save-ccache
+                 (lambda* (#:key outputs #:allow-other-keys)
+                   (let* ((ccache-out (assoc-ref outputs "ccache"))
+                          (ccache-dir (getenv "CCACHE_DIR")))
+                     (if (file-exists? ccache-dir)
+                         (begin
+                           (mkdir-p ccache-out)
+                           (copy-recursively ccache-dir ccache-out))
+                         (format #t "Warning: ccache directory ~a does not exist~%" ccache-dir))
+                     #t))))
 
            ;; #~(modify-phases %standard-phases
            ;;     (replace 'install
@@ -1065,7 +1102,7 @@
                      "/setuptools-70.0.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-setuptools_ARCHIVE_HASH:STRING="
-                    "sha256=54faa7f2e8d2d11bcd2c07bed282eef1046b5c080d1c32add737d7b5817b1ad4")
+                    "sha256:54faa7f2e8d2d11bcd2c07bed282eef1046b5c080d1c32add737d7b5817b1ad4")
                    ;;Python-Pip
                    (string-append
                     "-Dpython-pip_ARCHIVE:FILEPATH="
@@ -1109,7 +1146,7 @@
                      #$(this-package-input "python-charset-normalizer-whl")
                      "/charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
-                    "-Dpython-chardet_ARCHIVE_HASH:STRING="
+                    "-Dpython-charset-normalizer_ARCHIVE_HASH:STRING="
                     "sha256:b261ccdec7821281dade748d088bb6e9b69e6d15b30652b74cbbac25e280b796")
                    ;;Python-urllib3
                    (string-append
@@ -1125,7 +1162,7 @@
                     "-Dpython-requests_ARCHIVE:FILEPATH="
                     (string-append
                      #$(this-package-input "python-requests-whl")
-                     "/charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     "requests-2.32.3-py3-none-any.whl"))
                    (string-append
                     "-Dpython-requests_ARCHIVE_HASH:STRING="
                     "sha256:b261ccdec7821281dade748d088bb6e9b69e6d15b30652b74cbbac25e280b796")
@@ -1337,10 +1374,10 @@
                     "-Dpython-pyparsing_ARCHIVE_HASH:STRING="
                     "sha256:f9db75911801ed778fe61bb643079ff86601aca99fcae6345aa67292038fb742")
                    )))
-  (home-page "https://slicer.org")
-  (synopsis "3D Slicer")
-  (description
-   "Medical-image computing")
-  (license slicer-license)))
+    (home-page "https://slicer.org")
+    (synopsis "3D Slicer")
+    (description
+     "Medical-image computing")
+    (license slicer-license)))
 
 slicer-desktop-5.8

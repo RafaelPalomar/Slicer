@@ -22,14 +22,14 @@ macro(ExternalProject_Add_PyPIPackage)
   set(${_pyfm_PROJECT}_FETCH_METHOD)
 
   message(STATUS "Setting fetch method to archive: ${_pyfm_PACKAGE} with HASH ${_pyfm_PACKAGE_HASH}")
-  set(_pyfm_FETCH_METHOD ${_pyfm_PACKAGE} --hash=${_pyfm_PACKAGE_HASH})
+  set(${_pyfm_PROJECT}_FETCH_METHOD "${_pyfm_PACKAGE} --hash=${_pyfm_PACKAGE_HASH}")
 
   if(_pyfm_CAN_BE_OVERRIDDEN)
     # Check for external ARCHIVE
     if(${_pyfm_PROJECT}_ARCHIVE)
       if(${_pyfm_PROJECT}_ARCHIVE_HASH)
-        message(STATUS "Setting fetch method to archive: ${${_pyfm_PROJECT}_ARCHIVE} with HASH ${${_pyfm_PROJECT}_ARCHIVE_HASH}")
-        set(_pyfm_FETCH_METHOD ${${_pyfm_PROJECT}_ARCHIVE} --hash=${${_pyfm_PROJECT}_ARCHIVE_HASH})
+        message(STATUS "Setting fetch method ${_pyfm_PROJECT}_FETCH_METHOD to archive: ${${_pyfm_PROJECT}_ARCHIVE} with HASH ${${_pyfm_PROJECT}_ARCHIVE_HASH}")
+        set(${_pyfm_PROJECT}_FETCH_METHOD "${${_pyfm_PROJECT}_ARCHIVE} --hash=${${_pyfm_PROJECT}_ARCHIVE_HASH}")
       else()
         message(FATAL_ERROR "${_pyfm_PROJECT}_ARCHIVE overriding option detected, but no ${_pyfm_PROJECT}_ARCHIVE_HASH specified!")
       endif()

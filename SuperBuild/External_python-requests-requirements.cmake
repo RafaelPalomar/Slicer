@@ -26,35 +26,35 @@ endif()
 if(NOT Slicer_USE_SYSTEM_${proj})
 
   ExternalProject_Add_PyPIPackage(
-    PROJECT ${proj}_certifi
+    PROJECT python-certifi
     PACKAGE certifi==2024.2.2
     PACKAGE_HASH sha256:dc383c07b76109f368f6106eee2b593b04a011ea4d55f652c6ca24a754d1cdd1
     CAN_BE_OVERRIDDEN
   )
 
   ExternalProject_Add_PyPIPackage(
-    PROJECT ${proj}_idna
+    PROJECT python-idna
     PACKAGE idna==3.7
     PACKAGE_HASH sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0
     CAN_BE_OVERRIDDEN
   )
 
   ExternalProject_Add_PyPIPackage(
-    PROJECT ${proj}_charset-normalizer
+    PROJECT python-charset-normalizer
     PACKAGE charset-normalizer==3.3.2
     PACKAGE_HASH sha256:b261ccdec7821281dade748d088bb6e9b69e6d15b30652b74cbbac25e280b796
     CAN_BE_OVERRIDDEN
   )
 
   ExternalProject_Add_PyPIPackage(
-    PROJECT ${proj}_urllib3
+    PROJECT python-urllib3
     PACKAGE urllib3==2.2.1
     PACKAGE_HASH sha256:450b20ec296a467077128bff42b73080516e71b56ff59a60a02bef2232c4fa9d
     CAN_BE_OVERRIDDEN
   )
 
   ExternalProject_Add_PyPIPackage(
-    PROJECT ${proj}_requests
+    PROJECT python-requests
     PACKAGE requests==2.32.3
     PACKAGE_HASH sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6
     CAN_BE_OVERRIDDEN
@@ -63,19 +63,19 @@ if(NOT Slicer_USE_SYSTEM_${proj})
   set(requirements_file ${CMAKE_BINARY_DIR}/${proj}-requirements.txt)
   set(requirements_file_content
 "# [certifi]\n
-${${proj}_certifi_FETCH_METHOD}\n
+${python-certifi_FETCH_METHOD}\n
 # [/certifi]\n
 # [idna]\n
-${${proj}_idna_FETCH_METHOD}\n
+${python-idna_FETCH_METHOD}\n
 # [/idna]\n
 # [charset-normalizer]\n
-${${proj}_idna_FETCH_METHOD}\n
+${python-idna_FETCH_METHOD}\n
 #[/charset-normalizer]\n
 # [urllib3]\n
-${${proj}_urllib3_FETCH_METHOD}\n
+${python-urllib3_FETCH_METHOD}\n
 # [/urllib3]\n
 # [requests]\n
-${${proj}_urllib3_FETCH_METHOD}\n
+${python-urllib3_FETCH_METHOD}\n
 # [/requests]")
   file(WRITE ${requirements_file} ${requirements_file_content})
 

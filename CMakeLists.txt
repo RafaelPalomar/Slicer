@@ -48,6 +48,11 @@ if(NOT DEFINED CMAKE_LINK_DEPENDS_NO_SHARED AND UNIX AND NOT APPLE)
 endif()
 
 #-----------------------------------------------------------------------------
+# set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
+# set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
+# set(CMAKE_SKIP_BUILD_RPATH FALSE)
+
+#-----------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 set(SUPERBUILD_TOPLEVEL_PROJECT Slicer)
 list(APPEND EXTERNAL_PROJECT_ADDITIONAL_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/SuperBuild)

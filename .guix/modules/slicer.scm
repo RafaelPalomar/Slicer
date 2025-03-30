@@ -541,10 +541,10 @@
        ("python-charset-normalizer-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/ee/fb/14d30eb4956408ee3ae09ad34299131fb383c47df355ddb428a7331cfa1e/charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
-           (file-name "charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (uri "https://files.pythonhosted.org/packages/98/69/5d8751b4b670d623aa7a47bef061d69c279e9f922f6705147983aa76c3ce/charset_normalizer-3.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (file-name "charset_normalizer-3.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
            (sha256
-            (base32 "0nyizvyj1gnvqcysmivfllnwfmkf65rsfxrj2hc4kzb2k545imch"))))
+            (base32 "15mph3i2bb5v9jvm41mk2mnrxdp9ns5hi3blvvd824l2qzgcqqdj"))))
        ;; python-urllib3
        ("python-urllib3-whl"
         ,(origin
@@ -597,10 +597,10 @@
        ("python-pillow-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/6e/44/53244b128f0edc837bfa07706874eb02423929150647feaa7e71a20dd694/pillow-10.3.0-cp39-cp39-manylinux_2_28_aarch64.whl")
-           (file-name "pillow-10.3.0-cp39-cp39-manylinux_2_28_aarch64.whl")
+           (uri "https://files.pythonhosted.org/packages/15/5c/2e16159554296a10017bfad367d495909f863abf7ea506f24fff8e6799b3/pillow-10.3.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (file-name "pillow-10.3.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
            (sha256
-            (base32 "0mszjycwjyswn5s30hlni85j2343g85ryvazqqnwj7i78c0b7cbg"))))
+            (base32 "0xckgf054b7q9anj6cawsppcl6y7ildfgxinhg9p6lcl21d080ii"))))
        ;; python-retrying
        ("python-retrying-whl"
         ,(origin
@@ -613,10 +613,10 @@
        ("python-dicomweb-client-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/a7/e3/d3cf5fd3d2dec5120e9faa14e11e55ba6dc59626400fa0e444b2dd668538/dicomweb-client-0.59.1.tar.gz")
-           (file-name "dicomweb-client-0.59.1.tar.gz")
+           (uri "https://files.pythonhosted.org/packages/e2/c4/7d175d42360052bdddabef3c11a10d54031314c1e5abc5711681c6cd2838/dicomweb_client-0.59.1-py3-none-any.whl")
+           (file-name "dicomweb_client-0.59.1-py3-none-any.whl")
            (sha256
-            (base32 "12hcgl3jgbami27wq8i5vsmx9n9g3sqa3f46chphja4vk1f6n5jc"))))
+            (base32 "0y8dsbdyw1m5f3zjp2dpqmxbmnf69y4ji2yg84c6kcyy3dggjjmd"))))
        ;; python-chardet
        ("python-chardet-whl"
         ,(origin
@@ -653,10 +653,10 @@
        ("python-cryptography-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/47/f9/3a73439e4a3873ed2b5ffed9aa1361b3db2cf8f462c5c926e556b50c9c7b/cryptography-42.0.7-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl")
-           (file-name "cryptography-42.0.7-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl")
+           (uri "https://files.pythonhosted.org/packages/79/fd/4525835d3e42e2db30169d42215ce74762f447fcbf01ed02f74f59bd74cb/cryptography-42.0.7-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (file-name "cryptography-42.0.7-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
            (sha256
-            (base32 "1fclgpmc3g5bfy2gdf3jlbajmswgzkhjaha18yj2i1ags7d9cpy6"))))
+            (base32 "119py4af27q7jfbj7wi9mknxmjdxrn4a4y1afibwvd4qvfakfmhd"))))
        ;; python-PyJWT
        ("python-PyJWT-whl"
         ,(origin
@@ -669,10 +669,10 @@
        ("python-wrapt-whl"
         ,(origin
            (method url-fetch)
-           (uri "https://files.pythonhosted.org/packages/62/62/30ca2405de6a20448ee557ab2cd61ab9c5900be7cbd18a2639db595f0b98/wrapt-1.16.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
-           (file-name "wrapt-1.16.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (uri "https://files.pythonhosted.org/packages/b1/e7/459a8a4f40f2fa65eb73cb3f339e6d152957932516d18d0e996c7ae2d7ae/wrapt-1.16.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
+           (file-name "wrapt-1.16.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl")
            (sha256
-            (base32 "12r4ax2h2h1xhnshqb7swfj4v5gx7c1gpgydl5c1ijm8k3sf3dcq"))))
+            (base32 "12lv1axsmz6l8741npqsamahq92fd57q20p5cm2ynl4wsij2a8gq"))))
        ;; python-Deprecated
        ("python-Deprecated-whl"
         ,(origin
@@ -782,6 +782,30 @@
                      ;; Optionally set CCACHE_LOGFILE
                      (setenv "CCACHE_LOGFILE" (string-append (getcwd) "/ccache.log"))
                      #t)))
+               (add-before 'configure 'copy-wheel-files
+                 (lambda* (#:key inputs #:allow-other-keys)
+                   (use-modules (srfi srfi-13))
+                   (let ((wheel-dir (string-append (getcwd) "/wheelhouse")))
+                     (mkdir-p wheel-dir)
+                     (for-each
+                      (lambda (input)
+                        (let ((name (car input))
+                              (path (cdr input)))
+                          (when (string-suffix? "-whl" name)
+                            ;; Get the basename without the hash prefix
+                            (let* ((basename (basename path))
+                                   (pos (string-index basename #\-))
+                                   (new-name (if pos
+                                                 (substring basename (+ pos 1))  ; Skip hash and hyphen
+                                                 basename)))
+                              ;; Copy the wheel file to wheelhouse/ with the correct name
+                              (copy-file path (string-append wheel-dir "/" new-name))))))
+                      inputs)
+                     ;; Set PIP_FIND_LINKS to the wheelhouse directory, so pip can find the wheel files
+                     (setenv "PIP_FIND_LINKS" wheel-dir)
+                     ;; Set PIP_NO_INDEX to prevent pip from accessing the internet
+                     (setenv "PIP_NO_INDEX" "true")
+                     #t)))
                (replace 'install
                  (lambda* (#:key outputs #:allow-other-keys)
                    (let* ((out (assoc-ref outputs "out"))
@@ -808,18 +832,18 @@
                            "#!" bash "/bin/sh\n\n"
                            out "/Slicer \"$@\"\n"))))
                      (chmod wrapper #o555))
-                   #t))
+                   #t)))
                ;; Save the ccache after installation
-               (add-after 'install 'save-ccache
-                 (lambda* (#:key outputs #:allow-other-keys)
-                   (let* ((ccache-out (assoc-ref outputs "ccache"))
-                          (ccache-dir (getenv "CCACHE_DIR")))
-                     (if (file-exists? ccache-dir)
-                         (begin
-                           (mkdir-p ccache-out)
-                           (copy-recursively ccache-dir ccache-out))
-                         (format #t "Warning: ccache directory ~a does not exist~%" ccache-dir))
-                     #t))))
+               ;; (add-after 'install 'save-ccache
+               ;;   (lambda* (#:key outputs #:allow-other-keys)
+               ;;     (let* ((ccache-out (assoc-ref outputs "ccache"))
+               ;;            (ccache-dir (getenv "CCACHE_DIR")))
+               ;;       (if (file-exists? ccache-dir)
+               ;;           (begin
+               ;;             (mkdir-p ccache-out)
+               ;;             (copy-recursively ccache-dir ccache-out))
+               ;;           (format #t "Warning: ccache directory ~a does not exist~%" ccache-dir))
+               ;;       #t))))
 
            ;; #~(modify-phases %standard-phases
            ;;     (replace 'install
@@ -1097,279 +1121,217 @@
                    ;;Python-Setuptools
                    (string-append
                     "-Dpython-setuptools_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-setuptools-whl")
-                     "/setuptools-70.0.0-py3-none-any.whl"))
+                    (string-append (getcwd) "/source/wheelhouse/setuptools-70.0.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-setuptools_ARCHIVE_HASH:STRING="
                     "sha256:54faa7f2e8d2d11bcd2c07bed282eef1046b5c080d1c32add737d7b5817b1ad4")
                    ;;Python-Pip
                    (string-append
                     "-Dpython-pip_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-pip-whl")
-                     "/pip-24.0-py3-none-any.wh"))
+                     (string-append (getcwd) "/source/wheelhouse/pip-24.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-pip_ARCHIVE_HASH:STRING="
                     "sha256:ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc")
                    ;;Python-wheel
                    (string-append
                     "-Dpython-wheel_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-wheel-whl")
-                     "/wheel-0.43.0-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/wheel-0.43.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-wheel_ARCHIVE_HASH:STRING="
                     "sha256:55c570405f142630c6b9f72fe09d9b67cf1477fcf543ae5b8dcb1f5b7377da81")
                    ;;Python-certifi
                    (string-append
                     "-Dpython-certifi_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-certifi-whl")
-                     "/certifi-2024.2.2-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/certifi-2024.2.2-py3-none-any.whl"))
                    (string-append
                     "-Dpython-certifi_ARCHIVE_HASH:STRING="
                     "sha256:dc383c07b76109f368f6106eee2b593b04a011ea4d55f652c6ca24a754d1cdd1")
                    ;;Python-idna
                    (string-append
                     "-Dpython-idna_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-idna-whl")
-                     "/idna-3.7-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/idna-3.7-py3-none-any.whl"))
                    (string-append
                     "-Dpython-idna_ARCHIVE_HASH:STRING="
                     "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0")
                    ;;Python-charset-normalizer
                    (string-append
                     "-Dpython-charset-normalizer_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-charset-normalizer-whl")
-                     "/charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/charset_normalizer-3.3.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-charset-normalizer_ARCHIVE_HASH:STRING="
                     "sha256:b261ccdec7821281dade748d088bb6e9b69e6d15b30652b74cbbac25e280b796")
                    ;;Python-urllib3
                    (string-append
                     "-Dpython-urllib3_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-urllib3-whl")
-                     "/urllib3-2.2.1-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/urllib3-2.2.1-py3-none-any.whl"))
                    (string-append
                     "-Dpython-urllib3_ARCHIVE_HASH:STRING="
                     "sha256:450b20ec296a467077128bff42b73080516e71b56ff59a60a02bef2232c4fa9d")
                    ;;Python-requests
                    (string-append
                     "-Dpython-requests_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-requests-whl")
-                     "requests-2.32.3-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/requests-2.32.3-py3-none-any.whl"))
                    (string-append
                     "-Dpython-requests_ARCHIVE_HASH:STRING="
-                    "sha256:b261ccdec7821281dade748d088bb6e9b69e6d15b30652b74cbbac25e280b796")
+                    "sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6")
                    ;;Python-numpy
                    (string-append
                     "-Dpython-numpy_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-numpy-whl")
-                     "/numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-numpy_ARCHIVE_HASH:STRING="
                     "sha256:f870204a840a60da0b12273ef34f7051e98c3b5961b61b0c2c1be6dfd64fbcd3")
                    ;;Python-scipy
                    (string-append
                     "-Dpython-scipy_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-scipy-whl")
-                     "/scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-scipy_ARCHIVE_HASH:STRING="
-                    "sha256:f870204a840a60da0b12273ef34f7051e98c3b5961b61b0c2c1be6dfd64fbcd3")
+                    "sha256:637e98dcf185ba7f8e663e122ebf908c4702420477ae52a04f9908707456ba4d")
                    ;;Python-pydicom
                    (string-append
                     "-Dpython-pydicom_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-pydicom-whl")
-                     "/pydicom-2.4.4-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/pydicom-2.4.4-py3-none-any.whl"))
                    (string-append
                     "-Dpython-pydicom_ARCHIVE_HASH:STRING="
                     "sha256:f9f8e19b78525be57aa6384484298833e4d06ac1d6226c79459131ddb0bd7c42")
                    ;;Python-six
                    (string-append
                     "-Dpython-six_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-six-whl")
-                     "/six-1.16.0-py2.py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/six-1.16.0-py2.py3-none-any.whl"))
                    (string-append
                     "-Dpython-six_ARCHIVE_HASH:STRING="
                     "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254")
                    ;;Python-pillow
                    (string-append
                     "-Dpython-pillow_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-pillow-whl")
-                     "/pillow-10.3.0-cp39-cp39-manylinux_2_28_aarch64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/pillow-10.3.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-pillow_ARCHIVE_HASH:STRING="
-                    "sha256:b09b86b27a064c9624d0a6c54da01c1beaf5b6cadfa609cf63789b1d08a797b9")
+                    "sha256:3102045a10945173d38336f6e71a8dc71bcaeed55c3123ad4af82c52807b9375")
                    ;;Python-retrying
                    (string-append
                     "-Dpython-retrying_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-retrying-whl")
-                     "/retrying-1.3.4-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/retrying-1.3.4-py3-none-any.whl"))
                    (string-append
                     "-Dpython-retrying_ARCHIVE_HASH:STRING="
                     "sha256:8cc4d43cb8e1125e0ff3344e9de678fefd85db3b750b81b2240dc0183af37b35")
                    ;;Python-dicomweb-client
                    (string-append
                     "-Dpython-dicomweb-client_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-dicomweb-client-whl")
-                     "/dicomweb-client-0.59.1.tar.gz"))
+                     (string-append (getcwd) "/source/wheelhouse/dicomweb_client-0.59.1-py3-none-any.whl"))
                    (string-append
                     "-Dpython-dicomweb-client_ARCHIVE_HASH:STRING="
                     "sha256:ad4af95e1bdeb3691841cf8b28894fc6d9ba7ac5b7892bff70a506eedbd20d79")
                    ;;Python-chardet
                    (string-append
                     "-Dpython-chardet_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-chardet-whl")
-                     "/chardet-5.2.0-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/chardet-5.2.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-chardet_ARCHIVE_HASH:STRING="
                     "sha256:e1cf59446890a00105fe7b7912492ea04b6e6f06d4b742b2c788469e34c82970")
                    ;;Python-couchdb
                    (string-append
                     "-Dpython-couchdb_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-couchdb-whl")
-                     "/CouchDB-1.2-py2.py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/CouchDB-1.2-py2.py3-none-any.whl"))
                    (string-append
                     "-Dpython-couchdb_ARCHIVE_HASH:STRING="
                     "sha256:13a28a1159c49f8346732e8724b9a4d65cba54bec017c4a7eeb1499fe88151d1")
                    ;;Python-gitdb
                    (string-append
                     "-Dpython-gitdb_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-gitdb-whl")
-                     "/gitdb-4.0.11-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/gitdb-4.0.11-py3-none-any.whl"))
                    (string-append
                     "-Dpython-gitdb_ARCHIVE_HASH:STRING="
                     "sha256:81a3407ddd2ee8df444cbacea00e2d038e40150acfa3001696fe0dcf1d3adfa4")
                    ;;Python-smmap
                    (string-append
                     "-Dpython-smmap_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-smmap-whl")
-                     "/smmap-5.0.1-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/smmap-5.0.1-py3-none-any.whl"))
                    (string-append
                     "-Dpython-smmap_ARCHIVE_HASH:STRING="
                     "sha256:e6d8668fa5f93e706934a62d7b4db19c8d9eb8cf2adbb75ef1b675aa332b69da")
                    ;;Python-cryptography
                    (string-append
                     "-Dpython-cryptography_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-cryptography-whl")
-                     "/cryptography-42.0.7-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/cryptography-42.0.7-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-cryptography_ARCHIVE_HASH:STRING="
-                    "sha256:efd0bf5205240182e0f13bcaea41be4fdf5c22c5129fc7ced4a0282ac86998c9")
+                    "sha256:0d563795db98b4cd57742a78a288cdbdc9daedac29f2239793071fe114f13785")
                    ;;Python-PyJWT
                    (string-append
                     "-Dpython-PyJWT_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-PyJWT-whl")
-                     "/PyJWT-2.8.0-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/PyJWT-2.8.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-PyJWT_ARCHIVE_HASH:STRING="
                     "sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320")
                    ;;Python-wrapt
                    (string-append
                     "-Dpython-wrapt_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-wrapt-whl")
-                     "/wrapt-1.16.0-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/wrapt-1.16.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-wrapt_ARCHIVE_HASH:STRING="
                     "sha256:f8212564d49c50eb4565e502814f694e240c55551a5f1bc841d4fcaabb0a9b8a")
                    ;;Python-Deprecated
                    (string-append
                     "-Dpython-Deprecated_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-Deprecated-whl")
-                     "/Deprecated-1.2.14-py2.py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/Deprecated-1.2.14-py2.py3-none-any.whl"))
                    (string-append
                     "-Dpython-Deprecated_ARCHIVE_HASH:STRING="
                     "sha256:6fac8b097794a90302bdbb17b9b815e732d3c4720583ff1b198499d78470466c")
                    ;;Python-pycparser
                    (string-append
                     "-Dpython-pycparser_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-pycparser-whl")
-                     "/pycparser-2.22-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/pycparser-2.22-py3-none-any.whl"))
                    (string-append
                     "-Dpython-pycparser_ARCHIVE_HASH:STRING="
                     "sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc")
                    ;;Python-cffi
                    (string-append
                     "-Dpython-cffi_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-cffi-whl")
-                     "/cffi-1.16.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/cffi-1.16.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"))
                    (string-append
                     "-Dpython-cffi_ARCHIVE_HASH:STRING="
                     "sha256:8f8e709127c6c77446a8c0a8c8bf3c8ee706a06cd44b1e827c3e6a2ee6b8c098")
                    ;;Python-PyNaCl
                    (string-append
                     "-Dpython-PyNaCl_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-PyNaCl-whl")
-                     "/PyNaCl-1.5.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/PyNaCl-1.5.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl"))
                    (string-append
                     "-Dpython-PyNaCl_ARCHIVE_HASH:STRING="
                     "sha256:0c84947a22519e013607c9be43706dd42513f9e6ae5d39d3613ca1e142fba44d")
                    ;;Python-python-dateutil
                    (string-append
                     "-Dpython-python-dateutil_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-python-dateutil-whl")
-                     "/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"))
                    (string-append
                     "-Dpython-python-dateutil_ARCHIVE_HASH:STRING="
                     "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427")
                    ;;Python-typing_extensions
                    (string-append
                     "-Dpython-typing_extensions_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-typing_extensions-whl")
-                     "/typing_extensions-4.12.1-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/typing_extensions-4.12.1-py3-none-any.whl"))
                    (string-append
                     "-Dpython-typing_extensions_ARCHIVE_HASH:STRING="
                     "sha256:6024b58b69089e5a89c347397254e35f1bf02a907728ec7fee9bf0fe837d203a")
                    ;;Python-PyGithub
                    (string-append
                     "-Dpython-PyGithub_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-PyGithub-whl")
-                     "/PyGithub-2.3.0-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/PyGithub-2.3.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-PyGithub_ARCHIVE_HASH:STRING="
                     "sha256:65b499728be3ce7b0cd2cd760da3b32f0f4d7bc55e5e0677617f90f6564e793e")
                    ;;Python-packaging
                    (string-append
                     "-Dpython-packaging_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-packaging-whl")
-                     "/packaging-24.0-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/packaging-24.0-py3-none-any.whl"))
                    (string-append
                     "-Dpython-packaging_ARCHIVE_HASH:STRING="
                     "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5")
                    ;;Python-pyparsing
                    (string-append
                     "-Dpython-pyparsing_ARCHIVE:FILEPATH="
-                    (string-append
-                     #$(this-package-input "python-pyparsing-whl")
-                     "/pyparsing-3.1.2-py3-none-any.whl"))
+                     (string-append (getcwd) "/source/wheelhouse/pyparsing-3.1.2-py3-none-any.whl"))
                    (string-append
                     "-Dpython-pyparsing_ARCHIVE_HASH:STRING="
                     "sha256:f9db75911801ed778fe61bb643079ff86601aca99fcae6345aa67292038fb742")

@@ -69,13 +69,13 @@ ${python-certifi_FETCH_METHOD}\n
 ${python-idna_FETCH_METHOD}\n
 # [/idna]\n
 # [charset-normalizer]\n
-${python-idna_FETCH_METHOD}\n
+${python-charset-normalizer_FETCH_METHOD}\n
 #[/charset-normalizer]\n
 # [urllib3]\n
 ${python-urllib3_FETCH_METHOD}\n
 # [/urllib3]\n
 # [requests]\n
-${python-urllib3_FETCH_METHOD}\n
+${python-requests_FETCH_METHOD}\n
 # [/requests]")
   file(WRITE ${requirements_file} ${requirements_file_content})
 

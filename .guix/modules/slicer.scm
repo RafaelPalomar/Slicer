@@ -2,9 +2,12 @@
   #:use-module ((guix licenses)
                 #:prefix licenses:)
   #:use-module (gnu packages bash)
+  #:use-module (gnu packages base)
   #:use-module (gnu packages ccache)
   #:use-module (gnu packages cmake)
+  #:use-module (gnu packages commencement)
   #:use-module (gnu packages compression)
+  #:use-module (gnu packages gcc)
   #:use-module (gnu packages qt)
   #:use-module (gnu packages tls)
   #:use-module (gnu packages version-control)
@@ -276,9 +279,7 @@
                         #:select? vcs-file?))
     (build-system cmake-build-system)
     (inputs
-     `(("git" ,git)
-       ("ccache" ,ccache)
-       ("cmake" ,cmake-3.30)
+     `(
        ("openssl" ,openssl)
        ("qtbase-5" ,qtbase-5)
        ("qtlocation-5" ,qtlocation-5)
@@ -760,10 +761,16 @@
            (uri "https://github.com/commontk/QtTesting/archive/a86bee55104f553a1cb82b9cf0b109d9f1e95dbf.tar.gz")
            (sha256
             (base32 "0kr0f34ggw8q7mhxpxgmxr6m12fdcwwqksls4hx8kp420ylicvj9"))))
-       ("bash" ,bash)
        ))
+    (native-inputs
+     `(("bash" ,bash)
+       ("gcc-toolchain" ,gcc-toolchain-11)
+       ("git" ,git)
+       ("ccache" ,ccache)
+       ("cmake" ,cmake)))
     (arguments
      (list #:tests? #f
+           #:validate-runpath? #f
            #:phases
            #~(modify-phases %standard-phases
                ;; Set up ccache before configuration
@@ -869,6 +876,7 @@
                    "-DSlicer_BUILD_I18N_SUPPORT:BOOL=OFF"
                    "-DSlicer_BUILD_MULTIVOLUME_SUPPORT:BOOL=OFF"
                    "-DSlicer_USE_SYSTEM_QT:BOOL=ON"
+                   "-DSlicer_STORE_SETTINGS_IN_APPLICATION_HOME_DIR:BOOL=OFF"
                    (string-append
                     "-DQtDesigner_PATH:FILEPATH="
                     #$(this-package-input "qttools-5")
@@ -883,7 +891,7 @@
                     "/lib/qt5/libexec/QtWebEngineProcess")
                    (string-append
                     "-DSlicer_CONFIG_SHELL:FILEPATH="
-                    #$(this-package-input "bash")
+                    #$(this-package-native-input "bash")
                     "/bin/bash")
                    ;; vtkAddon
                    (string-append
